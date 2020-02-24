@@ -108,6 +108,7 @@ keyEventHandler = event => {
       generateNewText()
     }
   }
+  event.preventDefault()
 }
 
 window.addEventListener('keydown', keyEventHandler, false)
