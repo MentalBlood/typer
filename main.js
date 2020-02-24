@@ -1,20 +1,28 @@
-//Aliases
 let Application = PIXI.Application,
     Text = PIXI.Text,
     TextStyle = PIXI.TextStyle;
 
-//Create a Pixi Application
+function windowWidth() { return (window.innerWidth > 0) ? window.innerWidth : screen.width; }
+function windowHeight() { return (window.innerHeight > 0) ? window.innerHeight : screen.height; }
+
 let app = new Application({ 
-    width: 2048, 
-    height: 1024,                       
-    antialiasing: true, 
-    transparent: false, 
+    width: windowWidth(),
+    height: windowHeight(),
+    antialiasing: true,
+    transparent: false,
     resolution: 1,
     backgroundColor: 0x6699ff
   }
 );
 
-//Add the canvas that Pixi automatically created for you to the HTML document
+function windowResizedCallback() {
+  app.renderer.resize(windowWidth(), windowHeight());
+  updateTextX()
+  updateTextY()
+}
+
+window.addEventListener('resize', windowResizedCallback);
+
 document.body.appendChild(app.view);
 
 let style = new TextStyle({
@@ -53,7 +61,7 @@ function generateNewText() {
   textToType.text = textGenerator.newGeneratedText()
 }
 
-var rootFolder = new dat.gui.GUI();
+var rootFolder = new dat.gui.GUI({name: 'Parameters'});
 rootFolder.remember(textGenerator)
 rootFolder.remember(textToType.position)
 rootFolder.remember(textToType.style)
@@ -68,8 +76,13 @@ stringLengthController.name('String length')
 stringLengthController.onChange(generateNewText)
 
 var textPositionFolder = rootFolder.addFolder('Text position')
-textPositionFolder.add(textToType.position, 'x', 0, app.screen.width, 1)
-textPositionFolder.add(textToType.position, 'y', 0, app.screen.height, 1)
+let relativeTextPosition = {x: 0, y: 0}
+let relativeTextXController = textPositionFolder.add(relativeTextPosition, 'x', 0, 1, 0.001).name('Horizontal')
+function updateTextX() {textToType.position.x = app.screen.width * relativeTextPosition.x}
+relativeTextXController.onChange(updateTextX)
+let relativeTextYController = textPositionFolder.add(relativeTextPosition, 'y', 0, 1, 0.001).name('Vertical')
+function updateTextY() {textToType.position.y = app.screen.height * relativeTextPosition.y}
+relativeTextYController.onChange(updateTextY)
 textPositionFolder.add(textToType.style, 'fontSize', 6, app.screen.height, 1).name('Font size')
 
 var textStyleFolder = rootFolder.addFolder('Text style')
