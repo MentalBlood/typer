@@ -11,7 +11,7 @@ let app = new Application({
     antialiasing: true,
     transparent: false,
     resolution: 1,
-    backgroundColor: 0x6699ff
+    backgroundColor: 0x2b2b2b
   }
 );
 
@@ -28,8 +28,8 @@ document.body.appendChild(app.view);
 let style = new TextStyle({
   fontFamily: "Arial",
   fontSize: 36,
-  fill: '#00FF00',
-  stroke: '#ff3300',
+  fill: '#a3a3a3',
+  stroke: '#000000',
   strokeThickness: 4,
   dropShadow: true,
   dropShadowColor: "#000000",
@@ -76,7 +76,7 @@ stringLengthController.name('String length')
 stringLengthController.onChange(generateNewText)
 
 var textPositionFolder = rootFolder.addFolder('Text position')
-let relativeTextPosition = {x: 0, y: 0}
+let relativeTextPosition = {x: 0.0, y: 0.0}
 let relativeTextXController = textPositionFolder.add(relativeTextPosition, 'x', 0, 1, 0.001).name('Horizontal')
 function updateTextX() {textToType.position.x = app.screen.width * relativeTextPosition.x}
 relativeTextXController.onChange(updateTextX)
