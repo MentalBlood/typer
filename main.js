@@ -25,8 +25,18 @@ window.addEventListener('resize', windowResizedCallback);
 
 document.body.appendChild(app.view);
 
+let allFontsNames = ['Tangerine', 'Odibee Sans', 'Roboto', 'Trade Winds', 'Open Sans', 'Lato']
+let loadedFontsNames = {}
+function loadFont(fontName) {
+  if (loadedFontsNames[fontName] != true) {
+    WebFont.load({google: {families: [fontName]}});
+    loadedFontsNames[fontName] = true
+  }
+  return fontName
+}
+
 let style = new TextStyle({
-  fontFamily: "Arial",
+  fontFamily: loadFont(allFontsNames[0]),
   fontSize: 36,
   fill: '#a3a3a3',
   stroke: '#000000',
@@ -85,7 +95,16 @@ function updateTextY() {textToType.position.y = app.screen.height * relativeText
 relativeTextYController.onChange(updateTextY)
 textPositionFolder.add(textToType.style, 'fontSize', 6, app.screen.height, 1).name('Font size')
 
+var textNeedUpdate = true
+app.ticker.add(() => {if (textNeedUpdate) textToType.updateText()}, this);
+
 var textStyleFolder = rootFolder.addFolder('Text style')
+var textToTypeFontFamilyController = textStyleFolder.add(textToType.style, 'fontFamily', allFontsNames).name('Font family')
+textToTypeFontFamilyController.setValue(loadFont(textToTypeFontFamilyController.getValue()))
+textToTypeFontFamilyController.onChange((newValue) => loadFont(newValue))
+textToTypeFontFamilyController.onFinishChange(() => textNeedUpdate = true)
+textStyleFolder.add(textToType.style, 'fontStyle', ['normal', 'italic']).name('Font style')
+textStyleFolder.add(textToType.style, 'fontWeight', ['normal', 'bold']).name('Font weight')
 textStyleFolder.addColor(textToType.style, 'fill').name('Fill color')
 textStyleFolder.addColor(textToType.style, 'stroke').name('Stroke color')
 var shadowFolder = textStyleFolder.addFolder('Shadow style')
@@ -107,6 +126,7 @@ keyEventHandler = event => {
     if (charactersLeft == 0) {
       generateNewText()
     }
+    textNeedUpdate = false
   }
   event.preventDefault()
 }

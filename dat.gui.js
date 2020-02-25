@@ -720,9 +720,12 @@ var Controller = function () {
   }, {
     key: 'setValue',
     value: function setValue(newValue) {
-      this.object[this.property] = newValue;
       if (this.__onChange) {
         this.__onChange.call(this, newValue);
+      }
+      this.object[this.property] = newValue;
+      if (this.__onFinishChange) {
+        this.__onFinishChange.call(this, newValue);
       }
       this.updateDisplay();
       return this;
