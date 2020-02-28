@@ -11,10 +11,10 @@ let app = new Application({
     antialiasing: true,
     transparent: true,
     resolution: 1,
-    backgroundColor: 0x2b2b2b
+    backgroundColor: "#A00B00"
   }
 );
-document.getElementsByTagName("body")[0].style.backgroundColor = "#A00B00"
+document.getElementsByTagName("body")[0].style.backgroundColor = "#000000"
 
 function windowResizedCallback() {
   app.renderer.resize(windowWidth(), windowHeight() - 4);
@@ -116,7 +116,7 @@ shadowFolder.add(textToType.style, 'dropShadowAngle', -Math.PI, Math.PI, 0.01).n
 shadowFolder.add(textToType.style, 'dropShadowDistance', 0, 10, 1).name('Shadow distance')
 
 var backgroundStyleFolder = rootFolder.addFolder('Background style')
-backgroundStyleFolder.addColor(app.renderer, 'backgroundColor').name('Background color').onChange((newColor) => {document.getElementsByTagName("body")[0].style.backgroundColor = newColor})
+backgroundStyleFolder.addColor(document.getElementsByTagName("body")[0].style, 'backgroundColor').name('Background color')
 
 generateNewText()
 
