@@ -1,3 +1,10 @@
+let isMobile = window.matchMedia("only screen and (max-width: 760px)").matches
+
+if (isMobile) {
+  document.write("You need to use wider window to access this site. Refresh the page to repeat check")
+}
+else {
+
 let Application = PIXI.Application,
     Text = PIXI.Text,
     TextStyle = PIXI.TextStyle;
@@ -132,3 +139,5 @@ keyEventHandler = event => {
 }
 
 window.addEventListener('keydown', keyEventHandler, false)
+
+}
