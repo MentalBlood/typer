@@ -1,16 +1,17 @@
 let isMobile = window.matchMedia("only screen and (max-width: 760px)").matches
+function windowWidth() { return (window.innerWidth > 0) ? window.innerWidth : screen.width; }
+function windowHeight() { return (window.innerHeight > 0) ? window.innerHeight : screen.height; }
 
 if (isMobile) {
-  document.write("You need to use wider window to access this site. Refresh the page to repeat check")
+  document.write('<p>You need to use wider window to access this site<\p>\
+                  <p>Refresh the page to repeat check<\p>\
+                  <p><img src=https://i.etsystatic.com/10309712/r/il/f79319/1880485186/il_fullxfull.1880485186_d87g.jpg class="img-responsive"\><\p>')
 }
 else {
 
 let Application = PIXI.Application,
     Text = PIXI.Text,
     TextStyle = PIXI.TextStyle;
-
-function windowWidth() { return (window.innerWidth > 0) ? window.innerWidth : screen.width; }
-function windowHeight() { return (window.innerHeight > 0) ? window.innerHeight : screen.height; }
 
 let app = new Application({ 
     width: windowWidth(),
@@ -62,18 +63,46 @@ app.stage.addChild(textToType);
 
 let charactersLeft
 
+function randomSymbol(allowedSymbols) {
+  return allowedSymbols.charAt(Math.floor(Math.random() * allowedSymbols.length))
+}
+
 let textGenerator = {
   allowedSymbols: 'qwertyuiopasdfghjklzxcvbnm ',
-  stringLength: 5,
+  allowedSymbolsWithoutSpaces: '',
+  stringLength: 12,
+
+  onAllowedSymbolsUpdated: function() {
+    this.allowedSymbolsWithoutSpaces = this.allowedSymbols.replace(/ /g, '')
+  },
+
+  randomString: function() {
+    let newString = ""
+    for (let i = 0; i < this.stringLength; i++)
+        newString += randomSymbol(this.allowedSymbols)
+    return newString
+  },
+
+  randomStringWithoutSpacesAtTheEnds: function() {
+    let newString = ""
+    newString += randomSymbol(this.allowedSymbolsWithoutSpaces)
+    for (let i = 1; i < (this.stringLength - 1); i++)
+        newString += randomSymbol(this.allowedSymbols)
+    newString += randomSymbol(this.allowedSymbolsWithoutSpaces)
+    return newString
+  },
+
+  functionForGeneratingText: null,
 
   newGeneratedText: function() {
-    let newString = ''
-    for (var i = 0; i < this.stringLength; i++)
-      newString += this.allowedSymbols.charAt(Math.floor(Math.random() * this.allowedSymbols.length));
+    let newString = this.functionForGeneratingText()
     charactersLeft = newString.length
     return newString
   }
-};
+}
+textGenerator.onAllowedSymbolsUpdated()
+textGenerator.functionForGeneratingText = textGenerator.randomStringWithoutSpacesAtTheEnds
+
 
 function generateNewText() {
   textToType.text = textGenerator.newGeneratedText()
@@ -86,9 +115,8 @@ rootFolder.remember(textToType.style)
 rootFolder.remember(app.renderer)
 
 var textGenerationFolder = rootFolder.addFolder('Text generation')
-let allowedSymbolsController = textGenerationFolder.add(textGenerator, 'allowedSymbols')
-allowedSymbolsController.name('Allowed symbols')
-allowedSymbolsController.onChange(generateNewText)
+let allowedSymbolsController = textGenerationFolder.add(textGenerator, 'allowedSymbols').name('Allowed symbols')
+allowedSymbolsController.onChange(() => {textGenerator.onAllowedSymbolsUpdated(); generateNewText()})
 let stringLengthController = textGenerationFolder.add(textGenerator, 'stringLength', 1, 50, 1)
 stringLengthController.name('String length')
 stringLengthController.onChange(generateNewText)
