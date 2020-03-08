@@ -68,17 +68,26 @@ function generateNewText() {
 }
 
 var outerTextToTypeStyle = {
-  fontSize: 100,
+  x: 0,
+  y: 0,
+  fontSize: 0.05,
   dropShadow: 'true',
   shadowDistance: 5,
   shadowAngle: Math.PI / 3,
   shadowBlur: 2,
   shadowColor: '#000000'
 }
+function updateTextX() {
+  let newX = outerTextToTypeStyle.x * windowWidth() + 'px'
+  textToType.style.left = newX
+}
+function updateTextY() {
+  let newY = outerTextToTypeStyle.y * windowHeight() + 'px'
+  textToType.style.top = newY
+}
 function updateFontSize() {
-  let newFontSize = outerTextToTypeStyle.fontSize + 'px'
-  while (textToType.style.fontSize != newFontSize)
-    textToType.style.fontSize = newFontSize
+  let newFontSize = outerTextToTypeStyle.fontSize * windowHeight() + 'px'
+  textToType.style.fontSize = newFontSize
 }
 function updateShadowProperties() {
   let horizontalShadow = outerTextToTypeStyle.shadowDistance * Math.cos(outerTextToTypeStyle.shadowAngle)
@@ -86,6 +95,12 @@ function updateShadowProperties() {
   textToType.style.textShadow = horizontalShadow + 'px ' + verticalShadow + 'px ' + outerTextToTypeStyle.shadowBlur + 'px ' + 
                                 outerTextToTypeStyle.shadowColor
 }
+function onWindowResize() {
+  updateTextX()
+  updateTextY()
+  updateFontSize()
+}
+window.addEventListener('resize', onWindowResize, false)
 
 var rootFolder = new dat.gui.GUI({name: 'Parameters'});
 rootFolder.remember(textGenerator)
@@ -105,7 +120,10 @@ var textToTypeFontFamilyController = textStyleFolder.add(textToType.style, 'font
 textToTypeFontFamilyController.setValue(loadFont(textToTypeFontFamilyController.getValue()))
 textToTypeFontFamilyController.onChange((newValue) => loadFont(newValue))
 textToTypeFontFamilyController.onFinishChange(() => textNeedUpdate = true)
-textStyleFolder.add(outerTextToTypeStyle, 'fontSize', 1, 400, 1).onFinishChange(updateFontSize).name('Font size')
+var textPositionFolder = textStyleFolder.addFolder('Position')
+textPositionFolder.add(outerTextToTypeStyle, 'x', 0, 1, 0.01).onFinishChange(updateTextX).name('Horizontal')
+textPositionFolder.add(outerTextToTypeStyle, 'y', 0, 1, 0.01).onFinishChange(updateTextY).name('Vertical')
+textStyleFolder.add(outerTextToTypeStyle, 'fontSize', 0, 1, 0.01).onFinishChange(updateFontSize).name('Font size')
 textStyleFolder.add(textToType.style, 'fontStyle', ['normal', 'italic']).name('Font style')
 textStyleFolder.add(textToType.style, 'fontWeight', ['normal', 'bold']).name('Font weight')
 textStyleFolder.addColor(textToType.style, 'color').name('Fill color')
@@ -141,6 +159,8 @@ keyEventHandler = event => {
 window.addEventListener('keydown', keyEventHandler, false)
 
 textToType.style.backgroundColor = document.body.style.backgroundColor
+updateTextX()
+updateTextY()
 updateFontSize()
 updateShadowProperties()
 
