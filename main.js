@@ -77,17 +77,20 @@ var outerTextToTypeStyle = {
   shadowBlur: 2,
   shadowColor: '#000000'
 }
-function updateTextX() {
-  let newX = outerTextToTypeStyle.x * windowWidth() + 'px'
-  textToType.style.left = newX
+function updateTextX(newX) {
+  if (newX)
+    outerTextToTypeStyle.x = newX
+  textToType.style.left = outerTextToTypeStyle.x * windowWidth() + 'px'
 }
-function updateTextY() {
-  let newY = outerTextToTypeStyle.y * windowHeight() + 'px'
-  textToType.style.top = newY
+function updateTextY(newY) {
+  if (newY)
+    outerTextToTypeStyle.y = newY
+  textToType.style.top = outerTextToTypeStyle.y * windowHeight() + 'px'
 }
-function updateFontSize() {
-  let newFontSize = outerTextToTypeStyle.fontSize * windowHeight() + 'px'
-  textToType.style.fontSize = newFontSize
+function updateFontSize(newSize) {
+  if (newSize)
+    outerTextToTypeStyle.fontSize = newSize
+  textToType.style.fontSize = outerTextToTypeStyle.fontSize * windowHeight() + 'px'
 }
 function updateShadowProperties() {
   let horizontalShadow = outerTextToTypeStyle.shadowDistance * Math.cos(outerTextToTypeStyle.shadowAngle)
@@ -119,11 +122,10 @@ var textStyleFolder = rootFolder.addFolder('Text style')
 var textToTypeFontFamilyController = textStyleFolder.add(textToType.style, 'fontFamily', allFontsNames).name('Font family')
 textToTypeFontFamilyController.setValue(loadFont(textToTypeFontFamilyController.getValue()))
 textToTypeFontFamilyController.onChange((newValue) => loadFont(newValue))
-textToTypeFontFamilyController.onFinishChange(() => textNeedUpdate = true)
 var textPositionFolder = textStyleFolder.addFolder('Position')
-textPositionFolder.add(outerTextToTypeStyle, 'x', 0, 1, 0.01).onFinishChange(updateTextX).name('Horizontal')
-textPositionFolder.add(outerTextToTypeStyle, 'y', 0, 1, 0.01).onFinishChange(updateTextY).name('Vertical')
-textStyleFolder.add(outerTextToTypeStyle, 'fontSize', 0, 1, 0.01).onFinishChange(updateFontSize).name('Font size')
+textPositionFolder.add(outerTextToTypeStyle, 'x', 0, 1, 0.01).onChange(updateTextX).name('Horizontal')
+textPositionFolder.add(outerTextToTypeStyle, 'y', 0, 1, 0.01).onChange(updateTextY).name('Vertical')
+textStyleFolder.add(outerTextToTypeStyle, 'fontSize', 0, 1, 0.01).onChange(updateFontSize).name('Font size')
 textStyleFolder.add(textToType.style, 'fontStyle', ['normal', 'italic']).name('Font style')
 textStyleFolder.add(textToType.style, 'fontWeight', ['normal', 'bold']).name('Font weight')
 textStyleFolder.addColor(textToType.style, 'color').name('Fill color')
