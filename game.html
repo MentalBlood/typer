@@ -1,6 +1,6 @@
 <!doctype html>
 <html>
-    <body leftmargin = "0" topmargin = "0" style = "background-color:#ffffff; max-width: 100%; overflow-x: hidden; overflow-y: hidden">
+    <body leftmargin = "0" topmargin = "0" style = "background-color:#ffffff; overflow-x: hidden; overflow-y: hidden">
         <style>
             .img-responsive
             {
@@ -8,11 +8,21 @@
               height: auto;
             }
         </style>
+
         <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+
         <script type="text/javascript" src="dat.gui.js"></script>
-        <div style = "background-color:#ffffff; color:#ffffff; 
+
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0/dist/Chart.bundle.min.js"></script>
+        
+        <div style = "height:100vh; width:100vw">
+            <canvas id="defaultChartCanvas"></canvas>
+        </div>
+        
+        <div style = "background-color:transparent; color:#ffffff; 
         text-shadow:5px 5px 1px #000000; font-size:100px; 
         white-space: pre; position: absolute; left: 0px; right: 0px" id="text"></div>
-        <script type="text/javascript" defer="defer" src="main.js"></script>
+
+        <script type="text/javascript" src="main.js"></script>
     </body>
 </html>
