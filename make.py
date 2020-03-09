@@ -1,6 +1,5 @@
 import re
-from secret import uploadToFTP
-print(re.sub('//.+', '', '//# sourceMappingURL=dat.gui.js.map\nlol'))
+import secret
 
 def includeJSFile(textToIncludeIn, fileToIncludeName):
     with open(fileToIncludeName, 'r') as fileToInclude:
@@ -15,4 +14,5 @@ with open('game.html', 'r') as inputFile, open('gameBuild.html', 'w') as outputF
     outputFileText = re.sub('//*\n', '', outputFileText)
     outputFile.write(outputFileText)
 
-uploadToFTP('gameBuild.html')
+secret.uploadToFTP('index.html')
+secret.uploadToFTP('gameBuild.html')
