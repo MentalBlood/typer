@@ -14,5 +14,17 @@ with open('game.html', 'r') as inputFile, open('gameBuild.html', 'w') as outputF
     outputFileText = re.sub('//*\n', '', outputFileText)
     outputFile.write(outputFileText)
 
+oldIndexText = ''
+newIndexText = ''
+with open('index.html', 'r') as indexFile:
+    oldIndexText = indexFile.read()
+    newIndexText = oldIndexText.replace('game.html', 'gameBuild.html')
+with open('index.html', 'w') as indexFile:
+    indexFile.write(newIndexText)
+
 secret.uploadToFTP('index.html')
+
+with open('index.html', 'w') as indexFile:
+    indexFile.write(oldIndexText)
+
 secret.uploadToFTP('gameBuild.html')
