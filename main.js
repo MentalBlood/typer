@@ -117,12 +117,6 @@
     }
   }
 
-  window.onbeforeprint = function() {
-    for (var id in Chart.instances) {
-        Chart.instances[id].resize();
-    }
-  }
-
   chartsHandler.addChart('default', 'time spent on each line', statisticsHandler.timeSpentOnEachLine)
 
   function generateNewText() {
@@ -133,9 +127,9 @@
   }
 
   var outerTextToTypeStyle = {
-    x: 0,
-    y: 0,
-    fontSize: 0.05,
+    x: 50,
+    y: 50,
+    fontSize: 10,
     dropShadow: 'true',
     shadowDistance: 5,
     shadowAngle: Math.PI / 3,
@@ -175,6 +169,7 @@
   window.addEventListener('resize', onWindowResize, false)
 
   var rootFolder = new dat.gui.GUI({name: 'Parameters'});
+  rootFolder.useLocalStorage = true
   rootFolder.remember(textGenerator)
   rootFolder.remember(textToType.style)
   rootFolder.remember(outerTextToTypeStyle)
@@ -194,7 +189,7 @@
   var textPositionFolder = textStyleFolder.addFolder('Position')
   textPositionFolder.add(outerTextToTypeStyle, 'x', 0, 100, 1).onChange(updateTextX).name('Horizontal')
   textPositionFolder.add(outerTextToTypeStyle, 'y', 0, 100, 1).onChange(updateTextY).name('Vertical')
-  textStyleFolder.add(outerTextToTypeStyle, 'fontSize', 0, 100, 0.1).onChange(updateFontSize).name('Font size')
+  textStyleFolder.add(outerTextToTypeStyle, 'fontSize', 0.1, 100, 0.1).onChange(updateFontSize).name('Font size')
   textStyleFolder.add(textToType.style, 'fontStyle', ['normal', 'italic']).name('Font style')
   textStyleFolder.add(textToType.style, 'fontWeight', ['normal', 'bold']).name('Font weight')
   textStyleFolder.addColor(textToType.style, 'color').name('Fill color')

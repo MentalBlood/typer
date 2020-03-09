@@ -2548,9 +2548,6 @@ function addSaveMenu(gui) {
   dom.addClass(gui.domElement, 'has-save');
   gui.__ul.insertBefore(div, gui.__ul.firstChild);
   dom.addClass(div, 'save-row');
-  var gears = document.createElement('span');
-  gears.innerHTML = '&nbsp;';
-  dom.addClass(gears, 'button gears');
   var button = document.createElement('span');
   button.innerHTML = 'Save';
   dom.addClass(button, 'button');
@@ -2578,7 +2575,6 @@ function addSaveMenu(gui) {
     gui.preset = this.value;
   });
   div.appendChild(select);
-  div.appendChild(gears);
   div.appendChild(button);
   div.appendChild(button2);
   div.appendChild(button3);
@@ -2601,12 +2597,6 @@ function addSaveMenu(gui) {
     if (e.metaKey && (e.which === 67 || e.keyCode === 67)) {
       SAVE_DIALOGUE.hide();
     }
-  });
-  dom.bind(gears, 'click', function () {
-    newConstructorTextArea.innerHTML = JSON.stringify(gui.getSaveObject(), undefined, 2);
-    SAVE_DIALOGUE.show();
-    newConstructorTextArea.focus();
-    newConstructorTextArea.select();
   });
   dom.bind(button, 'click', function () {
     gui.save();
