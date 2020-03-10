@@ -1,30 +1,35 @@
 import re
 import secret
+from os import listdir
+from os.path import isfile, join
 
-def includeJSFile(textToIncludeIn, fileToIncludeName):
-    with open(fileToIncludeName, 'r') as fileToInclude:
-        return textToIncludeIn.replace(' src="' + fileToIncludeName + '">', '>' + fileToInclude.read())
+def filesNames(extension, whatMustNotBeInFileName):
+    whatMustBeInFileName = '.' + extension
+    return [fileName for fileName in listdir('.') if (isfile(join('.', fileName)) and (whatMustBeInFileName in fileName) and ((not whatMustNotBeInFileName) or (not (whatMustNotBeInFileName in fileName))))]
 
-with open('game.html', 'r') as inputFile, open('gameBuild.html', 'w') as outputFile:
-    inputFileText = inputFile.read()
-    outputFileText = includeJSFile(inputFileText, 'main.js')
-    outputFileText = includeJSFile(outputFileText, 'dat.gui.js')
+def makeIncludes(fileWithIncludesName):
+    with open(fileWithIncludesName, 'r') as fileWithIncludes, open(fileWithIncludesName + '.build', 'w') as outputFile:
+        fileWithIncludesText = fileWithIncludes.read()
+        shift = 0
+        while True:
+            index = fileWithIncludesText.find('type="text/javascript" src="', shift)
+            if index == -1:
+                break
+            quotesBeforeFileNameIndex = index + len('type="text/javascript" src="') - 1
+            fileToIncludeName = fileWithIncludesText[quotesBeforeFileNameIndex + 1:fileWithIncludesText.find('"', quotesBeforeFileNameIndex + 1)]
+            print('\t' + fileToIncludeName)
+            shift = quotesBeforeFileNameIndex - len(' src="') + len('>')
+            with open(fileToIncludeName, 'r') as fileToInclude:
+                fileToIncludeText = fileToInclude.read()
+                fileWithIncludesText = fileWithIncludesText.replace(' src="' + fileToIncludeName + '">', '>' + fileToIncludeText)
+                shift += len(fileToIncludeText)
+        outputFile.write(fileWithIncludesText)
 
-    outputFileText = re.sub(' +', ' ', outputFileText)
-    outputFileText = re.sub('//*\n', '', outputFileText)
-    outputFile.write(outputFileText)
+for name in filesNames('html', '.build'):
+    print(name)
+    makeIncludes(name)
 
-oldIndexText = ''
-newIndexText = ''
-with open('index.html', 'r') as indexFile:
-    oldIndexText = indexFile.read()
-    newIndexText = oldIndexText.replace('game.html', 'gameBuild.html')
-with open('index.html', 'w') as indexFile:
-    indexFile.write(newIndexText)
-
-secret.uploadToFTP('index.html')
-
-with open('index.html', 'w') as indexFile:
-    indexFile.write(oldIndexText)
-
-secret.uploadToFTP('gameBuild.html')
+for buildName in filesNames('build', False):
+    buildNameOnServer = buildName.replace('.build', '')
+    print('uploading', buildName, 'as', buildNameOnServer)
+    secret.uploadToFTP(buildName, buildNameOnServer)

@@ -1,0 +1,14 @@
+<!doctype html>
+<html>
+    <head></head>
+    <body>
+        You need to use wider window to access this site<br>
+        Refresh the page to repeat check
+    </body>
+    <script type="text/javascript">let ifNotMobileThanGoGame = () => {if (!window.matchMedia("only screen and (max-width: 760px)").matches) window.location.replace("game.html")}
+
+ifNotMobileThanGoGame()
+
+window.addEventListener("resize", ifNotMobileThanGoGame)</script>
+</html>
+    
