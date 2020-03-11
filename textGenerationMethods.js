@@ -80,6 +80,9 @@ function selectMethod(methodName) {
             option.controller = textGenerationFolder.add(option, 'current', option.min, option.max, option.step).onFinishChange(() => generateNewText()).name(option.name)
         else if (option.type === 'string')
             option.controller = textGenerationFolder.add(option, 'current').onFinishChange(() => generateNewText()).name(option.name)
+        else if (option.type === 'function')
+            option.controller = textGenerationFolder.add(option, 'current').name(option.name)
+
     }
 
     textGenerator.method = method
