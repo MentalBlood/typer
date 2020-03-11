@@ -2096,7 +2096,7 @@ var GUI = function GUI(pars) {
   }
   saveToLocalStorage = function saveToLocalStorage() {
     if (SUPPORTS_LOCAL_STORAGE && localStorage.getItem(getLocalStorageHash(_this, 'isLocal')) === 'true') {
-      localStorage.setItem(getLocalStorageHash(_this, 'gui'), JSON.stringify(_this.getSaveObject()));
+        localStorage.setItem(getLocalStorageHash(_this, 'gui'), JSON.stringify(_this.getSaveObject()));
     }
   };
   this.saveToLocalStorageIfPossible = saveToLocalStorage;
@@ -2127,7 +2127,7 @@ GUI.CLASS_CLOSE_BUTTON = 'close-button';
 GUI.CLASS_CLOSE_TOP = 'close-top';
 GUI.CLASS_CLOSE_BOTTOM = 'close-bottom';
 GUI.CLASS_DRAG = 'drag';
-GUI.DEFAULT_WIDTH = 245;
+GUI.DEFAULT_WIDTH = 380;
 GUI.TEXT_CLOSED = 'Close Controls';
 GUI.TEXT_OPEN = 'Open Controls';
 GUI._keydownHandler = function (e) {
@@ -2721,7 +2721,8 @@ Object.defineProperty(exports, '__esModule', { value: true });
         
         <div style = "background-color:transparent; color:#000000; 
         text-shadow:5px 5px 1px #222222; font-size:10vh; 
-        white-space: pre; position: absolute; left: 50vw; top: 50vh" id="text">text</div>
+        white-space: pre; position: absolute; left: 50vw; top: 50vh;
+        font-style: normal; font-weight: normal" id="text">text</div>
 
         <script type="text/javascript">/* ------------------------------------------------------------ */
 /* Source arrays */
@@ -3035,7 +3036,23 @@ shadowFolder.add(outerTextToTypeStyle, 'shadowBlur', 0, 10, 1).onFinishChange(up
 shadowFolder.addColor(outerTextToTypeStyle, 'shadowColor').onFinishChange(updateShadowProperties).name('Shadow color')
 
 var backgroundStyleFolder = rootFolder.addFolder('Background style')
-backgroundStyleFolder.addColor(document.body.style, 'backgroundColor').name('Background color')</script>
+backgroundStyleFolder.addColor(document.body.style, 'backgroundColor').name('Background color')
+
+function download(filename, text) {
+    var element = document.createElement('a');
+    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+    element.setAttribute('download', filename);
+
+    element.style.display = 'none';
+    document.body.appendChild(element);
+
+    element.click();
+
+    document.body.removeChild(element);
+}
+
+let functions = {save: () => download('config.txt', JSON.stringify(rootFolder.getSaveObject()))}
+rootFolder.add(functions, 'save').name('Export configuration')</script>
         <script type="text/javascript">textGenerationMethods = {
     'Random characters': {
         options: {
