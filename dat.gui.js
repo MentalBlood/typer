@@ -1698,7 +1698,7 @@ position:relative}.dg.main .close-button.close-bottom{\
 position:absolute}.dg.main .close-button:hover{\
 background-color:#111}.dg.a{\
 float:right;\
-margin-right:15px;\
+margin-right:0px;\
 overflow-y:visible}.dg.a.has-save>ul.close-top{\
 margin-top:0}.dg.a.has-save>ul.close-bottom{\
 margin-top:27px}.dg.a.has-save>ul.closed{\
