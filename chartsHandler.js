@@ -28,4 +28,4 @@ var chartsHandler = {
     }
 }
 
-chartsHandler.addChart('default', 'time spent on each line', statisticsHandler.timeSpentOnEachLine)
+chartsHandler.addChart('default', 'mean time spent on symbol', statisticsHandler.meanTimeSpentOnEachSymbolOfEachLine)
