@@ -1,5 +1,6 @@
 var rootFolder = new dat.gui.GUI({name: 'Parameters'});
 rootFolder.useLocalStorage = true
+textToType.style.fontFamily = loadFont(allFontsNames[0])
 rootFolder.remember(textGenerator)
 rootFolder.remember(textToType.style)
 rootFolder.remember(outerTextToTypeStyle)
@@ -9,7 +10,7 @@ var textGenerationFolder = rootFolder.addFolder('Text generation')
 
 var textStyleFolder = rootFolder.addFolder('Text style')
 var textToTypeFontFamilyController = textStyleFolder.add(textToType.style, 'fontFamily', allFontsNames).name('Font family')
-textToTypeFontFamilyController.setValue(loadFont(textToTypeFontFamilyController.getValue()))
+textToTypeFontFamilyController.setValue(loadFont(textToType.style.fontFamily))
 textToTypeFontFamilyController.onChange((newValue) => loadFont(newValue))
 var textPositionFolder = textStyleFolder.addFolder('Position')
 textPositionFolder.add(outerTextToTypeStyle, 'x', 0, 100, 1).onChange(updateTextX).name('Horizontal')
