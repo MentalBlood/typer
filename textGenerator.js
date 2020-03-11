@@ -3,42 +3,11 @@ function randomSymbol(allowedSymbols) {
 }
 
 var textGenerator = {
-    allowedSymbols: 'qwertyuiopasdfghjklzxcvbnm ',
-    allowedSymbolsWithoutSpaces: '',
-    stringLength: 12,
-
-    onAllowedSymbolsUpdated: function() {
-        this.allowedSymbolsWithoutSpaces = this.allowedSymbols.replace(/ /g, '')
-    },
-
-    randomString: function() {
-        let newString = ""
-        for (let i = 0; i < this.stringLength; i++)
-            newString += randomSymbol(this.allowedSymbols)
-        return newString
-    },
-
-    randomStringWithoutSpacesAtTheEnds: function() {
-        let newString = ""
-        newString += randomSymbol(this.allowedSymbolsWithoutSpaces)
-        if (this.stringLength == 1)
-        return newString
-        for (let i = 1; i < (this.stringLength - 1); i++)
-            newString += randomSymbol(this.allowedSymbols)
-        newString += randomSymbol(this.allowedSymbolsWithoutSpaces)
-        return newString
-    },
-
-    functionForGeneratingText: null,
-
+    method: undefined,
     newGeneratedText: function() {
-        let newString = this.functionForGeneratingText()
-        return newString
+        return this.method.generate()
     }
 }
-
-textGenerator.onAllowedSymbolsUpdated()
-textGenerator.functionForGeneratingText = textGenerator.randomStringWithoutSpacesAtTheEnds
 
 var textToType = document.getElementById("text")
 var charactersLeft

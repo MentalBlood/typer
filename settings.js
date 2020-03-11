@@ -6,11 +6,6 @@ rootFolder.remember(outerTextToTypeStyle)
 rootFolder.remember(document.body.style)
 
 var textGenerationFolder = rootFolder.addFolder('Text generation')
-let allowedSymbolsController = textGenerationFolder.add(textGenerator, 'allowedSymbols').name('Allowed symbols')
-allowedSymbolsController.onChange(() => {textGenerator.onAllowedSymbolsUpdated(); generateNewText()})
-let stringLengthController = textGenerationFolder.add(textGenerator, 'stringLength', 1, 50, 1)
-stringLengthController.name('String length')
-stringLengthController.onChange(generateNewText)
 
 var textStyleFolder = rootFolder.addFolder('Text style')
 var textToTypeFontFamilyController = textStyleFolder.add(textToType.style, 'fontFamily', allFontsNames).name('Font family')
