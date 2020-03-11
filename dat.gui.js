@@ -2082,7 +2082,7 @@ var GUI = function GUI(pars) {
   }
   saveToLocalStorage = function saveToLocalStorage() {
     if (SUPPORTS_LOCAL_STORAGE && localStorage.getItem(getLocalStorageHash(_this, 'isLocal')) === 'true') {
-      localStorage.setItem(getLocalStorageHash(_this, 'gui'), JSON.stringify(_this.getSaveObject()));
+        localStorage.setItem(getLocalStorageHash(_this, 'gui'), JSON.stringify(_this.getSaveObject()));
     }
   };
   this.saveToLocalStorageIfPossible = saveToLocalStorage;
