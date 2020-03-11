@@ -2549,10 +2549,6 @@ function addSaveMenu(gui) {
   dom.addClass(gui.domElement, 'has-save');
   gui.__ul.insertBefore(div, gui.__ul.firstChild);
   dom.addClass(div, 'save-row');
-  var button = document.createElement('span');
-  button.innerHTML = 'Save';
-  dom.addClass(button, 'button');
-  dom.addClass(button, 'save');
   var button2 = document.createElement('span');
   button2.innerHTML = 'New';
   dom.addClass(button2, 'button');
@@ -2576,7 +2572,6 @@ function addSaveMenu(gui) {
     gui.preset = this.value;
   });
   div.appendChild(select);
-  div.appendChild(button);
   div.appendChild(button2);
   div.appendChild(button3);
   if (SUPPORTS_LOCAL_STORAGE) {
@@ -2598,9 +2593,6 @@ function addSaveMenu(gui) {
     if (e.metaKey && (e.which === 67 || e.keyCode === 67)) {
       SAVE_DIALOGUE.hide();
     }
-  });
-  dom.bind(button, 'click', function () {
-    gui.save();
   });
   dom.bind(button2, 'click', function () {
     var presetName = prompt('Enter a new preset name.');
