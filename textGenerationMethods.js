@@ -53,11 +53,15 @@ for (methodName in textGenerationMethods) {
     method.getOption = function(optionName) {
         return this.options[optionName].current
     }
-    for (option in method.options)
+    for (optionName in method.options) {
+        option = method.options[optionName]
         option.controller = undefined
+        rootFolder.remember(option)
+    }
 }
 
-let currentMethod = {name: ''}
+let currentMethod = {name: Object.keys(textGenerationMethods)[0]}
+rootFolder.remember(currentMethod)
 
 let methodSelector = textGenerationFolder.add(currentMethod, 'name', Object.keys(textGenerationMethods)).onChange((newName) => selectMethod(newName)).name('Method')
 
@@ -65,7 +69,8 @@ function selectMethod(methodName) {
     if (currentMethod.name in textGenerationMethods)
         for (optionName in textGenerationMethods[currentMethod.name].options) {
             let option = textGenerationMethods[currentMethod.name].options[optionName]
-            textGenerationFolder.remove(option.controller)
+            if (option.controller)
+                textGenerationFolder.remove(option.controller)
         }
 
     let method = textGenerationMethods[methodName]
@@ -81,4 +86,4 @@ function selectMethod(methodName) {
     generateNewText()
 }
 
-methodSelector.setValue(Object.keys(textGenerationMethods)[0])
+methodSelector.setValue(currentMethod.name)
