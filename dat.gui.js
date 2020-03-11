@@ -2350,11 +2350,7 @@ function removeListeners(gui) {
 }
 function markPresetModified(gui, modified) {
   var opt = gui.__preset_select[gui.__preset_select.selectedIndex];
-  if (modified) {
-    opt.innerHTML = opt.value + '*';
-  } else {
-    opt.innerHTML = opt.value;
-  }
+  opt.innerHTML = opt.value;
 }
 function augmentController(gui, li, controller) {
   controller.__li = li;
