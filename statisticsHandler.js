@@ -14,9 +14,9 @@ var statisticsHandler = {
     endMeasuring: function() {
         this.measuring = false
         let elapsedTime = performance.now() - this.startTime
-        this.timeSpentOnEachLine.push(elapsedTime)
+        this.timeSpentOnEachLine.push(elapsedTime / 1000)
         chartsHandler.charts['time spent on each line'].data.labels.push(this.currentLine)
         chartsHandler.charts['time spent on each line'].update(0)
-        this.meanTimeSpentOnEachSymbolOfEachLine.push(elapsedTime / this.currentLine.length)
+        this.meanTimeSpentOnEachSymbolOfEachLine.push(elapsedTime / this.currentLine.length / 1000)
     }
 }
