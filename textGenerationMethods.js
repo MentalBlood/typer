@@ -1,4 +1,4 @@
-textGenerationMethods = {
+var textGenerationMethods = {
     'Random characters': {
         options: {
             allowedSymbols: {
@@ -60,10 +60,10 @@ for (methodName in textGenerationMethods) {
     }
 }
 
-let currentMethod = {name: Object.keys(textGenerationMethods)[0]}
+var currentMethod = {name: Object.keys(textGenerationMethods)[0]}
 rootFolder.remember(currentMethod)
 
-let methodSelector = textGenerationFolder.add(currentMethod, 'name', Object.keys(textGenerationMethods)).onChange((newName) => selectMethod(newName)).name('Method')
+var methodSelector = textGenerationFolder.add(currentMethod, 'name', Object.keys(textGenerationMethods)).onChange((newName) => selectMethod(newName)).name('Method')
 
 function selectMethod(methodName) {
     if (currentMethod.name in textGenerationMethods)

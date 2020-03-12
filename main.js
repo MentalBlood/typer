@@ -1,5 +1,1 @@
-generateNewText()
-updateTextX()
-updateTextY()
-updateFontSize()
-updateShadowProperties()
+updateOuterTextToTypeStyle()

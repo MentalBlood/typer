@@ -2,6 +2,7 @@
 <html>
     <head></head>
     <body leftmargin = "0" topmargin = "0" style = "background-color:#ffffff; overflow-x: hidden; overflow-y: hidden">
+        <input type="file" id="fileElem" multiple accept=".json" style="display:none">
         <style>
             .img-responsive
             {
@@ -1694,8 +1695,8 @@ overflow:hidden}.dg.main{\
 transition:opacity .1s linear}.dg.main.taller-than-window{\
 overflow-y:auto}.dg.main.taller-than-window .close-button{\
 opacity:1;\
-margin-top:-1px;\
-border-top:1px solid #2c2c2c}.dg.main ul.closed .close-button{\
+margin-top:0px;\
+border-top:0px solid #2c2c2c}.dg.main ul.closed .close-button{\
 opacity:1 !important}.dg.main:hover .close-button,.dg.main .close-button.drag{\
 opacity:1}.dg.main .close-button{\
 -webkit-transition:opacity .1s linear;\
@@ -1712,7 +1713,7 @@ position:relative}.dg.main .close-button.close-bottom{\
 position:absolute}.dg.main .close-button:hover{\
 background-color:#111}.dg.a{\
 float:right;\
-margin-right:15px;\
+margin-right:0px;\
 overflow-y:visible}.dg.a.has-save>ul.close-top{\
 margin-top:0}.dg.a.has-save>ul.close-bottom{\
 margin-top:27px}.dg.a.has-save>ul.closed{\
@@ -1802,7 +1803,7 @@ position:relative}#dg-local-explain{\
 display:none;\
 font-size:11px;\
 line-height:17px;\
-border-radius:3px;\
+border-radius:0px;\
 background-color:#333;\
 padding:8px;\
 margin-top:10px}#dg-local-explain code{\
@@ -1815,7 +1816,7 @@ width:5px;\
 background:#1a1a1a}.dg.main::-webkit-scrollbar-corner{\
 height:0;\
 display:none}.dg.main::-webkit-scrollbar-thumb{\
-border-radius:5px;\
+border-radius:0px;\
 background:#676767}.dg li:not(.folder){\
 background:#1a1a1a;\
 border-bottom:1px solid #2c2c2c}.dg li.save-row{\
@@ -1826,7 +1827,7 @@ margin-left:5px;\
 width:108px}.dg li.save-row .button{\
 margin-left:5px;\
 margin-top:1px;\
-border-radius:2px;\
+border-radius:0px;\
 font-size:9px;\
 line-height:7px;\
 padding:4px 4px 5px 4px;\
@@ -1846,7 +1847,7 @@ padding-left:16px;\
 background:#000 url(data:image/gif;\
 base64,R0lGODlhBQAFAJEAAP////Pz8////////yH5BAEAAAIALAAAAAAFAAUAAAIIlI+hKgFxoCgAOw==) 6px 10px no-repeat;\
 cursor:pointer;\
-border-bottom:1px solid rgba(255,255,255,0.2)}.dg .closed li.title{\
+border-bottom:0px solid rgba(255,255,255,0.2)}.dg .closed li.title{\
 background-image:url(data:image/gif;\
 base64,R0lGODlhBQAFAJEAAP////Pz8////////yH5BAEAAAIALAAAAAAFAAUAAAIIlGIWqMCbWAEAOw==)}.dg .cr.boolean{\
 border-left:3px solid #806787}.dg .cr.color{\
@@ -2994,6 +2995,14 @@ function updateShadowProperties() {
     let verticalShadow = outerTextToTypeStyle.shadowDistance * Math.sin(outerTextToTypeStyle.shadowAngle)
     textToType.style.textShadow = horizontalShadow + 'px ' + verticalShadow + 'px ' + outerTextToTypeStyle.shadowBlur + 'px ' + 
                                 outerTextToTypeStyle.shadowColor
+}
+
+function updateOuterTextToTypeStyle() {
+    generateNewText()
+    updateTextX()
+    updateTextY()
+    updateFontSize()
+    updateShadowProperties()
 }</script>
         <script type="text/javascript">let ifMobileThanGoAway = () => {if (window.matchMedia("only screen and (max-width: 760px)").matches) window.location.replace("mobile.html")}
 
@@ -3006,39 +3015,7 @@ function onWindowResize() {
     updateFontSize()
 }
 window.addEventListener('resize', onWindowResize, false)</script>
-        <script type="text/javascript">var rootFolder = new dat.gui.GUI({name: 'Parameters'});
-rootFolder.useLocalStorage = true
-textToType.style.fontFamily = loadFont(allFontsNames[0])
-rootFolder.remember(textGenerator)
-rootFolder.remember(textToType.style)
-rootFolder.remember(outerTextToTypeStyle)
-rootFolder.remember(document.body.style)
-
-var textGenerationFolder = rootFolder.addFolder('Text generation')
-
-var textStyleFolder = rootFolder.addFolder('Text style')
-var textToTypeFontFamilyController = textStyleFolder.add(textToType.style, 'fontFamily', allFontsNames).name('Font family')
-textToTypeFontFamilyController.setValue(loadFont(textToType.style.fontFamily))
-textToTypeFontFamilyController.onChange((newValue) => loadFont(newValue))
-var textPositionFolder = textStyleFolder.addFolder('Position')
-textPositionFolder.add(outerTextToTypeStyle, 'x', 0, 100, 1).onChange(updateTextX).name('Horizontal')
-textPositionFolder.add(outerTextToTypeStyle, 'y', 0, 100, 1).onChange(updateTextY).name('Vertical')
-textStyleFolder.add(outerTextToTypeStyle, 'fontSize', 0.1, 100, 0.1).onChange(updateFontSize).name('Font size')
-textStyleFolder.add(textToType.style, 'fontStyle', ['normal', 'italic']).name('Font style')
-textStyleFolder.add(textToType.style, 'fontWeight', ['normal', 'bold']).name('Font weight')
-textStyleFolder.addColor(textToType.style, 'color').name('Fill color')
-var shadowFolder = textStyleFolder.addFolder('Shadow style')
-outerTextToTypeStyle.dropShadow = 'true'
-shadowFolder.add(outerTextToTypeStyle, 'dropShadow', {Yes: 'true', No: 'false'}).onFinishChange(updateShadowProperties).name('Drop shadow')
-shadowFolder.add(outerTextToTypeStyle, 'shadowDistance', 0, 10, 1).onFinishChange(updateShadowProperties).name('Shadow distance')
-shadowFolder.add(outerTextToTypeStyle, 'shadowAngle', -Math.PI, Math.PI, 0.01).onFinishChange(updateShadowProperties).name('Shadow angle')
-shadowFolder.add(outerTextToTypeStyle, 'shadowBlur', 0, 10, 1).onFinishChange(updateShadowProperties).name('Shadow blur')
-shadowFolder.addColor(outerTextToTypeStyle, 'shadowColor').onFinishChange(updateShadowProperties).name('Shadow color')
-
-var backgroundStyleFolder = rootFolder.addFolder('Background style')
-backgroundStyleFolder.addColor(document.body.style, 'backgroundColor').name('Background color')
-
-function download(filename, text) {
+        <script type="text/javascript">function download(filename, text) {
     var element = document.createElement('a');
     element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
     element.setAttribute('download', filename);
@@ -3051,9 +3028,98 @@ function download(filename, text) {
     document.body.removeChild(element);
 }
 
-let functions = {save: () => download('config.txt', JSON.stringify(rootFolder.getSaveObject()))}
-rootFolder.add(functions, 'save').name('Export configuration')</script>
-        <script type="text/javascript">textGenerationMethods = {
+let fileElement = document.getElementById("fileElem")
+fileElement.addEventListener('change', function(e) {
+    var fileReader = new FileReader(); 
+    fileReader.onload = function (e) {
+        let config = fileReader.result
+        console.log(config)
+        makeGUI(config)
+    } 
+    fileReader.readAsText(fileElement.files[0]);
+
+    //let files = $('#attachment').data('uploadify').queueData.files = []
+    //for (let member in files) delete files[member]
+    //$('#attachment').data('uploadify').uploads.count = 0
+})
+
+let configHandler = {
+    save: () => download('config.json', JSON.stringify(rootFolder.getSaveObject())),
+    load: () => {
+        fileElement.click()
+    }
+}
+
+getLocalStorageHash = (key) => document.location.href + '.' + key
+
+var rootFolder
+var textGenerationFolder, textStyleFolder, textToTypeFontFamilyController, textPositionFolder, shadowFolder, backgroundStyleFolder
+
+function makeGUI(configText) {
+    if (configText) {
+        rootFolder.destroy()
+        rootFolder = new dat.gui.GUI({load: JSON.parse(configText)})
+    }
+    else {
+        rootFolder = new dat.gui.GUI()
+    }
+    rootFolder.useLocalStorage = false
+    textToType.style.fontFamily = loadFont(allFontsNames[0])
+    rootFolder.remember(textGenerator)
+    rootFolder.remember(textToType.style)
+    rootFolder.remember(outerTextToTypeStyle)
+    rootFolder.remember(document.body.style)
+
+    textGenerationFolder = rootFolder.addFolder('Text generation')
+
+    textStyleFolder = rootFolder.addFolder('Text style')
+    textToTypeFontFamilyController = textStyleFolder.add(textToType.style, 'fontFamily', allFontsNames).name('Font family')
+    textToTypeFontFamilyController.setValue(loadFont(textToType.style.fontFamily))
+    textToTypeFontFamilyController.onChange((newValue) => loadFont(newValue))
+    textPositionFolder = textStyleFolder.addFolder('Position')
+    textPositionFolder.add(outerTextToTypeStyle, 'x', 0, 100, 1).onChange(updateTextX).name('Horizontal')
+    textPositionFolder.add(outerTextToTypeStyle, 'y', 0, 100, 1).onChange(updateTextY).name('Vertical')
+    textStyleFolder.add(outerTextToTypeStyle, 'fontSize', 0.1, 100, 0.1).onChange(updateFontSize).name('Font size')
+    textStyleFolder.add(textToType.style, 'fontStyle', ['normal', 'italic']).name('Font style')
+    textStyleFolder.add(textToType.style, 'fontWeight', ['normal', 'bold']).name('Font weight')
+    textStyleFolder.addColor(textToType.style, 'color').name('Fill color')
+    shadowFolder = textStyleFolder.addFolder('Shadow style')
+    outerTextToTypeStyle.dropShadow = 'true'
+    shadowFolder.add(outerTextToTypeStyle, 'dropShadow', {Yes: 'true', No: 'false'}).onFinishChange(updateShadowProperties).name('Drop shadow')
+    shadowFolder.add(outerTextToTypeStyle, 'shadowDistance', 0, 10, 1).onFinishChange(updateShadowProperties).name('Shadow distance')
+    shadowFolder.add(outerTextToTypeStyle, 'shadowAngle', -Math.PI, Math.PI, 0.01).onFinishChange(updateShadowProperties).name('Shadow angle')
+    shadowFolder.add(outerTextToTypeStyle, 'shadowBlur', 0, 10, 1).onFinishChange(updateShadowProperties).name('Shadow blur')
+    shadowFolder.addColor(outerTextToTypeStyle, 'shadowColor').onFinishChange(updateShadowProperties).name('Shadow color')
+
+    backgroundStyleFolder = rootFolder.addFolder('Background style')
+    backgroundStyleFolder.addColor(document.body.style, 'backgroundColor').name('Background color')
+
+    if (configText !== false) {
+        for (methodName in textGenerationMethods) {
+            method = textGenerationMethods[methodName]
+            method.getOption = function(optionName) {
+                return this.options[optionName].current
+            }
+            for (optionName in method.options) {
+                option = method.options[optionName]
+                option.controller = undefined
+                rootFolder.remember(option)
+            }
+        }
+        currentMethod = {name: Object.keys(textGenerationMethods)[0]}
+        rootFolder.remember(currentMethod)
+        methodSelector = textGenerationFolder.add(currentMethod, 'name', Object.keys(textGenerationMethods)).onChange((newName) => selectMethod(newName)).name('Method')
+        methodSelector.setValue(currentMethod.name)
+    }
+
+    rootFolder.add(configHandler, 'load').name('Import configuration')
+    rootFolder.add(configHandler, 'save').name('Export configuration')
+
+    updateOuterTextToTypeStyle()
+}
+makeGUI(false)
+</script>
+        <script type="text/javascript">var textGenerationMethods = {
     'Random characters': {
         options: {
             allowedSymbols: {
@@ -3115,10 +3181,10 @@ for (methodName in textGenerationMethods) {
     }
 }
 
-let currentMethod = {name: Object.keys(textGenerationMethods)[0]}
+var currentMethod = {name: Object.keys(textGenerationMethods)[0]}
 rootFolder.remember(currentMethod)
 
-let methodSelector = textGenerationFolder.add(currentMethod, 'name', Object.keys(textGenerationMethods)).onChange((newName) => selectMethod(newName)).name('Method')
+var methodSelector = textGenerationFolder.add(currentMethod, 'name', Object.keys(textGenerationMethods)).onChange((newName) => selectMethod(newName)).name('Method')
 
 function selectMethod(methodName) {
     if (currentMethod.name in textGenerationMethods)
@@ -3159,10 +3225,6 @@ methodSelector.setValue(currentMethod.name)</script>
 }
 
 window.addEventListener('keydown', keyEventHandler, false)</script>
-        <script type="text/javascript">generateNewText()
-updateTextX()
-updateTextY()
-updateFontSize()
-updateShadowProperties()</script>
+        <script type="text/javascript">updateOuterTextToTypeStyle()</script>
     </body>
 </html>

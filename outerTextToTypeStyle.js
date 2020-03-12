@@ -33,3 +33,11 @@ function updateShadowProperties() {
     textToType.style.textShadow = horizontalShadow + 'px ' + verticalShadow + 'px ' + outerTextToTypeStyle.shadowBlur + 'px ' + 
                                 outerTextToTypeStyle.shadowColor
 }
+
+function updateOuterTextToTypeStyle() {
+    generateNewText()
+    updateTextX()
+    updateTextY()
+    updateFontSize()
+    updateShadowProperties()
+}

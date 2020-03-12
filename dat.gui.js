@@ -1680,8 +1680,8 @@ overflow:hidden}.dg.main{\
 transition:opacity .1s linear}.dg.main.taller-than-window{\
 overflow-y:auto}.dg.main.taller-than-window .close-button{\
 opacity:1;\
-margin-top:-1px;\
-border-top:1px solid #2c2c2c}.dg.main ul.closed .close-button{\
+margin-top:0px;\
+border-top:0px solid #2c2c2c}.dg.main ul.closed .close-button{\
 opacity:1 !important}.dg.main:hover .close-button,.dg.main .close-button.drag{\
 opacity:1}.dg.main .close-button{\
 -webkit-transition:opacity .1s linear;\
@@ -1788,7 +1788,7 @@ position:relative}#dg-local-explain{\
 display:none;\
 font-size:11px;\
 line-height:17px;\
-border-radius:3px;\
+border-radius:0px;\
 background-color:#333;\
 padding:8px;\
 margin-top:10px}#dg-local-explain code{\
@@ -1801,7 +1801,7 @@ width:5px;\
 background:#1a1a1a}.dg.main::-webkit-scrollbar-corner{\
 height:0;\
 display:none}.dg.main::-webkit-scrollbar-thumb{\
-border-radius:5px;\
+border-radius:0px;\
 background:#676767}.dg li:not(.folder){\
 background:#1a1a1a;\
 border-bottom:1px solid #2c2c2c}.dg li.save-row{\
@@ -1812,7 +1812,7 @@ margin-left:5px;\
 width:108px}.dg li.save-row .button{\
 margin-left:5px;\
 margin-top:1px;\
-border-radius:2px;\
+border-radius:0px;\
 font-size:9px;\
 line-height:7px;\
 padding:4px 4px 5px 4px;\
@@ -1832,7 +1832,7 @@ padding-left:16px;\
 background:#000 url(data:image/gif;\
 base64,R0lGODlhBQAFAJEAAP////Pz8////////yH5BAEAAAIALAAAAAAFAAUAAAIIlI+hKgFxoCgAOw==) 6px 10px no-repeat;\
 cursor:pointer;\
-border-bottom:1px solid rgba(255,255,255,0.2)}.dg .closed li.title{\
+border-bottom:0px solid rgba(255,255,255,0.2)}.dg .closed li.title{\
 background-image:url(data:image/gif;\
 base64,R0lGODlhBQAFAJEAAP////Pz8////////yH5BAEAAAIALAAAAAAFAAUAAAIIlGIWqMCbWAEAOw==)}.dg .cr.boolean{\
 border-left:3px solid #806787}.dg .cr.color{\
