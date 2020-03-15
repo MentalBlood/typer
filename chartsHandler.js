@@ -25,7 +25,12 @@ var chartsHandler = {
                 }
             }
         })
+    },
+
+    removeAllCharts: function() {
+        for (key in this.charts) {
+            this.charts[key].destroy()
+        }
+        this.charts = {}
     }
 }
-
-chartsHandler.addChart('default', 'mean time spent on symbol', statisticsHandler.meanTimeSpentOnEachSymbolOfEachLine)

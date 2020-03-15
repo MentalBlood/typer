@@ -1,1 +1,2 @@
+makeGUI(false)
 updateOuterTextToTypeStyle()

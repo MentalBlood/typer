@@ -45,25 +45,39 @@ var textGenerationMethods = {
                 newString += ' ' + fake.word()
             return newString.toLowerCase()
         }
+    },
+
+    'Markov chain': {
+        options: {
+            numberOfWords: {
+                type: 'integer',
+                name: 'Number of words',
+                min: 1,
+                max: 32,
+                step: 1,
+                current: 8
+            },
+            file: {
+                type: 'function',
+                name: 'Upload corpus',
+                current: function() {
+                    upload(textGenerationMethods['Markov chain'].makeGenerator, 'txt')
+                }
+            }
+        },
+        makeGenerator: function(corpus) {
+            textGenerationMethods['Markov chain'].generator = new markov(corpus, 'string', /[.,?"();\-!':—^\w]+ /g)
+            generateNewText()
+        },
+        generator: false,
+        generate: function() {
+            console.log(this.generator)
+            if (this.generator === false)
+                return 'Upload corpus (larger is better) to generate more text'
+            return this.generator.gen(this.getOption('numberOfWords')).replace(/^\s+|\s+$/g, '');
+        }
     }
 }
-
-for (methodName in textGenerationMethods) {
-    method = textGenerationMethods[methodName]
-    method.getOption = function(optionName) {
-        return this.options[optionName].current
-    }
-    for (optionName in method.options) {
-        option = method.options[optionName]
-        option.controller = undefined
-        rootFolder.remember(option)
-    }
-}
-
-var currentMethod = {name: Object.keys(textGenerationMethods)[0]}
-rootFolder.remember(currentMethod)
-
-var methodSelector = textGenerationFolder.add(currentMethod, 'name', Object.keys(textGenerationMethods)).onChange((newName) => selectMethod(newName)).name('Method')
 
 function selectMethod(methodName) {
     if (currentMethod.name in textGenerationMethods)
@@ -73,7 +87,7 @@ function selectMethod(methodName) {
                 textGenerationFolder.remove(option.controller)
         }
 
-    let method = textGenerationMethods[methodName]
+    method = textGenerationMethods[methodName]
     for (optionName in method.options) {
         let option = method.options[optionName]
         if (option.type === 'integer')
@@ -89,4 +103,27 @@ function selectMethod(methodName) {
     generateNewText()
 }
 
-methodSelector.setValue(currentMethod.name)
+var currentMethod
+var methodSelector
+
+function initTextGenerationMethods() {
+    for (methodName in textGenerationMethods) {
+        method = textGenerationMethods[methodName]
+        method.getOption = function(optionName) {
+            return this.options[optionName].current
+        }
+        for (optionName in method.options) {
+            option = method.options[optionName]
+            option.controller = undefined
+        }
+    }
+
+    currentMethod = {name: Object.keys(textGenerationMethods)[0]}
+    rootFolder.remember(currentMethod)
+    methodSelector = textGenerationFolder.add(currentMethod, 'name', Object.keys(textGenerationMethods)).onChange(
+        function(newName) {
+            selectMethod(newName)
+        }
+    ).name('Method')
+    methodSelector.setValue(currentMethod.name)
+}

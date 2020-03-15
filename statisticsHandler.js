@@ -18,5 +18,12 @@ var statisticsHandler = {
         this.meanTimeSpentOnEachSymbolOfEachLine.push(elapsedTime / this.currentLine.length / 1000)
         chartsHandler.charts['mean time spent on symbol'].data.labels.push(this.currentLine)
         chartsHandler.charts['mean time spent on symbol'].update(200)
+    },
+
+    clearStatistics: function() {
+        this.timeSpentOnEachLine = []
+        this.meanTimeSpentOnEachSymbolOfEachLine = []
+        chartsHandler.charts['mean time spent on symbol'].data.labels = []
+        chartsHandler.charts['mean time spent on symbol'].update(0)
     }
 }

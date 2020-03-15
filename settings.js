@@ -1,39 +1,7 @@
-function download(filename, text) {
-    var element = document.createElement('a');
-    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
-    element.setAttribute('download', filename);
-
-    element.style.display = 'none';
-    document.body.appendChild(element);
-
-    element.click();
-
-    document.body.removeChild(element);
-}
-
-let fileElement = document.getElementById("fileElem")
-fileElement.addEventListener('change', function(e) {
-    var fileReader = new FileReader(); 
-    fileReader.onload = function (e) {
-        let config = fileReader.result
-        console.log(config)
-        makeGUI(config)
-    } 
-    fileReader.readAsText(fileElement.files[0]);
-
-    //let files = $('#attachment').data('uploadify').queueData.files = []
-    //for (let member in files) delete files[member]
-    //$('#attachment').data('uploadify').uploads.count = 0
-})
-
 let configHandler = {
     save: () => download('config.json', JSON.stringify(rootFolder.getSaveObject())),
-    load: () => {
-        fileElement.click()
-    }
+    upload: () => upload(makeGUI, 'json')
 }
-
-getLocalStorageHash = (key) => document.location.href + '.' + key
 
 var rootFolder
 var textGenerationFolder, textStyleFolder, textToTypeFontFamilyController, textPositionFolder, shadowFolder, backgroundStyleFolder
@@ -41,6 +9,7 @@ var textGenerationFolder, textStyleFolder, textToTypeFontFamilyController, textP
 function makeGUI(configText) {
     if (configText) {
         rootFolder.destroy()
+        statisticsHandler.clearStatistics()
         rootFolder = new dat.gui.GUI({load: JSON.parse(configText)})
     }
     else {
@@ -48,16 +17,17 @@ function makeGUI(configText) {
     }
     rootFolder.useLocalStorage = false
     textToType.style.fontFamily = loadFont(allFontsNames[0])
-    rootFolder.remember(textGenerator)
-    rootFolder.remember(textToType.style)
-    rootFolder.remember(outerTextToTypeStyle)
-    rootFolder.remember(document.body.style)
+    if (configText) {
+        rootFolder.remember(textGenerator)
+        rootFolder.remember(textToType.style)
+        rootFolder.remember(outerTextToTypeStyle)
+        rootFolder.remember(document.body.style)
+    }
 
     textGenerationFolder = rootFolder.addFolder('Text generation')
 
     textStyleFolder = rootFolder.addFolder('Text style')
     textToTypeFontFamilyController = textStyleFolder.add(textToType.style, 'fontFamily', allFontsNames).name('Font family')
-    textToTypeFontFamilyController.setValue(loadFont(textToType.style.fontFamily))
     textToTypeFontFamilyController.onChange((newValue) => loadFont(newValue))
     textPositionFolder = textStyleFolder.addFolder('Position')
     textPositionFolder.add(outerTextToTypeStyle, 'x', 0, 100, 1).onChange(updateTextX).name('Horizontal')
@@ -77,27 +47,12 @@ function makeGUI(configText) {
     backgroundStyleFolder = rootFolder.addFolder('Background style')
     backgroundStyleFolder.addColor(document.body.style, 'backgroundColor').name('Background color')
 
-    if (configText !== false) {
-        for (methodName in textGenerationMethods) {
-            method = textGenerationMethods[methodName]
-            method.getOption = function(optionName) {
-                return this.options[optionName].current
-            }
-            for (optionName in method.options) {
-                option = method.options[optionName]
-                option.controller = undefined
-                rootFolder.remember(option)
-            }
-        }
-        currentMethod = {name: Object.keys(textGenerationMethods)[0]}
-        rootFolder.remember(currentMethod)
-        methodSelector = textGenerationFolder.add(currentMethod, 'name', Object.keys(textGenerationMethods)).onChange((newName) => selectMethod(newName)).name('Method')
-        methodSelector.setValue(currentMethod.name)
-    }
+    initTextGenerationMethods()
 
-    rootFolder.add(configHandler, 'load').name('Import configuration')
+    rootFolder.add(configHandler, 'upload').name('Import configuration')
     rootFolder.add(configHandler, 'save').name('Export configuration')
 
+    chartsHandler.removeAllCharts()
+    chartsHandler.addChart('default', 'mean time spent on symbol', statisticsHandler.meanTimeSpentOnEachSymbolOfEachLine)
     updateOuterTextToTypeStyle()
 }
-makeGUI(false)
