@@ -76,6 +76,39 @@ var textGenerationMethods = {
                 return 'Upload corpus (larger is better) to generate more text'
             return this.generator.gen(this.getOption('numberOfWords')).replace(/^\s+|\s+$/g, '');
         }
+    },
+    'Given text file': {
+        options: {
+            numberOfSentences: {
+                type: 'integer',
+                name: 'Number of sentences',
+                min: 1,
+                max: 32,
+                step: 1,
+                current: 8
+            },
+            file: {
+                type: 'function',
+                name: 'Upload file',
+                current: function() {
+                    upload(textGenerationMethods['Given text file'].setText, 'txt')
+                }
+            }
+        },
+        text: false,
+        currentSentenceNumber: 0,
+        setText: function(newText) {
+            textGenerationMethods['Given text file'].text = newText.match( /[^\.!\?]+[\.!\?]+/g )
+            textGenerationMethods['Given text file'].currentSentenceNumber = 0
+            generateNewText()
+        },
+        generate: function() {
+            if (this.text === false)
+                return 'Upload file to type sentences from'
+            result = this.text.slice(this.currentSentenceNumber, this.currentSentenceNumber + this.getOption('numberOfSentences')).join('')
+            this.currentSentenceNumber += this.getOption('numberOfSentences')
+            return result
+        }
     }
 }
 
