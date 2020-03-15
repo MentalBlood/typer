@@ -71,7 +71,6 @@ var textGenerationMethods = {
         },
         generator: false,
         generate: function() {
-            console.log(this.generator)
             if (this.generator === false)
                 return 'Upload corpus (larger is better) to generate more text'
             return this.generator.gen(this.getOption('numberOfWords')).replace(/^\s+|\s+$/g, '');

@@ -12,12 +12,14 @@ function download(filename, text) {
 }
 
 let currentOnFileElementChangeFunction
+let fileElement
 
 function onFileElementChangeFunction(onUploaded) {
     return function() {
         var fileReader = new FileReader();
         fileReader.onload = function (e) {
             fileElement.removeEventListener('change', currentOnFileElementChangeFunction)
+            fileElement.remove()
             return onUploaded(fileReader.result)
         }
         fileReader.readAsText(fileElement.files[0]);
@@ -25,11 +27,11 @@ function onFileElementChangeFunction(onUploaded) {
 }
 
 function upload(onUploaded, fileExtension) {
-    fileElement.removeEventListener('change', currentOnFileElementChangeFunction)
+    fileElement = document.createElement('input')
+    fileElement.type = 'file'
     fileElement.accept = '.' + fileExtension
+
     currentOnFileElementChangeFunction = onFileElementChangeFunction(onUploaded)
     fileElement.addEventListener('change', currentOnFileElementChangeFunction)
     fileElement.click()
 }
-
-let fileElement = document.getElementById("fileElem")
