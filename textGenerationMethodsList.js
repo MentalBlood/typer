@@ -136,7 +136,7 @@ var textGenerationMethods = {
             }
             let lastSentenceIndex = Math.min(textGenerationMethods['Given text file'].options.navigation.options.sentenceNumber.current - 1 + this.getOption('numberOfSentences').current, this.text.length)
             
-            let result = this.text.slice(firstSentenceIndex, lastSentenceIndex).join('').replace(/^\s+|\s+$/g, '').replace(/\n|\r/g, ' ').replace('  ', ' ')
+            let result = this.text.slice(firstSentenceIndex, lastSentenceIndex).join('').replace(/^\s+|\s+$/g, '').replace(/[\r\n]+/g, ' ')
             console.log(result)
             return result
         },
@@ -152,7 +152,7 @@ var textGenerationMethods = {
             }
             let lastSentenceIndex = Math.min(textGenerationMethods['Given text file'].options.navigation.options.sentenceNumber.current - 1 + this.getOption('numberOfSentences').current, this.text.length)
             
-            let result = this.text.slice(firstSentenceIndex, lastSentenceIndex).join('').replace(/^\s+|\s+$/g, '').replace(/\n|\r/g, ' ').replace('  ', ' ')
+            let result = this.text.slice(firstSentenceIndex, lastSentenceIndex).join('').replace(/^\s+|\s+$/g, '').replace(/[\r\n]+/g, ' ')
             console.log(result)
             return result
         }
