@@ -4022,7 +4022,6 @@ var charactersLeft
 function generateNewText() {
     textToType.innerHTML = textGenerator.newGeneratedText()
     charactersLeft = textToType.innerHTML.length
-    console.log(charactersLeft)
     if (textToType.innerHTML.length == 1)
         statisticsHandler.startMeasuring(textToType.innerHTML)
     else
@@ -4227,12 +4226,12 @@ function makeGUI(configText) {
         },
         generate: function() {
             let newString = ""
-            let allowedSymbolsWithoutSpaces = this.getOption('allowedSymbols').replace(/ /g, '')
+            let allowedSymbolsWithoutSpaces = this.getOption('allowedSymbols').current.replace(/ /g, '')
             newString += randomSymbol(allowedSymbolsWithoutSpaces)
-            if (this.getOption('stringLength') == 1)
+            if (this.getOption('stringLength').current == 1)
                 return newString
-            for (let i = 1; i < (this.getOption('stringLength') - 1); i++)
-                newString += randomSymbol(this.getOption('allowedSymbols'))
+            for (let i = 1; i < (this.getOption('stringLength').current - 1); i++)
+                newString += randomSymbol(this.getOption('allowedSymbols').current)
             newString += randomSymbol(allowedSymbolsWithoutSpaces)
             return newString
         }
@@ -4251,7 +4250,7 @@ function makeGUI(configText) {
         },
         generate: function() {
             newString = fake.word()
-            for (let i = 1; i < this.getOption('numberOfWords'); i++)
+            for (let i = 1; i < this.getOption('numberOfWords').current; i++)
                 newString += ' ' + fake.word()
             return newString.toLowerCase()
         }
@@ -4283,9 +4282,10 @@ function makeGUI(configText) {
         generate: function() {
             if (this.generator === false)
                 return 'Upload corpus (larger is better) to generate more text'
-            return this.generator.gen(this.getOption('numberOfWords')).replace(/^\s+|\s+$/g, '')
+            return this.generator.gen(this.getOption('numberOfWords').current).replace(/^\s+|\s+$/g, '')
         }
     },
+    
     'Given text file': {
         options: {
             numberOfSentences: {
@@ -4311,35 +4311,50 @@ function makeGUI(configText) {
                         type: 'function',
                         name: 'Go to beginning',
                         current: function() {
-                            textGenerationMethods['Given text file'].currentSentenceNumber = 0
+                            textGenerationMethods['Given text file'].options.navigation.options.sentenceNumber.current = 1
                             generateNewText()
                         }
+                    },
+                    sentenceNumber: {
+                        type: 'integer',
+                        name: 'Sentence number',
+                        min: 1,
+                        max: 1,
+                        step: 1,
+                        current: 1,
+                        listen: true
                     }
                 }
             }
         },
         text: false,
-        currentSentenceNumber: 0,
         setText: function(newText) {
             textGenerationMethods['Given text file'].text = newText.match( /[^\.!\?]+[\.!\?]+/g )
-            textGenerationMethods['Given text file'].currentSentenceNumber = 0
+            if (!text)
+                this.text = [newText]
+            textGenerationMethods['Given text file'].options.navigation.options.sentenceNumber.current = 1
+            textGenerationMethods['Given text file'].options.navigation.options.sentenceNumber.controller.max(textGenerationMethods['Given text file'].text.length)
             generateNewText()
         },
         generate: function() {
             if (this.text === false)
                 return 'Upload file to type sentences from'
-            if (this.currentSentenceNumber > this.text.length)
+            if ((textGenerationMethods['Given text file'].options.navigation.options.sentenceNumber.current - 1) > this.text.length)
                 return 'Text ended, please upload a new one'
-            result = this.text.slice(this.currentSentenceNumber, this.currentSentenceNumber + this.getOption('numberOfSentences')).join('').replace(/^\s+|\s+$/g, '')
-            this.currentSentenceNumber += this.getOption('numberOfSentences')
+            if (textGenerationMethods['Given text file'].options.navigation.options.sentenceNumber.current !== 1)
+            textGenerationMethods['Given text file'].options.navigation.options.sentenceNumber.current += textGenerationMethods['Given text file'].options.numberOfSentences.current
+            let firstSentenceIndex = textGenerationMethods['Given text file'].options.navigation.options.sentenceNumber.current - 1
+            let lastSentenceIndex = Math.min(textGenerationMethods['Given text file'].options.navigation.options.sentenceNumber.current - 1 + this.getOption('numberOfSentences').current, this.text.length)
+            console.log(firstSentenceIndex, lastSentenceIndex)
+            result = this.text.slice(firstSentenceIndex, lastSentenceIndex).join('').replace(/^\s+|\s+$/g, '')
             return result
         }
     }
-}
-
-function addOptionsToGUI(GUI, options) {
+}</script>
+        <script type="text/javascript">function addOptionsToGUI(GUI, options) {
     for (optionName in options) {
         option = options[optionName]
+        console.log(optionName)
         if (option.type === 'integer')
             option.controller = GUI.add(option, 'current', option.min, option.max, option.step).onFinishChange(() => generateNewText()).name(option.name)
         else if (option.type === 'string')
@@ -4350,6 +4365,10 @@ function addOptionsToGUI(GUI, options) {
             option.controller = GUI.addFolder(option.name)
             addOptionsToGUI(option.controller, option.options)
         }
+        if ('onChange' in option)
+            option.controller.onChange(option.onChange)
+        if ('listen' in option)
+            option.controller.listen()
     }
 }
 
@@ -4394,8 +4413,17 @@ function addControllerProperty() {
 function addGetOptionMethod() {
     for (methodName in textGenerationMethods) {
         method = textGenerationMethods[methodName]
-        method.getOption = function(optionName) {
-            return this.options[optionName].current
+        method.getOption = function(pathToOptionString) {
+            let pathToOptionList = pathToOptionString.split('/')
+            let optionName = pathToOptionList.slice(-1)[0]
+            let folderWithOption = this.options
+            if (pathToOptionList.length > 1) {
+                let foldersList = pathToOptionList.slice(0, -1)
+                for (folderName in foldersList) {
+                    folderWithOption = folderWithOption[folderName].options
+                }
+            }
+            return folderWithOption[optionName]
         }
     } 
 }

@@ -4,18 +4,19 @@ function randomSymbol(allowedSymbols) {
 
 var textGenerator = {
     method: undefined,
-    newGeneratedText: function() {
-        return textGenerator.method.generate()
+    newGeneratedText: function(args) {
+        if (args.refresh || !('generateNext' in textGenerator.method))
+            return textGenerator.method.generate()
+        return textGenerator.method.generateNext()
     }
 }
 
 var textToType = document.getElementById("text")
 var charactersLeft
 
-function generateNewText() {
-    textToType.innerHTML = textGenerator.newGeneratedText()
+function generateNewText(args) {
+    textToType.innerHTML = textGenerator.newGeneratedText(args)
     charactersLeft = textToType.innerHTML.length
-    console.log(charactersLeft)
     if (textToType.innerHTML.length == 1)
         statisticsHandler.startMeasuring(textToType.innerHTML)
     else

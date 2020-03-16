@@ -63,7 +63,7 @@ var keyEventHandler = event => {
         charactersLeft -= 1
         if (charactersLeft == 0) {
             statisticsHandler.endMeasuring()
-            generateNewText()
+            generateNewText({refresh: false})
         }
         else {
             let newShiftKey = uniqueKeyGenerator.addWithUniqueId(textXShifts, getCurrentSymbolWidth())

@@ -36,7 +36,7 @@ function updateShadowProperties() {
 }
 
 function updateOuterTextToTypeStyle() {
-    generateNewText()
+    generateNewText({refresh: true})
     updateTextX()
     updateTextY()
     updateFontSize()
