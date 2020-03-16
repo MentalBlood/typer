@@ -92,6 +92,20 @@ var textGenerationMethods = {
                 current: function() {
                     upload(textGenerationMethods['Given text file'].setText, 'txt')
                 }
+            },
+            navigation: {
+                type: 'folder',
+                name: 'Navigation',
+                options: {
+                    goToBeginning: {
+                        type: 'function',
+                        name: 'Go to beginning',
+                        current: function() {
+                            textGenerationMethods['Given text file'].currentSentenceNumber = 0
+                            generateNewText()
+                        }
+                    }
+                }
             }
         },
         text: false,
@@ -113,25 +127,36 @@ var textGenerationMethods = {
     }
 }
 
+function addOptionsToGUI(GUI, options) {
+    for (optionName in options) {
+        option = options[optionName]
+        if (option.type === 'integer')
+            option.controller = GUI.add(option, 'current', option.min, option.max, option.step).onFinishChange(() => generateNewText()).name(option.name)
+        else if (option.type === 'string')
+            option.controller = GUI.add(option, 'current').onFinishChange(() => generateNewText()).name(option.name)
+        else if (option.type === 'function')
+            option.controller = GUI.add(option, 'current').name(option.name)
+        else if (option.type === 'folder') {
+            option.controller = GUI.addFolder(option.name)
+            addOptionsToGUI(option.controller, option.options)
+        }
+    }
+}
+
 function selectMethod(methodName) {
     if (currentMethod.name in textGenerationMethods)
         for (optionName in textGenerationMethods[currentMethod.name].options) {
             let option = textGenerationMethods[currentMethod.name].options[optionName]
-            if (option.controller)
-                textGenerationFolder.remove(option.controller)
+            if (option.controller) {
+                if (option.type === 'folder')
+                    textGenerationFolder.removeFolder(option.controller)
+                else
+                    textGenerationFolder.remove(option.controller)
+            }
         }
 
     method = textGenerationMethods[methodName]
-    for (optionName in method.options) {
-        let option = method.options[optionName]
-        if (option.type === 'integer')
-            option.controller = textGenerationFolder.add(option, 'current', option.min, option.max, option.step).onFinishChange(() => generateNewText()).name(option.name)
-        else if (option.type === 'string')
-            option.controller = textGenerationFolder.add(option, 'current').onFinishChange(() => generateNewText()).name(option.name)
-        else if (option.type === 'function')
-            option.controller = textGenerationFolder.add(option, 'current').name(option.name)
-
-    }
+    addOptionsToGUI(textGenerationFolder, method.options)
 
     textGenerator.method = method
     generateNewText()
@@ -140,17 +165,34 @@ function selectMethod(methodName) {
 var currentMethod
 var methodSelector
 
-function initTextGenerationMethods() {
+function addControllerProperty() {
+    let addControllerPropertyToOptions = function(options) {
+        for (optionName in options) {
+            option = options[optionName]
+            option.controller = undefined
+            if (option.type === 'folder')
+                addControllerPropertyToOptions(option.options)
+        }
+    }
+
+    for (methodName in textGenerationMethods) {
+        method = textGenerationMethods[methodName]
+        addControllerPropertyToOptions(method.options)
+    }
+}
+
+function addGetOptionMethod() {
     for (methodName in textGenerationMethods) {
         method = textGenerationMethods[methodName]
         method.getOption = function(optionName) {
             return this.options[optionName].current
         }
-        for (optionName in method.options) {
-            option = method.options[optionName]
-            option.controller = undefined
-        }
-    }
+    } 
+}
+
+function initTextGenerationMethods() {
+    addGetOptionMethod()
+    addControllerProperty()
 
     currentMethod = {name: Object.keys(textGenerationMethods)[0]}
     rootFolder.remember(currentMethod)

@@ -5,7 +5,7 @@ function randomSymbol(allowedSymbols) {
 var textGenerator = {
     method: undefined,
     newGeneratedText: function() {
-        return this.method.generate()
+        return textGenerator.method.generate()
     }
 }
 
@@ -15,6 +15,9 @@ var charactersLeft
 function generateNewText() {
     textToType.innerHTML = textGenerator.newGeneratedText()
     charactersLeft = textToType.innerHTML.length
+    console.log(charactersLeft)
     if (textToType.innerHTML.length == 1)
         statisticsHandler.startMeasuring(textToType.innerHTML)
+    else
+        statisticsHandler.measuring = false
 }
