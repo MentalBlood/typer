@@ -73,7 +73,7 @@ var textGenerationMethods = {
         generate: function() {
             if (this.generator === false)
                 return 'Upload corpus (larger is better) to generate more text'
-            return this.generator.gen(this.getOption('numberOfWords')).replace(/^\s+|\s+$/g, '');
+            return this.generator.gen(this.getOption('numberOfWords')).replace(/^\s+|\s+$/g, '')
         }
     },
     'Given text file': {
@@ -104,7 +104,9 @@ var textGenerationMethods = {
         generate: function() {
             if (this.text === false)
                 return 'Upload file to type sentences from'
-            result = this.text.slice(this.currentSentenceNumber, this.currentSentenceNumber + this.getOption('numberOfSentences')).join('')
+            if (this.currentSentenceNumber > this.text.length)
+                return 'Text ended, please upload a new one'
+            result = this.text.slice(this.currentSentenceNumber, this.currentSentenceNumber + this.getOption('numberOfSentences')).join('').replace(/^\s+|\s+$/g, '')
             this.currentSentenceNumber += this.getOption('numberOfSentences')
             return result
         }
