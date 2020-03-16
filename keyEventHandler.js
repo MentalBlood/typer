@@ -37,7 +37,7 @@ let uniqueKeyGenerator = {
 
 uniqueKeyGenerator.init()
 
-var observer = new MutationObserver(function(mutations) {
+let observer = new MutationObserver(function(mutations) {
     mutations.forEach(function(mutationRecord) {
         hiddenText.style.cssText = textToType.style.cssText
         hiddenText.style.left = '100vw'
@@ -66,16 +66,13 @@ var keyEventHandler = event => {
             generateNewText()
         }
         else {
-            
             let newShiftKey = uniqueKeyGenerator.addWithUniqueId(textXShifts, getCurrentSymbolWidth())
-            new TWEEN.Tween({done: false, key: newShiftKey, shift: textXShifts[newShiftKey]}).to({shift: 0}, 1000).onUpdate(
-                function(object) {
-                    textXShifts[object.key] = object.shift
-                }
+            new TWEEN.Tween({key: newShiftKey, shift: textXShifts[newShiftKey]}).to({shift: 0}, 1000).onUpdate(
+                object => textXShifts[object.key] = object.shift
             ).onStart(
-                function(object) {
-                    textToType.innerHTML = textToType.innerHTML.substring(1)
-                }
+                object => textToType.innerHTML = textToType.innerHTML.substring(1)
+            ).onComplete(
+                object => delete textXShifts[object.key]
             ).start()
         }
     }
@@ -85,9 +82,8 @@ let sum = (list) => list.reduce((sum, current) => sum + current, 0)
 
 animationsHandler.onUpdate = function() {
     let shiftsSum = sum(Object.values(textXShifts))
+    normalTextX = outerTextToTypeStyle.x / 100 * document.documentElement.clientWidth
     setTextToTypeX(normalTextX + shiftsSum)
-    if (shiftsSum === 0)
-        normalTextX = getTextToTypeX()
 }
 
 window.addEventListener('keydown', keyEventHandler, false)

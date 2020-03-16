@@ -11,7 +11,8 @@ var outerTextToTypeStyle = {
 function updateTextX(newX) {
     if (newX)
         outerTextToTypeStyle.x = newX
-    textToType.style.left = outerTextToTypeStyle.x + 'vw'
+    if (textXShifts === {})
+        textToType.style.left = outerTextToTypeStyle.x + 'vw'
 }
 function updateTextY(newY) {
     if (newY)
