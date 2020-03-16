@@ -4011,16 +4011,18 @@ function loadFont(fontName) {
 
 var textGenerator = {
     method: undefined,
-    newGeneratedText: function() {
-        return textGenerator.method.generate()
+    newGeneratedText: function(args) {
+        if (args.refresh || !('generateNext' in textGenerator.method))
+            return textGenerator.method.generate()
+        return textGenerator.method.generateNext()
     }
 }
 
 var textToType = document.getElementById("text")
 var charactersLeft
 
-function generateNewText() {
-    textToType.innerHTML = textGenerator.newGeneratedText()
+function generateNewText(args) {
+    textToType.innerHTML = textGenerator.newGeneratedText(args)
     charactersLeft = textToType.innerHTML.length
     if (textToType.innerHTML.length == 1)
         statisticsHandler.startMeasuring(textToType.innerHTML)
@@ -4131,7 +4133,7 @@ function updateShadowProperties() {
 }
 
 function updateOuterTextToTypeStyle() {
-    generateNewText()
+    generateNewText({refresh: true})
     updateTextX()
     updateTextY()
     updateFontSize()
@@ -4276,7 +4278,7 @@ function makeGUI(configText) {
         },
         makeGenerator: function(corpus) {
             textGenerationMethods['Markov chain'].generator = new markov(corpus, 'string', /[.,?"();\-!':—^\w]+ /g)
-            generateNewText()
+            generateNewText({refresh: true})
         },
         generator: false,
         generate: function() {
@@ -4312,7 +4314,7 @@ function makeGUI(configText) {
                         name: 'Go to beginning',
                         current: function() {
                             textGenerationMethods['Given text file'].options.navigation.options.sentenceNumber.current = 1
-                            generateNewText()
+                            generateNewText({refresh: true})
                         }
                     },
                     sentenceNumber: {
@@ -4329,24 +4331,41 @@ function makeGUI(configText) {
         },
         text: false,
         setText: function(newText) {
-            textGenerationMethods['Given text file'].text = newText.match( /[^\.!\?]+[\.!\?]+/g )
-            if (!text)
-                this.text = [newText]
+            textGenerationMethods['Given text file'].text = newText.match( /[^\.!\?]+[\.!\?]+/g ) || [newText]
             textGenerationMethods['Given text file'].options.navigation.options.sentenceNumber.current = 1
             textGenerationMethods['Given text file'].options.navigation.options.sentenceNumber.controller.max(textGenerationMethods['Given text file'].text.length)
-            generateNewText()
+            generateNewText({refresh: true})
         },
         generate: function() {
             if (this.text === false)
                 return 'Upload file to type sentences from'
-            if ((textGenerationMethods['Given text file'].options.navigation.options.sentenceNumber.current - 1) > this.text.length)
-                return 'Text ended, please upload a new one'
-            if (textGenerationMethods['Given text file'].options.navigation.options.sentenceNumber.current !== 1)
-            textGenerationMethods['Given text file'].options.navigation.options.sentenceNumber.current += textGenerationMethods['Given text file'].options.numberOfSentences.current
+
             let firstSentenceIndex = textGenerationMethods['Given text file'].options.navigation.options.sentenceNumber.current - 1
+            if (firstSentenceIndex > this.text.length) {
+                textGenerationMethods['Given text file'].options.navigation.options.sentenceNumber.current = 1
+                firstSentenceIndex = 0
+            }
             let lastSentenceIndex = Math.min(textGenerationMethods['Given text file'].options.navigation.options.sentenceNumber.current - 1 + this.getOption('numberOfSentences').current, this.text.length)
             console.log(firstSentenceIndex, lastSentenceIndex)
-            result = this.text.slice(firstSentenceIndex, lastSentenceIndex).join('').replace(/^\s+|\s+$/g, '')
+            
+            
+            let result = this.text.slice(firstSentenceIndex, lastSentenceIndex).join('').replace(/^\s+|\s+$/g, '')
+            return result
+        },
+        generateNext: function() {
+            if (this.text === false)
+                return 'Upload file to type sentences from'
+            textGenerationMethods['Given text file'].options.navigation.options.sentenceNumber.current += textGenerationMethods['Given text file'].options.numberOfSentences.current
+
+            let firstSentenceIndex = textGenerationMethods['Given text file'].options.navigation.options.sentenceNumber.current - 1
+            if (firstSentenceIndex > this.text.length) {
+                textGenerationMethods['Given text file'].options.navigation.options.sentenceNumber.current = 1
+                firstSentenceIndex = 0
+            }
+            let lastSentenceIndex = Math.min(textGenerationMethods['Given text file'].options.navigation.options.sentenceNumber.current - 1 + this.getOption('numberOfSentences').current, this.text.length)
+            console.log(firstSentenceIndex, lastSentenceIndex)
+            
+            let result = this.text.slice(firstSentenceIndex, lastSentenceIndex).join('').replace(/^\s+|\s+$/g, '')
             return result
         }
     }
@@ -4354,11 +4373,10 @@ function makeGUI(configText) {
         <script type="text/javascript">function addOptionsToGUI(GUI, options) {
     for (optionName in options) {
         option = options[optionName]
-        console.log(optionName)
         if (option.type === 'integer')
-            option.controller = GUI.add(option, 'current', option.min, option.max, option.step).onFinishChange(() => generateNewText()).name(option.name)
+            option.controller = GUI.add(option, 'current', option.min, option.max, option.step).onFinishChange(() => generateNewText({refresh: true})).name(option.name)
         else if (option.type === 'string')
-            option.controller = GUI.add(option, 'current').onFinishChange(() => generateNewText()).name(option.name)
+            option.controller = GUI.add(option, 'current').onFinishChange(() => generateNewText({refresh: true})).name(option.name)
         else if (option.type === 'function')
             option.controller = GUI.add(option, 'current').name(option.name)
         else if (option.type === 'folder') {
@@ -4388,7 +4406,7 @@ function selectMethod(methodName) {
     addOptionsToGUI(textGenerationFolder, method.options)
 
     textGenerator.method = method
-    generateNewText()
+    generateNewText({refresh: true})
 }
 
 var currentMethod
@@ -4506,7 +4524,7 @@ var keyEventHandler = event => {
         charactersLeft -= 1
         if (charactersLeft == 0) {
             statisticsHandler.endMeasuring()
-            generateNewText()
+            generateNewText({refresh: false})
         }
         else {
             let newShiftKey = uniqueKeyGenerator.addWithUniqueId(textXShifts, getCurrentSymbolWidth())
