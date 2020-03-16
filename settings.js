@@ -13,16 +13,15 @@ function makeGUI(configText) {
         rootFolder = new dat.gui.GUI({load: JSON.parse(configText)})
     }
     else {
-        rootFolder = new dat.gui.GUI()
+        rootFolder = new dat.gui.GUI({load: JSON.parse(defaultSettings)})
     }
     rootFolder.useLocalStorage = false
+    rootFolder.close()
     textToType.style.fontFamily = loadFont(allFontsNames[0])
-    if (configText) {
-        rootFolder.remember(textGenerator)
-        rootFolder.remember(textToType.style)
-        rootFolder.remember(outerTextToTypeStyle)
-        rootFolder.remember(document.body.style)
-    }
+    rootFolder.remember(textGenerator)
+    rootFolder.remember(textToType.style)
+    rootFolder.remember(outerTextToTypeStyle)
+    rootFolder.remember(document.body.style)
 
     textGenerationFolder = rootFolder.addFolder('Text generation')
 
