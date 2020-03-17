@@ -17,11 +17,18 @@ let fileElement
 function onFileElementChangeFunction(onUploaded) {
     return function() {
         var fileReader = new FileReader();
-        fileReader.onload = function (e) {
-            fileElement.removeEventListener('change', currentOnFileElementChangeFunction)
-            fileElement.remove()
-            return onUploaded(fileReader.result)
-        }
+        if (fileElement.files[0].name.substr(-3) === 'fb2')
+            fileReader.onload = function (e) {
+                fileElement.removeEventListener('change', currentOnFileElementChangeFunction)
+                fileElement.remove()
+                return onUploaded(fb2TextExtractor.extract(fileReader.result))
+            }
+        else
+            fileReader.onload = function (e) {
+                fileElement.removeEventListener('change', currentOnFileElementChangeFunction)
+                fileElement.remove()
+                return onUploaded(fileReader.result)
+            }
         fileReader.readAsText(fileElement.files[0]);
     }
 }

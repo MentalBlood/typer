@@ -95,7 +95,7 @@ var textGenerationMethods = {
                 type: 'function',
                 name: 'Upload file',
                 current: function() {
-                    upload(textGenerationMethods['Given text file'].setText, 'txt')
+                    upload(textGenerationMethods['Given text file'].setText, '')
                 }
             },
             navigation: {
@@ -124,7 +124,7 @@ var textGenerationMethods = {
         },
         text: false,
         setText: function(newText) {
-            textGenerationMethods['Given text file'].text = newText.match( /[^\.!\?]+[\.!\?]+/g ) || [newText]
+            textGenerationMethods['Given text file'].text = newText.match( /[^\.!\?\n\r]+[\.!\?\n\r]+/g ) || [newText]
             textGenerationMethods['Given text file'].options.navigation.options.sentenceNumber.current = 1
             textGenerationMethods['Given text file'].options.navigation.options.sentenceNumber.controller.max(textGenerationMethods['Given text file'].text.length)
             generateNewText({refresh: true})

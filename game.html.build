@@ -2,7 +2,7 @@
 <html>
     <head></head>
     <body leftmargin = "0" topmargin = "0" style = "background-color:#ffffff; overflow-x: hidden; overflow-y: hidden">
-        <input type="file" id="fileElem" accept=".json" style="display:none">
+        <input type="file" id="fileElem" multiple accept=".json" style="display:none">
         <style>
             .img-responsive
             {
@@ -2968,6 +2968,28 @@ var markov = function(input, type, reg) {
     }
     this.getJson = getJson;
   }</script>
+        <script type="text/javascript">var fb2TextExtractor = {
+    extract: function(fb2FileText) {
+        indexBodyStartsAt = fb2FileText.indexOf('<body>')
+        indexBodyEndsAt = fb2FileText.indexOf('</body>')
+        body = fb2FileText.substring(indexBodyStartsAt, indexBodyEndsAt)
+        
+        let normalText = ''
+        while (true) {
+            let openTagIndex = body.indexOf('<p>')
+            if (openTagIndex === -1)
+                break
+            body = body.substring(openTagIndex + 3)
+            let closeTagIndex = body.indexOf('</p>')
+            if (closeTagIndex === -1)
+                break
+            normalText += body.substring(0, closeTagIndex) + '\n'
+        }
+        
+        console.log(normalText.substring(0, 200))
+        return normalText
+    }
+}</script>
         <script type="text/javascript">(function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
 	typeof define === 'function' && define.amd ? define(factory) :
@@ -3978,11 +4000,18 @@ let fileElement
 function onFileElementChangeFunction(onUploaded) {
     return function() {
         var fileReader = new FileReader();
-        fileReader.onload = function (e) {
-            fileElement.removeEventListener('change', currentOnFileElementChangeFunction)
-            fileElement.remove()
-            return onUploaded(fileReader.result)
-        }
+        if (fileElement.files[0].name.substr(-3) === 'fb2')
+            fileReader.onload = function (e) {
+                fileElement.removeEventListener('change', currentOnFileElementChangeFunction)
+                fileElement.remove()
+                return onUploaded(fb2TextExtractor.extract(fileReader.result))
+            }
+        else
+            fileReader.onload = function (e) {
+                fileElement.removeEventListener('change', currentOnFileElementChangeFunction)
+                fileElement.remove()
+                return onUploaded(fileReader.result)
+            }
         fileReader.readAsText(fileElement.files[0]);
     }
 }
@@ -4306,7 +4335,7 @@ var textGenerationMethods = {
                 type: 'function',
                 name: 'Upload file',
                 current: function() {
-                    upload(textGenerationMethods['Given text file'].setText, 'txt')
+                    upload(textGenerationMethods['Given text file'].setText, '')
                 }
             },
             navigation: {
@@ -4335,7 +4364,7 @@ var textGenerationMethods = {
         },
         text: false,
         setText: function(newText) {
-            textGenerationMethods['Given text file'].text = newText.match( /[^\.!\?]+[\.!\?]+/g ) || [newText]
+            textGenerationMethods['Given text file'].text = newText.match( /[^\.!\?\n\r]+[\.!\?\n\r]+/g ) || [newText]
             textGenerationMethods['Given text file'].options.navigation.options.sentenceNumber.current = 1
             textGenerationMethods['Given text file'].options.navigation.options.sentenceNumber.controller.max(textGenerationMethods['Given text file'].text.length)
             generateNewText({refresh: true})
