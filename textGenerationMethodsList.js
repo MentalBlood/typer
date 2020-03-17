@@ -1,3 +1,7 @@
+function replaceLineBreaksWithSpaces(string) {
+    return string.replace(/[\r\n]+/g, ' ')
+}
+
 var textGenerationMethods = {
     'Random characters': {
         options: {
@@ -66,7 +70,7 @@ var textGenerationMethods = {
             }
         },
         makeGenerator: function(corpus) {
-            textGenerationMethods['Markov chain'].generator = new markov(corpus, 'string', /[.,?"();\-!':—^\w]+ /g)
+            textGenerationMethods['Markov chain'].generator = new markov(replaceLineBreaksWithSpaces(corpus), 'string', /[.,?"();\-!':—^\w]+ /g)
             generateNewText({refresh: true})
         },
         generator: false,
@@ -136,7 +140,7 @@ var textGenerationMethods = {
             }
             let lastSentenceIndex = Math.min(textGenerationMethods['Given text file'].options.navigation.options.sentenceNumber.current - 1 + this.getOption('numberOfSentences').current, this.text.length)
             
-            let result = this.text.slice(firstSentenceIndex, lastSentenceIndex).join('').replace(/^\s+|\s+$/g, '').replace(/[\r\n]+/g, ' ')
+            let result = replaceLineBreaksWithSpaces(this.text.slice(firstSentenceIndex, lastSentenceIndex).join('').replace(/^\s+|\s+$/g, ''))
             console.log(result)
             return result
         },
@@ -152,7 +156,7 @@ var textGenerationMethods = {
             }
             let lastSentenceIndex = Math.min(textGenerationMethods['Given text file'].options.navigation.options.sentenceNumber.current - 1 + this.getOption('numberOfSentences').current, this.text.length)
             
-            let result = this.text.slice(firstSentenceIndex, lastSentenceIndex).join('').replace(/^\s+|\s+$/g, '').replace(/[\r\n]+/g, ' ')
+            let result = replaceLineBreaksWithSpaces(this.text.slice(firstSentenceIndex, lastSentenceIndex).join('').replace(/^\s+|\s+$/g, ''))
             console.log(result)
             return result
         }

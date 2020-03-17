@@ -4209,7 +4209,11 @@ function makeGUI(configText) {
     updateOuterTextToTypeStyle()
 }
 </script>
-        <script type="text/javascript">var textGenerationMethods = {
+        <script type="text/javascript">function replaceLineBreaksWithSpaces(string) {
+    return string.replace(/[\r\n]+/g, ' ')
+}
+
+var textGenerationMethods = {
     'Random characters': {
         options: {
             allowedSymbols: {
@@ -4277,7 +4281,7 @@ function makeGUI(configText) {
             }
         },
         makeGenerator: function(corpus) {
-            textGenerationMethods['Markov chain'].generator = new markov(corpus, 'string', /[.,?"();\-!':—^\w]+ /g)
+            textGenerationMethods['Markov chain'].generator = new markov(replaceLineBreaksWithSpaces(corpus), 'string', /[.,?"();\-!':—^\w]+ /g)
             generateNewText({refresh: true})
         },
         generator: false,
@@ -4347,7 +4351,7 @@ function makeGUI(configText) {
             }
             let lastSentenceIndex = Math.min(textGenerationMethods['Given text file'].options.navigation.options.sentenceNumber.current - 1 + this.getOption('numberOfSentences').current, this.text.length)
             
-            let result = this.text.slice(firstSentenceIndex, lastSentenceIndex).join('').replace(/^\s+|\s+$/g, '').replace(/\n|\r/g, ' ').replace('  ', ' ')
+            let result = replaceLineBreaksWithSpaces(this.text.slice(firstSentenceIndex, lastSentenceIndex).join('').replace(/^\s+|\s+$/g, ''))
             console.log(result)
             return result
         },
@@ -4363,7 +4367,7 @@ function makeGUI(configText) {
             }
             let lastSentenceIndex = Math.min(textGenerationMethods['Given text file'].options.navigation.options.sentenceNumber.current - 1 + this.getOption('numberOfSentences').current, this.text.length)
             
-            let result = this.text.slice(firstSentenceIndex, lastSentenceIndex).join('').replace(/^\s+|\s+$/g, '').replace(/\n|\r/g, ' ').replace('  ', ' ')
+            let result = replaceLineBreaksWithSpaces(this.text.slice(firstSentenceIndex, lastSentenceIndex).join('').replace(/^\s+|\s+$/g, ''))
             console.log(result)
             return result
         }
