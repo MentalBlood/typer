@@ -16,15 +16,15 @@ var statisticsHandler = {
         statisticsHandler.measuring = false
         let elapsedTime = performance.now() - statisticsHandler.startTime
         statisticsHandler.timeSpentOnEachLine.push(elapsedTime / 1000)
-        statisticsHandler.meanTimeSpentOnEachSymbolOfEachLine.push(elapsedTime / statisticsHandler.currentLine.length / 1000)
-        chartsHandler.charts['mean time spent on symbol'].data.labels.push(statisticsHandler.currentLine)
-        chartsHandler.charts['mean time spent on symbol'].update(200)
+        statisticsHandler.meanTimeSpentOnEachSymbolOfEachLine.push(60 / (elapsedTime / statisticsHandler.currentLine.length / 1000))
+        chartsHandler.charts['symbols/minute'].data.labels.push(statisticsHandler.currentLine)
+        chartsHandler.charts['symbols/minute'].update(200)
     },
 
     clearStatistics: function() {
         statisticsHandler.timeSpentOnEachLine = []
         statisticsHandler.meanTimeSpentOnEachSymbolOfEachLine = []
-        chartsHandler.charts['mean time spent on symbol'].data.labels = []
-        chartsHandler.charts['mean time spent on symbol'].update(0)
+        chartsHandler.charts['symbols/minute'].data.labels = []
+        chartsHandler.charts['symbols/minute'].update(0)
     }
 }

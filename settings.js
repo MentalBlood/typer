@@ -52,6 +52,6 @@ function makeGUI(configText) {
     rootFolder.add(configHandler, 'save').name('Export configuration')
 
     chartsHandler.removeAllCharts()
-    chartsHandler.addChart('default', 'mean time spent on symbol', statisticsHandler.meanTimeSpentOnEachSymbolOfEachLine)
+    chartsHandler.addChart('default', 'symbols/minute', statisticsHandler.meanTimeSpentOnEachSymbolOfEachLine)
     updateOuterTextToTypeStyle()
 }
