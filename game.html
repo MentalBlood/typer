@@ -1,15 +1,85 @@
 <!doctype html>
 <html>
-    <head></head>
+    <head>
+        <link rel = 'SHORTCUT ICON' href = './favicon.ico' type = 'image/x-icon'>
+        <title>Typer</title>
+        <meta charset = 'utf-8'>
+        <meta name = 'keywords' content = 'keyboard, trainer, type, best'>
+        <meta name = 'description' content = 'Best keyboard trainer site on entire net'>
+
+        <link rel = 'stylesheet' href = 'css/game.css'>
+    </head>
     <body leftmargin = "0" topmargin = "0" style = "background-color:#ffffff; overflow-x: hidden; overflow-y: hidden">
+        <header>
+            <div class="settings">
+                <button class = 'settings-button'></button>
+                <div class="settings-content opened">
+                    <div class="folder">
+                        <div class="folder-title" id = 'textStyleTitle'>Text style</div>
+                        <div class="folder-content">
+                            <div class="setting">
+                                <div class="setting-title">Font family</div>
+                            </div>
+                            <div class="folder">
+                                <div class="folder-title" id = 'positionTitle'>Position</div>
+                                <div class="folder-content">
+                                    <div class="setting">
+                                        <div class="setting-title">Horizontal</div>
+                                    </div>
+                                    <div class="setting">
+                                        <div class="setting-title">Vertical</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="setting">
+                                <div class="setting-title">Font size</div>
+                            </div>
+                            <div class="setting">
+                                <div class="setting-title">Font style</div>
+                            </div>
+                            <div class="setting">
+                                <div class="setting-title">Font weight</div>
+                            </div>
+                            <div class="setting">
+                                <div class="setting-title">Font color</div>
+                            </div>
+                            <div class="folder">
+                                <div class="folder-title" id = 'shadowStyleTitle'>Shadow style</div>
+                                <div class="folder-content">
+                                    <div class="setting">
+                                        <div class="setting-title">Drop shadow</div>
+                                    </div>
+                                    <div class="setting">
+                                        <div class="setting-title">Shadow distance</div>
+                                    </div>
+                                    <div class="setting">
+                                        <div class="setting-title">Shadow angle</div>
+                                    </div>
+                                    <div class="setting">
+                                        <div class="setting-title">Shadow blur</div>
+                                    </div>
+                                    <div class="setting">
+                                        <div class="setting-title">Shadow color</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="folder">
+                        <div class="folder-title" id = 'backgroundStyle'>Background Style</div>
+                        <div class="folder-content">
+                            <div class="setting">
+                                <div class="setting-title">Background color</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <main></main>
+        <footer></footer>
+
         <input type="file" id="fileElem" multiple accept=".json" style="display:none">
-        <style>
-            .img-responsive
-            {
-              max-width: 100%;
-              height: auto;
-            }
-        </style>
 
         <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
 
@@ -31,6 +101,7 @@
         white-space: pre; height: auto; width: auto; position: absolute; left: 100vw; top: 100vh;
         font-style: normal; font-weight: normal" id="hiddenText">hiddenText</div>
 
+        <script type="text/javascript" src="new/main.js"></script>
         <script type="text/javascript" src="fake-words.js"></script>
         <script type="text/javascript" src="markov-generator.js"></script>
         <script type="text/javascript" src="fb2TextExtractor.js"></script>

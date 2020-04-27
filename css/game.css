@@ -1,0 +1,92 @@
+header {
+    align-text: left;
+}
+
+header .settings {
+}
+
+header .settings .settings-button {
+    width: 3vh;
+    height: 3vh;
+
+    background-image: url(https://www.svgrepo.com/show/211472/settings-gear.svg);
+    background-size: 80%;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    border: 0px solid black;
+    border-radius: 50%;
+}
+
+header .settings .settings-button:hover {
+    border-radius: 50%;
+    transition-duration: 0.5s;
+}
+
+header .settings .settings-button:not(:hover) {
+    border-radius: 0;
+    transition-duration: 0.5s;
+}
+
+header .settings .settings-content {
+    display: flex;
+    flex-direction: column;
+
+    width: 30vw;
+    height: 100vh;
+
+    background-color: white;
+}
+
+header .settings .settings-content:not(.opened) {
+    position: relative;
+    left: -30vw;
+
+    transition-duration: 0.5s;
+}
+
+header .settings .settings-content.opened {
+    position: relative;
+    left: 0;
+
+    transition-duration: 0.5s;
+}
+
+
+header .settings .settings-content .folder {
+    font-size: 2vh;
+
+    padding-top: 2.5%;
+    padding-bottom: 2.5%;
+    padding-left: calc(5% - 0.4vh);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    background-color: gray;
+
+    border-left: 0.4vh solid pink;
+}
+
+header .settings .settings-content .folder-title {
+    color: white;
+    font-weight: bold;
+}
+
+header .settings .settings-content .folder-content:not(.opened) {
+    display: none;
+}
+
+header .settings .settings-content .folder-content.opened {
+    display: block;
+}
+
+
+header .settings .settings-content .setting {
+    padding-left: 5%;
+    padding-top: 2.5%;
+    padding-bottom: 2.5%;
+
+    color: white;
+}
