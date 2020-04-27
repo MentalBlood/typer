@@ -1,0 +1,141 @@
+html,
+body {
+    background-color: #444444;
+    color: white;
+    overflow: hidden;
+
+    font-family: serif;
+}
+
+body {
+    border: 0.5vh solid white;
+    margin: 1.5vh;
+
+    background-color: #99bb99;
+}
+
+header {
+    height: 45vh;
+    text-align: center;
+}
+
+header:hover {
+    cursor: default;
+}
+
+header .logo {
+    font-size: 20vh;
+}
+
+header .description {
+    margin-top: 5vh;
+    font-size: 4vh;
+}
+
+header .startButtonForm {
+    margin-top: 5vh;
+}
+
+header .startButtonForm .startButton {
+    width: 10vh;
+    height: 4vh;
+
+    border: 0.2vh solid white;
+
+    font-size: 1.8vh;
+}
+
+header .startButtonForm .startButton:hover {
+    background-color: white;
+    color: #77aa77;
+
+    transition-duration: 0.5s;
+}
+
+header .startButtonForm .startButton:not(:hover) {
+    color: white;
+    background-color: #99bb99;
+    transition-duration: 0.5s;
+}
+
+main {
+    height: 40vh;
+}
+
+main:hover {
+    cursor: default;
+}
+
+main .features {
+}
+
+main .features .feature {
+    margin-top: 1vh;
+    height: 12vh;
+    color: white;
+
+    margin-left: 1vw;
+    margin-right: 1vw;
+
+    padding-top: 0.5vh;
+    padding-left: 1vh;
+
+    position: relative;
+}
+
+main .features .feature:hover {
+    background-color: #aa8888;
+    transition-duration: 0.5s;
+}
+
+main .features .feature:not(:hover) {
+    background-color: #998099;
+    transition-duration: 0.5s;
+}
+
+main .features .feature .header {
+    font-size: 4vh;
+}
+
+main .features .feature .description {
+    text-align: right;
+    font-size: 3vh;
+
+    position: absolute;
+    bottom: 0.5vh;
+    right: 1vh;
+    left: 1vh;
+}
+
+footer {
+    height: 10vh;
+    text-align: center;
+}
+
+footer:hover {
+    cursor: default;
+}
+
+footer .info {
+    font-size: 2vh;
+
+    position: relative;
+    top: 3.5vh;
+}
+
+footer .info a {
+    color: white;
+    text-decoration: none;
+}
+
+footer .info a:hover {
+    color: #005599;
+    transition-duration: 0.5s;
+
+    cursor: pointer;
+}
+
+footer .info a:not(:hover) {
+    color: white;
+    transition-duration: 0.5s;
+}
