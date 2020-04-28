@@ -26,6 +26,8 @@ header .settings .settings-button {
 
     border: 0px solid black;
     border-radius: 50%;
+
+    outline: none;
 }
 
 header .settings .settings-button:hover {
@@ -42,7 +44,7 @@ header .settings .settings-content {
     display: flex;
     flex-direction: column;
 
-    width: 30vw;
+    width: 35vw;
     height: 100vh;
 
     background-color: white;
@@ -50,7 +52,7 @@ header .settings .settings-content {
 
 header .settings .settings-content:not(.opened) {
     position: relative;
-    left: -30vw;
+    left: -35vw;
 
     transition-duration: 0.5s;
 }
@@ -68,17 +70,21 @@ header .settings .settings-content.opened {
 header .settings .settings-content .folder {
     font-size: 2vh;
 
-    padding-top: 2.5%;
-    padding-bottom: 2.5%;
-    padding-left: calc(5% - 0.4vh);
+    padding-top: 1vh;
+    padding-bottom: 1vh;
+    padding-left: 1.1vw;
 
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 
-    background-color: gray;
+    background-color: #334455;
 
-    border-left: 0.4vh solid pink;
+    border-left: 0.4vw solid pink;
+}
+
+header .settings .settings-content .folder:not(.opened) {
+    height: 2.5vh;
 }
 
 header .settings .settings-content .folder-title {
@@ -86,19 +92,74 @@ header .settings .settings-content .folder-title {
     font-weight: bold;
 }
 
-header .settings .settings-content .folder-content:not(.opened) {
+header .settings .settings-content .folder:not(.opened)>.folder-content {
     display: none;
 }
 
-header .settings .settings-content .folder-content.opened {
+header .settings .settings-content .folder.opened>.folder-content{
     display: block;
 }
 
 
 header .settings .settings-content .setting {
-    padding-left: 5%;
-    padding-top: 2.5%;
-    padding-bottom: 2.5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    height: 2.5vh;
+    font-size: 2vh;
+
+    padding-left: 1.5vw;
+    padding-right: 1vw;
+    padding-bottom: 1vh;
 
     color: white;
+}
+
+header .settings .settings-content .setting:not(:first-of-type) {
+    padding-top: 1vh;
+}
+
+header .settings .settings-content .setting:first-of-type {
+    padding-top: 2vh;
+}
+
+.setting-title {
+    display: inline-block;
+    width: 15vw;
+
+    margin-right: 2vw;
+}
+
+.setting-controller {
+    font-size: 1.2vh;
+
+    background-color: #443355;
+    color: white;
+
+    border: 1px solid white;
+
+    outline: none;
+}
+
+.setting-controller:not(.checkbox) {
+    width: 50%;
+}
+
+.setting-controller.checkbox {
+    width: 2.2vh;
+    margin: 0;
+}
+
+.setting-controller:not(.number) {
+    height: 2.2vh;
+}
+
+.setting-controller.number {
+    height: 1.7vh;
+    padding: 3px;
+}
+
+.setting-controller.color {
+    background: transparent;
 }

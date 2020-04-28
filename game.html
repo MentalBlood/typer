@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html class = ''>
     <head>
         <link rel = 'SHORTCUT ICON' href = './favicon.ico' type = 'image/x-icon'>
         <title>Typer</title>
@@ -11,65 +11,83 @@
     </head>
     <body leftmargin = "0" topmargin = "0" style = "background-color:#ffffff; overflow-x: hidden; overflow-y: hidden">
         <header>
-            <div class="settings unselectable">
+            <div class="settings">
                 <button class = 'settings-button'></button>
                 <div class="settings-content opened">
-                    <div class="folder">
-                        <div class="folder-title" id = 'textStyleTitle'>Text style</div>
+                    <div class="folder opened" id = '_textStyle'>
+                        <div class="folder-title unselectable" id = 'textStyle'>Text style</div>
                         <div class="folder-content">
-                            <div class="setting">
-                                <div class="setting-title">Font family</div>
+                            <div class="setting" id = 'font'>
+                                <div class="setting-title unselectable">Font</div>
+                                <select class="setting-controller select">
+                                    <option value = 'value1'>1</option>
+                                    <option value = 'value2'>2</option>
+                                    <option value = 'value3'>3</option>
+                                    <option value = 'value4'>4</option>
+                                </select>
                             </div>
-                            <div class="folder">
-                                <div class="folder-title" id = 'positionTitle'>Position</div>
+                            <div class="setting" id = 'cursive'>
+                                <div class="setting-title unselectable">Cursive</div>
+                                <input type = 'checkbox' class = 'setting-controller checkbox' unchecked>
+                            </div>
+                            <div class="setting" id = 'bold'>
+                                <div class="setting-title unselectable">Bold</div>
+                                <input type = 'checkbox' class = 'setting-controller checkbox' unchecked>
+                            </div>
+                            <div class="setting" id = 'fontSize'>
+                                <div class="setting-title unselectable">Font size</div>
+                                <input type="number" value = '1' class="setting-controller number">
+                            </div>
+                            <div class="setting" id = 'fontColor'>
+                                <div class="setting-title unselectable">Font color</div>
+                                <input type="color" class="setting-controller color">
+                            </div>
+                            <div class="folder" id = '_shadowStyle'>
+                                <div class="folder-title unselectable" id = 'shadowStyle'>Shadow style</div>
                                 <div class="folder-content">
-                                    <div class="setting">
-                                        <div class="setting-title">Horizontal</div>
+                                    <div class="setting" id = 'dropShadow'>
+                                        <div class="setting-title unselectable">Drop shadow</div>
+                                        <input type = 'checkbox' class = 'setting-controller checkbox' unchecked>
                                     </div>
-                                    <div class="setting">
-                                        <div class="setting-title">Vertical</div>
+                                    <div class="setting" id = 'shadowDistance'>
+                                        <div class="setting-title unselectable">Shadow distance</div>
+                                        <input type="number" value = '1' class="setting-controller number">
+                                    </div>
+                                    <div class="setting" id = 'shadowAngle'>
+                                        <div class="setting-title unselectable">Shadow angle</div>
+                                        <input type="number" value = '1' class="setting-controller number">
+                                    </div>
+                                    <div class="setting" id = 'shadowBlur'>
+                                        <div class="setting-title unselectable">Shadow blur</div>
+                                        <input type="number" value = '1' class="setting-controller number">
+                                    </div>
+                                    <div class="setting" id = 'shadowColor'>
+                                        <div class="setting-title unselectable">Shadow color</div>
+                                        <input type="color" class="setting-controller color">
                                     </div>
                                 </div>
                             </div>
-                            <div class="setting">
-                                <div class="setting-title">Font size</div>
-                            </div>
-                            <div class="setting">
-                                <div class="setting-title">Font style</div>
-                            </div>
-                            <div class="setting">
-                                <div class="setting-title">Font weight</div>
-                            </div>
-                            <div class="setting">
-                                <div class="setting-title">Font color</div>
-                            </div>
-                            <div class="folder">
-                                <div class="folder-title" id = 'shadowStyleTitle'>Shadow style</div>
+                            <div class="folder" id = '_position'>
+                                <div class="folder-title unselectable" id = 'position'>Position</div>
                                 <div class="folder-content">
-                                    <div class="setting">
-                                        <div class="setting-title">Drop shadow</div>
+                                    <div class="setting" id = 'horizontal'>
+                                        <div class="setting-title unselectable">Horizontal</div>
+                                        <input type="number" value = '1' class="setting-controller number">
                                     </div>
-                                    <div class="setting">
-                                        <div class="setting-title">Shadow distance</div>
-                                    </div>
-                                    <div class="setting">
-                                        <div class="setting-title">Shadow angle</div>
-                                    </div>
-                                    <div class="setting">
-                                        <div class="setting-title">Shadow blur</div>
-                                    </div>
-                                    <div class="setting">
-                                        <div class="setting-title">Shadow color</div>
+                                    <div class="setting" id = 'vertical'>
+                                        <div class="setting-title unselectable">Vertical</div>
+                                        <input type="number" value = '1' class="setting-controller number">
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="folder">
-                        <div class="folder-title" id = 'backgroundStyle'>Background Style</div>
+                    <div class="folder" id = '_backgroundStyle'>
+                        <div class="folder-title unselectable" id = 'backgroundStyle'>Background Style</div>
                         <div class="folder-content">
-                            <div class="setting">
-                                <div class="setting-title">Background color</div>
+                            <div class="setting" id = 'backgroundColor'>
+                                <div class="setting-title unselectable">Background color</div>
+                                <input type="color" class="setting-controller color">
                             </div>
                         </div>
                     </div>
