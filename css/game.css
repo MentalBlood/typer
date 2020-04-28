@@ -81,6 +81,7 @@ header .settings .settings-content .folder {
     background-color: transparent;
 
     border-left: 0.4vw solid pink;
+    border-radius: 1vh;
 }
 
 header .settings .settings-content .folder:not(.opened) {
@@ -134,10 +135,11 @@ header .settings .settings-content .setting:first-of-type {
 .setting-controller {
     font-size: 1.2vh;
 
-    background-color: #443355;
+    background-color: gray;
     color: white;
 
     border: 1px solid white;
+    border-radius: 1vh;
 
     outline: none;
 }
