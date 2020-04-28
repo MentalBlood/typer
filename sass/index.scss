@@ -1,17 +1,29 @@
+$outerBackgroundColor: #444444;
+$innerBackgroundColor: #363230;
+
+$featureBackgroundColor: #786F6C;
+$featureHoverBackgroundColor: #BAADA8;
+$featureHoverFontColor: #F5E3DC;
+
+$fontColor: #F5E3DC;
+$authorLinkColor: #005599;
+
 html,
 body {
-    background-color: #444444;
-    color: #F5E3DC;
+    background-color: $outerBackgroundColor;
+    color: $fontColor;
     overflow: hidden;
+
     font-family: serif;
 }
 
 body {
-    border: 0.5vh solid #F5E3DC;
+    border: 0.5vh solid $fontColor;
     border-radius: 1.5vh;
     margin: 1.5vh;
-    background-color: #363230;
-    font-family: "Marmelad", sans-serif;
+
+    background-color: $innerBackgroundColor;
+    font-family: 'Marmelad', sans-serif;
 }
 
 header {
@@ -24,7 +36,7 @@ header:hover {
 }
 
 header .logo {
-    font-family: "Marmelad", sans-serif;
+    font-family: 'Marmelad', sans-serif;
     font-size: min(20vh, 22vw);
 }
 
@@ -38,23 +50,27 @@ header .startButtonForm {
 }
 
 header .startButtonForm .startButton {
-    font-family: "Marmelad", sans-serif;
+    font-family: 'Marmelad', sans-serif;
     width: 10vh;
     height: 4vh;
-    border: 0.2vh solid #F5E3DC;
+
+    border: 0.2vh solid $fontColor;
     border-radius: 1.5vh;
+
     font-size: 1.8vh;
 }
 
 header .startButtonForm .startButton:hover {
-    background-color: #F5E3DC;
-    color: #363230;
+    background-color: $fontColor;
+    color: $innerBackgroundColor;
+
     transition-duration: 0.5s;
 }
 
 header .startButtonForm .startButton:not(:hover) {
-    color: #F5E3DC;
-    background-color: #363230;
+    color: $fontColor;
+    background-color: $innerBackgroundColor;
+
     transition-duration: 0.5s;
 }
 
@@ -66,26 +82,32 @@ main:hover {
     cursor: default;
 }
 
+main .features {
+}
+
 main .features .feature {
     border-radius: 1.5vh;
     margin-top: 1vh;
     height: 12vh;
+
     margin-left: 1vw;
     margin-right: 1vw;
+
     padding-top: 0.5vh;
     padding-left: 1vh;
+
     position: relative;
 }
 
 main .features .feature:hover {
-    color: #F5E3DC;
-    background-color: #BAADA8;
+    color: $featureHoverFontColor;
+    background-color: $featureHoverBackgroundColor;
     transition-duration: 0.5s;
 }
 
 main .features .feature:not(:hover) {
-    color: #F5E3DC;
-    background-color: #786F6C;
+    color: $fontColor;
+    background-color: $featureBackgroundColor;
     transition-duration: 0.5s;
 }
 
@@ -96,6 +118,7 @@ main .features .feature .header {
 main .features .feature .description {
     text-align: right;
     font-size: min(3vh, 6vw);
+
     position: absolute;
     bottom: 0.5vh;
     right: 1vh;
@@ -113,6 +136,7 @@ footer:hover {
 
 footer .info {
     font-size: 2vh;
+
     position: relative;
     top: 3.5vh;
 }
@@ -123,12 +147,13 @@ footer .info a {
 }
 
 footer .info a:hover {
-    color: #005599;
+    color: $authorLinkColor;
     transition-duration: 0.5s;
+
     cursor: pointer;
 }
 
 footer .info a:not(:hover) {
-    color: #F5E3DC;
+    color: $fontColor;
     transition-duration: 0.5s;
 }
