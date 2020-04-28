@@ -47,7 +47,7 @@ header .settings .settings-content {
     width: 35vw;
     height: 100vh;
 
-    background-color: white;
+    background-color: rgba(0,0,0,0.5);
 }
 
 header .settings .settings-content:not(.opened) {
@@ -61,7 +61,7 @@ header .settings .settings-content.opened {
     position: relative;
     left: 0;
 
-    box-shadow: 1.5vw 1vh 3vw black;
+    box-shadow: 1.5vw 0 2vw rgba(0,0,0,0.6);
 
     transition-duration: 0.5s;
 }
@@ -78,7 +78,7 @@ header .settings .settings-content .folder {
     flex-direction: column;
     justify-content: space-between;
 
-    background-color: #334455;
+    background-color: transparent;
 
     border-left: 0.4vw solid pink;
 }

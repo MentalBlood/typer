@@ -36,13 +36,13 @@
                             </div>
                             <div class="setting" id = 'fontSize'>
                                 <div class="setting-title unselectable">Font size</div>
-                                <input type="number" value = '1' class="setting-controller number">
+                                <input type="number" value = '10' min = '1' max = '100' class="setting-controller number">
                             </div>
                             <div class="setting" id = 'fontColor'>
                                 <div class="setting-title unselectable">Font color</div>
                                 <input type="color" class="setting-controller color">
                             </div>
-                            <div class="folder" id = '_shadowStyle'>
+                            <div class="folder opened" id = '_shadowStyle'>
                                 <div class="folder-title unselectable" id = 'shadowStyle'>Shadow style</div>
                                 <div class="folder-content">
                                     <div class="setting" id = 'dropShadow'>
@@ -51,15 +51,15 @@
                                     </div>
                                     <div class="setting" id = 'shadowDistance'>
                                         <div class="setting-title unselectable">Shadow distance</div>
-                                        <input type="number" value = '1' class="setting-controller number">
+                                        <input type="number" value = '10' min = '1' max = '100' class="setting-controller number">
                                     </div>
                                     <div class="setting" id = 'shadowAngle'>
                                         <div class="setting-title unselectable">Shadow angle</div>
-                                        <input type="number" value = '1' class="setting-controller number">
+                                        <input type="number" value = '10' min = '1' max = '100' class="setting-controller number">
                                     </div>
                                     <div class="setting" id = 'shadowBlur'>
                                         <div class="setting-title unselectable">Shadow blur</div>
-                                        <input type="number" value = '1' class="setting-controller number">
+                                        <input type="number" value = '10' min = '1' max = '100' class="setting-controller number">
                                     </div>
                                     <div class="setting" id = 'shadowColor'>
                                         <div class="setting-title unselectable">Shadow color</div>
@@ -67,22 +67,22 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="folder" id = '_position'>
+                            <div class="folder opened" id = '_position'>
                                 <div class="folder-title unselectable" id = 'position'>Position</div>
                                 <div class="folder-content">
                                     <div class="setting" id = 'horizontal'>
                                         <div class="setting-title unselectable">Horizontal</div>
-                                        <input type="number" value = '1' class="setting-controller number">
+                                        <input type="number" value = '10' min = '1' max = '100' class="setting-controller number">
                                     </div>
                                     <div class="setting" id = 'vertical'>
                                         <div class="setting-title unselectable">Vertical</div>
-                                        <input type="number" value = '1' class="setting-controller number">
+                                        <input type="number" value = '10' min = '1' max = '100' class="setting-controller number">
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="folder" id = '_backgroundStyle'>
+                    <div class="folder opened" id = '_backgroundStyle'>
                         <div class="folder-title unselectable" id = 'backgroundStyle'>Background Style</div>
                         <div class="folder-content">
                             <div class="setting" id = 'backgroundColor'>
@@ -112,7 +112,7 @@
         <div style = "background-color:transparent; color:#000000;
         text-shadow:5px 5px 1px #222222; font-size:10vh; 
         white-space: pre; height: auto; width: auto; position: absolute; left: 50vw; top: 50vh;
-        font-style: normal; font-weight: normal" id="text">text</div>
+        font-style: normal; font-weight: normal; z-index: -1" id="text">text</div>
 
         <div style = "background-color:transparent; color:#000000;
         text-shadow:5px 5px 1px #222222; font-size:10vh; 

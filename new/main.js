@@ -15,13 +15,19 @@ for (let folderTitle of folderTitles) {
     }
 }
 
-function bind(id, dictionary, key) {
+function bind(id, dictionary, key, preprocessor) {
     const settingController = document.querySelector('#' + id + '>.setting-controller');
+    dictionary[key] = settingController.value;
     settingController.onchange = function() {
-        dictionary[key] = this.value;
+        if (preprocessor)
+            dictionary[key] = preprocessor(this.value);
+        else
+            dictionary[key] = this.value;
     }
 }
 
-const dictionary = {'font size': 10}
+let textToType = document.getElementById('text');
 
-bind('fontSize', dictionary, 'font size');
+bind('fontSize', textToType.style, 'fontSize', value => value + 'vh');
+bind('fontColor', textToType.style, 'color');
+bind('backgroundColor', document.body.style, 'backgroundColor')

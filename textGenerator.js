@@ -11,7 +11,6 @@ var textGenerator = {
     }
 }
 
-var textToType = document.getElementById("text")
 var charactersLeft
 
 function generateNewText(args) {
