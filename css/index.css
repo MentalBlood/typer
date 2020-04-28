@@ -54,6 +54,8 @@ header .startButtonForm .startButton {
     border: 0.2vh solid #DAF6F6;
     border-radius: 1.5vh;
     font-size: 1.8vh;
+
+    outline: none;
 }
 
 header .startButtonForm .startButton:hover {
