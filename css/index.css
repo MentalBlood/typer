@@ -1,13 +1,23 @@
+.unselectable {
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none;   /* Chrome/Safari/Opera */
+    -khtml-user-select: none;    /* Konqueror */
+    -moz-user-select: none;      /* Firefox */
+    -ms-user-select: none;       /* Internet Explorer/Edge */
+    user-select: none;           /* Non-prefixed version, currently
+                                  not supported by any browser */
+}
+
 html,
 body {
-    background-color: #444444;
-    color: #F5E3DC;
+    background-color: #736462;
+    color: #DAF6F6;
     overflow: hidden;
     font-family: serif;
 }
 
 body {
-    border: 0.5vh solid #F5E3DC;
+    border: 0.5vh solid #DAF6F6;
     border-radius: 1.5vh;
     margin: 1.5vh;
     background-color: #363230;
@@ -41,19 +51,19 @@ header .startButtonForm .startButton {
     font-family: "Marmelad", sans-serif;
     width: 10vh;
     height: 4vh;
-    border: 0.2vh solid #F5E3DC;
+    border: 0.2vh solid #DAF6F6;
     border-radius: 1.5vh;
     font-size: 1.8vh;
 }
 
 header .startButtonForm .startButton:hover {
-    background-color: #F5E3DC;
+    background-color: #DAF6F6;
     color: #363230;
     transition-duration: 0.5s;
 }
 
 header .startButtonForm .startButton:not(:hover) {
-    color: #F5E3DC;
+    color: #DAF6F6;
     background-color: #363230;
     transition-duration: 0.5s;
 }
@@ -78,13 +88,13 @@ main .features .feature {
 }
 
 main .features .feature:hover {
-    color: #F5E3DC;
+    color: #DAF6F6;
     background-color: #BAADA8;
     transition-duration: 0.5s;
 }
 
 main .features .feature:not(:hover) {
-    color: #F5E3DC;
+    color: #DAF6F6;
     background-color: #786F6C;
     transition-duration: 0.5s;
 }
@@ -95,7 +105,7 @@ main .features .feature .header {
 
 main .features .feature .description {
     text-align: right;
-    font-size: min(3vh, 6vw);
+    font-size: min(3vh, 5.2vw);
     position: absolute;
     bottom: 0.5vh;
     right: 1vh;
@@ -123,12 +133,12 @@ footer .info a {
 }
 
 footer .info a:hover {
-    color: #005599;
+    color: #5A6D70;
     transition-duration: 0.5s;
     cursor: pointer;
 }
 
 footer .info a:not(:hover) {
-    color: #F5E3DC;
+    color: #DAF6F6;
     transition-duration: 0.5s;
 }

@@ -1,3 +1,13 @@
+.unselectable {
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none;   /* Chrome/Safari/Opera */
+    -khtml-user-select: none;    /* Konqueror */
+    -moz-user-select: none;      /* Firefox */
+    -ms-user-select: none;       /* Internet Explorer/Edge */
+    user-select: none;           /* Non-prefixed version, currently
+                                  not supported by any browser */
+}
+
 header {
     align-text: left;
 }
@@ -48,6 +58,8 @@ header .settings .settings-content:not(.opened) {
 header .settings .settings-content.opened {
     position: relative;
     left: 0;
+
+    box-shadow: 1.5vw 1vh 3vw black;
 
     transition-duration: 0.5s;
 }
