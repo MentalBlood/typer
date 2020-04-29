@@ -9,6 +9,7 @@
 }
 
 header {
+    font-family: "Marmelad", sans-serif;
     align-text: left;
 }
 
@@ -20,7 +21,7 @@ header .settings .settings-button {
     height: 3vh;
 
     background-image: url(https://www.svgrepo.com/show/211472/settings-gear.svg);
-    background-size: 80%;
+    background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
 
@@ -45,14 +46,17 @@ header .settings .settings-content {
     flex-direction: column;
 
     width: 35vw;
-    height: 100vh;
+    height: 94vh;
 
     background-color: rgba(0,0,0,0.5);
+
+    border: 0.5vw solid black;
+    border-radius: 1vw;
 }
 
 header .settings .settings-content:not(.opened) {
     position: relative;
-    left: -35vw;
+    left: -36vw;
 
     transition-duration: 0.5s;
 }

@@ -7,6 +7,7 @@
         <meta name = 'keywords' content = 'keyboard, trainer, type, best'>
         <meta name = 'description' content = 'Best keyboard trainer site on entire net'>
 
+        <link href="https://fonts.googleapis.com/css2?family=Marmelad&display=swap" rel="stylesheet">
         <link rel = 'stylesheet' href = 'css/game.css'>
     </head>
     <body leftmargin = "0" topmargin = "0" style = "background-color:#ffffff; overflow-x: hidden; overflow-y: hidden">
@@ -86,13 +87,13 @@
                             </div>
                         </div>
                     </div>
+                    <input type="file" id="fileElem" multiple accept=".json" style="display:none">
+                    <button class = 'button' id = 'importConfigButton'>Import configuration</button>
+                    <button class = 'button' id = 'exportConfigButton'>Export configuration</button>
                 </div>
-            </div>
         </header>
         <main></main>
         <footer></footer>
-
-        <input type="file" id="fileElem" multiple accept=".json" style="display:none">
 
         <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
 
@@ -114,6 +115,7 @@
         white-space: pre; height: auto; width: auto; position: absolute; left: 100vw; top: 100vh;
         font-style: normal; font-weight: normal" id="hiddenText">hiddenText</div>
 
+        <script type="text/javascript" src="uploadDownload.js"></script>
         <script type="text/javascript" src="new/main.js"></script>
         <script type="text/javascript" src="fake-words.js"></script>
         <script type="text/javascript" src="markov-generator.js"></script>
@@ -121,8 +123,6 @@
         <script type="text/javascript" src="tween.umd.js"></script>
 
         <script type="text/javascript" src="animationsHandler.js"></script>
-        <script type="text/javascript" src="uploadDownload.js"></script>
-        <script type="text/javascript" src="fonts.js"></script>
         <script type="text/javascript" src="textGenerator.js"></script>
         <script type="text/javascript" src="statisticsHandler.js"></script>
         <script type="text/javascript" src="chartsHandler.js"></script>
