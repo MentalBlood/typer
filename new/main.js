@@ -57,6 +57,8 @@ importConfigButton.onclick = configHandler.upload;
 exportConfigButton.onclick = configHandler.download;
 
 function getValue(object) {
+    if (object.type === 'checkbox')
+        return object.checked;
     if (object.value)
         return object.value;
     else
@@ -83,29 +85,31 @@ bind('horizontal', textToType.style, 'left', value => value + 'vh');
 bind('vertical', textToType.style, 'top', value => value + 'vw');
 bind('fontColor', textToType.style, 'color');
 bind('backgroundColor', document.body.style, 'backgroundColor');
+bind('italic', textToType.style, 'font-style', value => value ? 'italic' : 'normal');
+bind('bold', textToType.style, 'font-weight', value => value ? 'bold' : 'normal');
 
 
 
 let shadowStyle = {
-    enable: false,
-    distance: '1vh',
-    angle: '0',
-    blur: '0.2vh',
-    color: '#000000'
+    enabled: undefined,
+    distance: undefined,
+    angle: undefined,
+    blur: undefined,
+    color: undefined
 };
 
 function updateShadowStyle() {
-    if (shadowStyle.enable === false) {
+    if (shadowStyle.enabled === false) {
         textToType.style.textShadow = 'none';
         return;
     }
     const horizontalShadow = shadowStyle.distance * Math.cos(shadowStyle.angle);
     const verticalShadow = shadowStyle.distance * Math.sin(shadowStyle.angle);
-    textToType.style.textShadow = horizontalShadow + 'px ' + verticalShadow + 'px ' 
-                                + shadowStyle.blur + 'px ' + shadowStyle.color;
+    textToType.style.textShadow = horizontalShadow + 'vh ' + verticalShadow + 'vh ' 
+                                + shadowStyle.blur + 'vh ' + shadowStyle.color;
 }
 
-bind('dropShadow', shadowStyle, 'enable', undefined, updateShadowStyle);
+bind('dropShadow', shadowStyle, 'enabled', undefined, updateShadowStyle);
 bind('shadowDistance', shadowStyle, 'distance', undefined, updateShadowStyle);
 bind('shadowAngle', shadowStyle, 'angle', undefined, updateShadowStyle);
 bind('shadowBlur', shadowStyle, 'blur', undefined, updateShadowStyle);

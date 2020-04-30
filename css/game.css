@@ -169,3 +169,31 @@ header .settings .settings-content .setting:first-of-type {
 .setting-controller.color {
     background: transparent;
 }
+
+
+header .settings .settings-content .button {
+    background-color: transparent;
+    color: white;
+
+    height: 3vh;
+    margin-top: 2vh;
+    margin-left: 1vw;
+    margin-right: 1vw;
+
+    border: 1px solid white;
+    border-radius: 1vh;
+
+    outline: none;
+}
+
+header .settings .settings-content .button:not(:hover) {
+    font-size: 1.5vh;
+
+    transition-duration: 0.5s;
+}
+
+header .settings .settings-content .button:hover {
+    font-size: 1.8vh;
+
+    transition-duration: 0.5s;
+}
