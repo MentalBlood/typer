@@ -17,8 +17,8 @@ header .settings {
 }
 
 header .settings .settings-button {
-    width: 3vh;
-    height: 3vh;
+    width: max(3vh, 25px);
+    height: max(3vh, 25px);
 
     background-image: url(https://www.svgrepo.com/show/211472/settings-gear.svg);
     background-size: cover;
@@ -44,8 +44,9 @@ header .settings .settings-button:not(:hover) {
 header .settings .settings-content {
     display: flex;
     flex-direction: column;
+    overflow-y: auto;
 
-    width: 35vw;
+    width: max(45vw, 200px);
     height: 94vh;
 
     background-color: rgba(0,0,0,0.5);
@@ -72,8 +73,6 @@ header .settings .settings-content.opened {
 
 
 header .settings .settings-content .folder {
-    font-size: 2vh;
-
     padding-top: 1vh;
     padding-bottom: 1vh;
     padding-left: 1.1vw;
@@ -93,6 +92,7 @@ header .settings .settings-content .folder:not(.opened) {
 }
 
 header .settings .settings-content .folder-title {
+    font-size: max(3vh, 24px);
     color: white;
     font-weight: bold;
 }
@@ -111,12 +111,13 @@ header .settings .settings-content .setting {
     justify-content: space-between;
     align-items: center;
 
-    height: 2.5vh;
-    font-size: 2vh;
+    height: max(3vh, 24px);
+    font-size: max(2.5vh, 20px);
 
-    padding-left: 1.5vw;
-    padding-right: 1vw;
-    padding-bottom: 1vh;
+    padding-left: max(1.5vw, 12px);
+    padding-right: max(1vw, 8px);
+    padding-bottom: max(2.0vh, 12px);
+    line-height: max(2.5vh, 20px);
 
     color: white;
 }
@@ -137,9 +138,10 @@ header .settings .settings-content .setting:first-of-type {
 }
 
 .setting-controller {
-    font-size: 1.2vh;
+    min-height: max(2.5vh, 20px);
+    font-size: max(2vh, 16px);
 
-    background-color: gray;
+    background-color: #111111;
     color: white;
 
     border: 1px solid white;
@@ -153,7 +155,7 @@ header .settings .settings-content .setting:first-of-type {
 }
 
 .setting-controller.checkbox {
-    width: 2.2vh;
+    min-width: max(2.5vh, 20px);
     margin: 0;
 }
 
@@ -176,6 +178,7 @@ header .settings .settings-content .button {
     color: white;
 
     height: 3vh;
+    min-height: 3vh;
     margin-top: 2vh;
     margin-left: 1vw;
     margin-right: 1vw;
