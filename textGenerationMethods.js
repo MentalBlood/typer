@@ -37,7 +37,7 @@ function selectMethod(methodName) {
     generateNewText({refresh: true})
 }
 
-var currentMethod
+var currentMethod = {name: undefined};
 var methodSelector
 
 function addControllerProperty() {

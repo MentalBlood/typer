@@ -17,27 +17,47 @@ header .settings {
 }
 
 header .settings .settings-button {
-    width: max(3vh, 25px);
-    height: max(3vh, 25px);
+    position: absolute;
+    top: calc(50vh - calc(max(10vh, 8px) / 2 + 1vh));
+    height: max(10vh, 70px);
 
-    background-image: url(https://www.svgrepo.com/show/211472/settings-gear.svg);
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+    font-size: max(2vh, 16px);
+    text-align: center;
+    padding: 0.5vh;
 
-    border: 0px solid black;
-    border-radius: 50%;
+    writing-mode: vertical-lr;
+
+    background-color: #222;
+    color: white;
+
+    border-right: 1px solid #222;
+    border-top: 1px solid #222;
+    border-bottom: 1px solid #222;
+    border-radius: max(1.2vh, 10px);
 
     outline: none;
 }
 
-header .settings .settings-button:hover {
-    border-radius: 50%;
+header .settings .settings-button:not(:hover) {
+    opacity: 0.3;
+
     transition-duration: 0.5s;
 }
 
-header .settings .settings-button:not(:hover) {
-    border-radius: 0;
+header .settings .settings-button:hover {
+    opacity: 1;
+
+    transition-duration: 0.5s;
+}
+
+header .settings .settings-content:not(.opened)+.settings-button {
+    left: 0;
+
+    transition-duration: 0.5s;
+}
+
+header .settings .settings-content.opened+.settings-button {
+    left: max(46vw, 205px);
     transition-duration: 0.5s;
 }
 
@@ -47,17 +67,17 @@ header .settings .settings-content {
     overflow-y: auto;
 
     width: max(45vw, 200px);
-    height: 94vh;
+    height: calc(100vh - max(1vw, 10px));
 
     background-color: rgba(0,0,0,0.5);
 
-    border: 0.5vw solid black;
+    border: max(0.5vw, 5px) solid black;
     border-radius: 1vw;
 }
 
 header .settings .settings-content:not(.opened) {
     position: relative;
-    left: -36vw;
+    left: min(-46vw, -205px);
 
     transition-duration: 0.5s;
 }
@@ -66,16 +86,16 @@ header .settings .settings-content.opened {
     position: relative;
     left: 0;
 
-    box-shadow: 1.5vw 0 2vw rgba(0,0,0,0.6);
+    box-shadow: max(1.5vw, 12px) 0 max(2vw, 16px) rgba(0,0,0,0.6);
 
     transition-duration: 0.5s;
 }
 
 
+
 header .settings .settings-content .folder {
-    padding-top: 1vh;
-    padding-bottom: 1vh;
-    padding-left: 1.1vw;
+    padding-bottom: max(1vh, 6px);
+    padding-left: max(1.1vw, 8px);
 
     display: flex;
     flex-direction: column;
@@ -83,12 +103,14 @@ header .settings .settings-content .folder {
 
     background-color: transparent;
 
-    border-left: 0.4vw solid pink;
-    border-radius: 1vh;
+    border-left: max(0.4vw, 4px) solid pink;
+    border-radius: max(0.8vw, 6px);
 }
 
 header .settings .settings-content .folder:not(.opened) {
-    height: 2.5vh;
+    height: max(2.5vh, 20px);
+    padding-top: 0;
+    padding-bottom: 1.25vh;
 }
 
 header .settings .settings-content .folder-title {
@@ -115,25 +137,22 @@ header .settings .settings-content .setting {
     font-size: max(2.5vh, 20px);
 
     padding-left: max(1.5vw, 12px);
-    padding-right: max(1vw, 8px);
-    padding-bottom: max(2.0vh, 12px);
-    line-height: max(2.5vh, 20px);
+    padding-right: max(1.5vw, 12px);
+    padding-bottom: max(1vh, 6px);
+    line-height: max(1vh, 11px);
 
     color: white;
 }
 
 header .settings .settings-content .setting:not(:first-of-type) {
-    padding-top: 1vh;
+    padding-top: max(0.5vh, 6px);
 }
 
 header .settings .settings-content .setting:first-of-type {
-    padding-top: 2vh;
+    padding-top: max(1vh, 6px);
 }
 
 .setting-title {
-    display: inline-block;
-    width: 15vw;
-
     margin-right: 2vw;
 }
 
@@ -145,13 +164,9 @@ header .settings .settings-content .setting:first-of-type {
     color: white;
 
     border: 1px solid white;
-    border-radius: 1vh;
+    border-radius: max(1vh, 8px);
 
     outline: none;
-}
-
-.setting-controller:not(.checkbox) {
-    width: 50%;
 }
 
 .setting-controller.checkbox {
@@ -159,12 +174,25 @@ header .settings .settings-content .setting:first-of-type {
     margin: 0;
 }
 
-.setting-controller:not(.number) {
-    height: 2.2vh;
+.setting-controller:not(.number):not(.checkbox):not(.color) {
+    width: 60%;
+    height: max(2.2vh, 17px);
+
+    padding-left: max(0.5vw, 4px);
+    padding-right: max(0.5vw, 4px);
+}
+
+.setting.number .setting-title,
+.setting.checkbox .setting-title{
+    width: 85%;
+}
+.setting.color .setting-title {
+    width: 70%;
 }
 
 .setting-controller.number {
-    height: 1.7vh;
+    width: 15%;
+    height: max(1.7vh, 14px);
     padding: 3px;
 }
 
@@ -177,26 +205,60 @@ header .settings .settings-content .button {
     background-color: transparent;
     color: white;
 
-    height: 3vh;
-    min-height: 3vh;
-    margin-top: 2vh;
-    margin-left: 1vw;
-    margin-right: 1vw;
+    height: max(4vh, 32px);
+    min-height: max(4vh, 32px);
+    width: calc(100% - calc(2 * max(1.5vw, 12px)));
+    margin-top: max(1vh, 8px);
+    margin-bottom: max(1vh, 8px);
+    margin-left: max(1.5vw, 12px);
 
     border: 1px solid white;
-    border-radius: 1vh;
+    border-radius: max(1vh, 8px);
 
     outline: none;
 }
 
 header .settings .settings-content .button:not(:hover) {
-    font-size: 1.5vh;
+    font-size: max(1.7vh, 14px);
 
     transition-duration: 0.5s;
 }
 
 header .settings .settings-content .button:hover {
-    font-size: 1.8vh;
+    font-size: max(2vh, 16px);
 
     transition-duration: 0.5s;
+}
+
+
+/* Scrollbar */
+
+::-webkit-scrollbar {
+    width: max(1vw, 8px);
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 1.5vh;
+}
+
+::-webkit-scrollbar-thumb:not(:hover) {
+    background: #444444;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #666666;
+}
+
+
+
+.conditional:not(.conditional-hidden) {
+    display: block;
+}
+
+.conditional-hidden {
+    display: none !important;
 }

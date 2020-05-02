@@ -13,15 +13,48 @@
     <body leftmargin = "0" topmargin = "0" style = "background-color:#ffffff; overflow-x: hidden; overflow-y: hidden">
         <header>
             <div class="settings">
-                <button class = 'settings-button'></button>
                 <div class="settings-content opened">
                     <div class="folder opened" id = '_textGeneration'>
                         <div class="folder-title unselectable" id = 'textGeneration'>Text generation</div>
                         <div class="folder-content">
                             <div class="setting" id = 'method'>
                                 <div class="setting-title unselectable">Method</div>
-                                <select class="setting-controller select"></select>
+                                <select class="setting-controller select" id = 'methodController'></select>
                             </div>
+
+                            <div class="setting conditional" whenId = 'methodController' whenValue = 'Random characters' id = 'symbols'>
+                                <div class="setting-title unselectable">Symbols</div>
+                                <input type="text" value = 'qwertyuiopasdfghjklzxcvbnm'class="setting-controller">
+                            </div>
+                            <div class="setting conditional" whenId = 'methodController' whenValue = 'Random characters' id = 'numberOfSymbols'>
+                                <div class="setting-title unselectable">Number of symbols</div>
+                                <input type="number" value = '10' min = '1' max = '100' step = 1 class="setting-controller number">
+                            </div>
+                            
+                            <div class="setting conditional" whenId = 'methodController' whenValue = 'Random fake words' id = 'numberOfWords'>
+                                <div class="setting-title unselectable">Number of words</div>
+                                <input type="number" value = '10' min = '1' max = '100' step = 1 class="setting-controller number">
+                            </div>
+
+                            <div class="setting conditional" whenId = 'methodController' whenValue = 'Markov chain' id = 'numberOfWordsInChain'>
+                                <div class="setting-title unselectable">Number of words</div>
+                                <input type="number" value = '10' min = '1' max = '100' step = 1 class="setting-controller number">
+                            </div>
+                            <button class="button conditional" whenId = 'methodController' whenValue = 'Markov chain' id = 'uploadCorpus'>
+                                Upload corpus
+                            </button>
+
+                            <div class="setting conditional" whenId = 'methodController' whenValue = 'Given text file' id = 'numberOfSentences'>
+                                <div class="setting-title unselectable">Number of sentences</div>
+                                <input type="number" value = '10' min = '1' max = '100' step = 1 class="setting-controller number">
+                            </div>
+                            <div class="setting conditional" whenId = 'methodController' whenValue = 'Given text file' id = 'currentSentenceNumber'>
+                                <div class="setting-title unselectable">Current sentence number</div>
+                                <input type="number" value = '1' min = '1' max = '100' step = 1 class="setting-controller number">
+                            </div>
+                            <button class="button conditional" whenId = 'methodController' whenValue = 'Given text file' id = 'uploadTextFile'>
+                                Upload text file
+                            </button>
                         </div>
                     </div>
                     <div class="folder opened" id = '_textStyle'>
@@ -50,23 +83,23 @@
                             <div class="folder opened" id = '_shadowStyle'>
                                 <div class="folder-title unselectable" id = 'shadowStyle'>Shadow style</div>
                                 <div class="folder-content">
-                                    <div class="setting" id = 'dropShadow'>
+                                    <div class="setting checkbox" id = 'dropShadow'>
                                         <div class="setting-title unselectable">Drop shadow</div>
                                         <input type = 'checkbox' class = 'setting-controller checkbox' checked>
                                     </div>
-                                    <div class="setting" id = 'shadowDistance'>
+                                    <div class="setting number" id = 'shadowDistance'>
                                         <div class="setting-title unselectable">Shadow distance</div>
                                         <input type="number" value = '1' min = '0' max = '5' step = 0.1 class="setting-controller number">
                                     </div>
-                                    <div class="setting" id = 'shadowAngle'>
+                                    <div class="setting number" id = 'shadowAngle'>
                                         <div class="setting-title unselectable">Shadow angle</div>
                                         <input type="number" value = '0' min = '-3.14' max = '3.14' step = 0.01 class="setting-controller number">
                                     </div>
-                                    <div class="setting" id = 'shadowBlur'>
+                                    <div class="setting number" id = 'shadowBlur'>
                                         <div class="setting-title unselectable">Shadow blur</div>
                                         <input type="number" value = '1' min = '0' max = '3' step = 0.1 class="setting-controller number">
                                     </div>
-                                    <div class="setting" id = 'shadowColor'>
+                                    <div class="setting color" id = 'shadowColor'>
                                         <div class="setting-title unselectable">Shadow color</div>
                                         <input type="color" class="setting-controller color">
                                     </div>
@@ -92,7 +125,7 @@
                         <div class="folder-content">
                             <div class="setting" id = 'backgroundColor'>
                                 <div class="setting-title unselectable">Background color</div>
-                                <input type="color" class="setting-controller color">
+                                <input type="color" value='#ffffff' class="setting-controller color">
                             </div>
                         </div>
                     </div>
@@ -100,6 +133,8 @@
                     <button class = 'button' id = 'importConfigButton'>Import configuration</button>
                     <button class = 'button' id = 'exportConfigButton'>Export configuration</button>
                 </div>
+                <div class = 'settings-button unselectable'>settings</div>
+            </div>
         </header>
         <main></main>
         <footer></footer>
@@ -125,23 +160,9 @@
         font-style: normal; font-weight: normal" id="hiddenText">hiddenText</div>
 
         <script type="text/javascript" src="uploadDownload.js"></script>
-        <script type="text/javascript" src="new/main.js"></script>
+        <script type="text/javascript" src="onWindowResize.js"></script>
         <script type="text/javascript" src="fake-words.js"></script>
         <script type="text/javascript" src="markov-generator.js"></script>
-        <script type="text/javascript" src="fb2TextExtractor.js"></script>
-        <script type="text/javascript" src="tween.umd.js"></script>
-
-        <script type="text/javascript" src="animationsHandler.js"></script>
-        <script type="text/javascript" src="textGenerator.js"></script>
-        <script type="text/javascript" src="statisticsHandler.js"></script>
-        <script type="text/javascript" src="chartsHandler.js"></script>
-        <script type="text/javascript" src="outerTextToTypeStyle.js"></script>
-        <script type="text/javascript" src="onWindowResize.js"></script>
-        <script type="text/javascript" src="defaultSettings.js"></script>
-        <script type="text/javascript" src="settings.js"></script>
-        <script type="text/javascript" src="textGenerationMethodsList.js"></script>
-        <script type="text/javascript" src="textGenerationMethods.js"></script>
-        <script type="text/javascript" src="keyEventHandler.js"></script>
-        <script type="text/javascript" src="main.js"></script>
+        <script type="text/javascript" src="new/main.js"></script>
     </body>
 </html>
