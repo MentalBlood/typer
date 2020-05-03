@@ -78,7 +78,7 @@ var keyEventHandler = event => {
     }
 }
 
-let sum = (list) => list.reduce((sum, current) => sum + current, 0)
+let sum = (list) => list.reduce((sum, current) => sum + current, 0);
 
 animationsHandler.onUpdate = function() {
     let shiftsSum = sum(Object.values(textXShifts))

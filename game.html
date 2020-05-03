@@ -136,32 +136,21 @@
                 <div class = 'settings-button unselectable'>settings</div>
             </div>
         </header>
-        <main></main>
+        <main>
+            <div style = "opacity: 1; background-color:transparent; color:#000000;
+            text-shadow:5px 5px 1px #222222; font-size:10vh; 
+            white-space: pre; height: auto; width: auto; position: absolute; left: 50vw; top: 50vh;
+            font-style: normal; font-weight: normal; z-index: -1" id="text"></div>
+            <div style = 'opacity: 0;' id = 'hiddenText'></div>
+        </main>
         <footer></footer>
-
-        <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
-
-        <script type="text/javascript" src="dat.gui.js"></script>
-
-        <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0/dist/Chart.bundle.min.js"></script>
-        
-        <div style = "height:100vh; width:100vw">
-            <canvas id="defaultChartCanvas"></canvas>
-        </div>
-        
-        <div style = "background-color:transparent; color:#000000;
-        text-shadow:5px 5px 1px #222222; font-size:10vh; 
-        white-space: pre; height: auto; width: auto; position: absolute; left: 50vw; top: 50vh;
-        font-style: normal; font-weight: normal; z-index: -1" id="text">text</div>
-
-        <div style = "background-color:transparent; color:#000000;
-        text-shadow:5px 5px 1px #222222; font-size:10vh; 
-        white-space: pre; height: auto; width: auto; position: absolute; left: 200vw; top: 200vh;
-        font-style: normal; font-weight: normal" id="hiddenText">hiddenText</div>
 
         <script type="text/javascript" src="uploadDownload.js"></script>
         <script type="text/javascript" src="fake-words.js"></script>
         <script type="text/javascript" src="markov-generator.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+        <script type="text/javascript" src="new/allFontsNames.js"></script>
+        <script type="text/javascript" src="tween.umd.js"></script>
         <script type="text/javascript" src="new/main.js"></script>
     </body>
 </html>
