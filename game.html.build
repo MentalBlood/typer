@@ -1,0 +1,2139 @@
+<!doctype html>
+<html class = 'hidden-on-startup' id = 'html'>
+    <head>
+        <link rel = 'SHORTCUT ICON' href = './favicon.ico' type = 'image/x-icon'>
+        <title>Typer</title>
+        <meta charset = 'utf-8'>
+        <meta name = 'keywords' content = 'keyboard, trainer, type, best'>
+        <meta name = 'description' content = 'Best keyboard trainer site on entire net'>
+
+        <link href="https://fonts.googleapis.com/css2?family=Marmelad&display=swap" rel="stylesheet">
+        <style type="text/css">.unselectable {
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none;   /* Chrome/Safari/Opera */
+    -khtml-user-select: none;    /* Konqueror */
+    -moz-user-select: none;      /* Firefox */
+    -ms-user-select: none;       /* Internet Explorer/Edge */
+    user-select: none;           /* Non-prefixed version, currently
+                                  not supported by any browser */
+}
+
+header {
+    font-family: "Marmelad", sans-serif;
+    align-text: left;
+}
+
+header .settings {
+}
+
+header .settings .settings-button {
+    position: absolute;
+    top: calc(50vh - calc(max(10vh, 8px) / 2 + 1vh));
+    height: max(10vh, 70px);
+
+    font-size: max(2vh, 16px);
+    text-align: center;
+    padding: 0.5vh;
+
+    writing-mode: vertical-lr;
+
+    background-color: #222;
+    color: white;
+
+    border-right: 1px solid #222;
+    border-top: 1px solid #222;
+    border-bottom: 1px solid #222;
+    border-radius: max(1.2vh, 10px);
+
+    outline: none;
+}
+
+header .settings .settings-button:not(:hover) {
+    opacity: 0.3;
+
+    transition-duration: 0.5s;
+}
+
+header .settings .settings-button:hover {
+    opacity: 1;
+
+    transition-duration: 0.5s;
+}
+
+header .settings .settings-content:not(.opened)+.settings-button {
+    left: 0;
+
+    transition-duration: 0.5s;
+}
+
+header .settings .settings-content.opened+.settings-button {
+    left: max(46vw, 205px);
+    transition-duration: 0.5s;
+}
+
+header .settings .settings-content {
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+
+    width: max(45vw, 200px);
+    height: calc(100vh - max(1vw, 10px));
+
+    background-color: rgba(0,0,0,0.5);
+
+    border: max(0.5vw, 5px) solid black;
+    border-radius: 1vw;
+}
+
+header .settings .settings-content:not(.opened) {
+    position: relative;
+    left: min(-46vw, -205px);
+
+    transition-duration: 0.5s;
+}
+
+header .settings .settings-content.opened {
+    position: relative;
+    left: 0;
+
+    box-shadow: max(1.5vw, 12px) 0 max(2vw, 16px) rgba(0,0,0,0.6);
+
+    transition-duration: 0.5s;
+}
+
+
+
+header .settings .settings-content .folder {
+    padding-bottom: max(1vh, 6px);
+    padding-left: max(1.1vw, 8px);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    background-color: transparent;
+
+    border-left: max(0.4vw, 4px) solid #7ac;
+    border-radius: max(0.8vw, 6px);
+}
+
+header .settings .settings-content .folder:not(.opened) {
+    height: max(2.5vh, 20px);
+    padding-top: 0;
+    padding-bottom: 1.25vh;
+}
+
+header .settings .settings-content .folder-title {
+    font-size: max(3vh, 24px);
+    color: white;
+    font-weight: bold;
+}
+
+header .settings .settings-content .folder:not(.opened)>.folder-content {
+    display: none;
+}
+
+header .settings .settings-content .folder.opened>.folder-content{
+    display: block;
+}
+
+
+header .settings .settings-content .setting {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    height: max(3vh, 24px);
+    font-size: max(2.5vh, 20px);
+
+    padding-left: max(1.5vw, 12px);
+    padding-right: max(1.5vw, 12px);
+    padding-bottom: max(1vh, 6px);
+    line-height: max(1vh, 11px);
+
+    color: white;
+}
+
+header .settings .settings-content .setting:not(:first-of-type) {
+    padding-top: max(0.5vh, 6px);
+}
+
+header .settings .settings-content .setting:first-of-type {
+    padding-top: max(1vh, 6px);
+}
+
+.setting-title {
+    margin-right: 2vw;
+}
+
+.setting-controller {
+    min-height: max(2.5vh, 20px);
+    font-size: max(2vh, 16px);
+
+    background-color: #111111;
+    color: white;
+
+    border: 1px solid white;
+    border-radius: max(1vh, 8px);
+
+    outline: none;
+}
+
+.setting-controller.checkbox {
+    min-width: max(2.5vh, 20px);
+    margin: 0;
+}
+
+.setting-controller:not(.number):not(.checkbox):not(.color) {
+    width: 60%;
+    height: max(2.2vh, 17px);
+
+    padding-left: max(0.5vw, 4px);
+    padding-right: max(0.5vw, 4px);
+}
+
+.setting-controller.color {
+    width: 15%;
+}
+
+.setting.number .setting-title,
+.setting.checkbox .setting-title
+.setting-color .setting-title {
+    width: 85%;
+}
+
+.setting-controller.number {
+    width: 15%;
+    height: max(1.7vh, 14px);
+    padding: 3px;
+}
+
+.setting-controller.color {
+    background: transparent;
+}
+
+
+header .settings .settings-content .button {
+    background-color: transparent;
+    color: white;
+
+    font-family: "Marmelad", sans-serif;
+
+    height: max(4vh, 32px);
+    min-height: max(4vh, 32px);
+    width: calc(100% - calc(2 * max(1.5vw, 12px)));
+    margin-top: max(1vh, 8px);
+    margin-bottom: max(1vh, 8px);
+    margin-left: max(1.5vw, 12px);
+
+    border: 1px solid white;
+    border-radius: max(1vh, 8px);
+
+    outline: none;
+}
+
+header .settings .settings-content .button:not(:hover) {
+    font-size: max(1.7vh, 14px);
+
+    transition-duration: 0.5s;
+}
+
+header .settings .settings-content .button:hover {
+    font-size: max(2vh, 16px);
+
+    transition-duration: 0.5s;
+}
+
+
+/* Scrollbar */
+
+::-webkit-scrollbar {
+    width: max(1vw, 8px);
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 1.5vh;
+}
+
+::-webkit-scrollbar-thumb:not(:hover) {
+    background: #444444;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #666666;
+}
+
+
+
+.conditional:not(.conditional-hidden) {
+    display: block;
+}
+
+.conditional-hidden {
+    display: none !important;
+}
+
+
+
+.hidden-on-startup {
+    opacity: 0 !important;
+}</style>
+    </head>
+    <body leftmargin = "0" topmargin = "0" style = "background-color:#ffffff; overflow-x: hidden; overflow-y: hidden">
+        <header>
+            <div class="settings">
+                <div class="settings-content">
+                    <div class="folder" id = '_textGeneration'>
+                        <div class="folder-title unselectable" id = 'textGeneration'>Text generation</div>
+                        <div class="folder-content">
+                            <div class="setting" id = 'method'>
+                                <div class="setting-title unselectable">Method</div>
+                                <select class="setting-controller select" id = 'methodController'></select>
+                            </div>
+
+                            <div class="setting conditional" whenId = 'methodController' whenValue = 'Random characters' id = 'symbols'>
+                                <div class="setting-title unselectable">Symbols</div>
+                                <input type="text" value = 'qwertyuiopasdfghjklzxcvbnm'class="setting-controller">
+                            </div>
+                            <div class="setting conditional" whenId = 'methodController' whenValue = 'Random characters' id = 'numberOfSymbols'>
+                                <div class="setting-title unselectable">Number of symbols</div>
+                                <input type="number" value = '10' min = '1' max = '100' step = 1 class="setting-controller number">
+                            </div>
+                            
+                            <div class="setting conditional" whenId = 'methodController' whenValue = 'Random fake words' id = 'numberOfWords'>
+                                <div class="setting-title unselectable">Number of words</div>
+                                <input type="number" value = '10' min = '1' max = '100' step = 1 class="setting-controller number">
+                            </div>
+
+                            <div class="setting conditional" whenId = 'methodController' whenValue = 'Markov chain' id = 'numberOfWordsInChain'>
+                                <div class="setting-title unselectable">Number of words</div>
+                                <input type="number" value = '10' min = '1' max = '100' step = 1 class="setting-controller number">
+                            </div>
+                            <button class="button conditional" whenId = 'methodController' whenValue = 'Markov chain' id = 'uploadCorpus'>
+                                Upload corpus
+                            </button>
+
+                            <div class="setting conditional" whenId = 'methodController' whenValue = 'Given text file' id = 'numberOfSentences'>
+                                <div class="setting-title unselectable">Number of sentences</div>
+                                <input type="number" value = '1' min = '1' max = '100' step = 1 class="setting-controller number">
+                            </div>
+                            <div class="setting conditional" whenId = 'methodController' whenValue = 'Given text file' id = 'currentSentenceNumber'>
+                                <div class="setting-title unselectable">Current sentence number</div>
+                                <input type="number" value = '1' min = '1' max = '100' step = 1 class="setting-controller number">
+                            </div>
+                            <button class="button conditional" whenId = 'methodController' whenValue = 'Given text file' id = 'uploadTextFile'>
+                                Upload text file
+                            </button>
+                        </div>
+                    </div>
+                    <div class="folder" id = '_textStyle'>
+                        <div class="folder-title unselectable" id = 'textStyle'>Text style</div>
+                        <div class="folder-content">
+                            <div class="setting" id = 'font'>
+                                <div class="setting-title unselectable">Font</div>
+                                <select class="setting-controller select"></select>
+                            </div>
+                            <div class="setting" id = 'italic'>
+                                <div class="setting-title unselectable">Italic</div>
+                                <input type = 'checkbox' class = 'setting-controller checkbox' unchecked>
+                            </div>
+                            <div class="setting" id = 'bold'>
+                                <div class="setting-title unselectable">Bold</div>
+                                <input type = 'checkbox' class = 'setting-controller checkbox' unchecked>
+                            </div>
+                            <div class="setting" id = 'fontSize'>
+                                <div class="setting-title unselectable">Font size</div>
+                                <input type="number" value = '10' min = '1' max = '100' step = '0.1' class="setting-controller number">
+                            </div>
+                            <div class="setting" id = 'fontColor'>
+                                <div class="setting-title unselectable">Font color</div>
+                                <input type="color" value = '#29363a' class="setting-controller color">
+                            </div>
+                            <div class="folder" id = '_shadowStyle'>
+                                <div class="folder-title unselectable" id = 'shadowStyle'>Shadow style</div>
+                                <div class="folder-content">
+                                    <div class="setting checkbox" id = 'dropShadow'>
+                                        <div class="setting-title unselectable">Drop shadow</div>
+                                        <input type = 'checkbox' class = 'setting-controller checkbox' checked>
+                                    </div>
+                                    <div class="setting number" id = 'shadowDistance'>
+                                        <div class="setting-title unselectable">Shadow distance</div>
+                                        <input type="number" value = '0.5' min = '0' max = '5' step = '0.1' class="setting-controller number">
+                                    </div>
+                                    <div class="setting number" id = 'shadowAngle'>
+                                        <div class="setting-title unselectable">Shadow angle</div>
+                                        <input type="number" value = '1' min = '-3.14' max = '3.14' step = '0.01' class="setting-controller number">
+                                    </div>
+                                    <div class="setting number" id = 'shadowBlur'>
+                                        <div class="setting-title unselectable">Shadow blur</div>
+                                        <input type="number" value = '1' min = '0' max = '3' step = '0.1' class="setting-controller number">
+                                    </div>
+                                    <div class="setting color" id = 'shadowColor'>
+                                        <div class="setting-title unselectable">Shadow color</div>
+                                        <input type="color" class="setting-controller color">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="folder" id = '_position'>
+                                <div class="folder-title unselectable" id = 'position'>Position</div>
+                                <div class="folder-content">
+                                    <div class="setting" id = 'horizontal'>
+                                        <div class="setting-title unselectable">Horizontal</div>
+                                        <input type="number" value = '48' min = '1' max = '100' step = '0.1' class="setting-controller number">
+                                    </div>
+                                    <div class="setting" id = 'vertical'>
+                                        <div class="setting-title unselectable">Vertical</div>
+                                        <input type="number" value = '43' min = '1' max = '100' step = '0.1' class="setting-controller number">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="folder" id = '_backgroundStyle'>
+                        <div class="folder-title unselectable" id = 'backgroundStyle'>Background Style</div>
+                        <div class="folder-content">
+                            <div class="setting" id = 'backgroundColor'>
+                                <div class="setting-title unselectable">Background color</div>
+                                <input type="color" value='#d0d2c0' class="setting-controller color">
+                            </div>
+                        </div>
+                    </div>
+                    <input type="file" id="fileElem" multiple accept=".json" style="display:none">
+                    <button class = 'button' id = 'importConfigButton'>Import configuration</button>
+                    <button class = 'button' id = 'exportConfigButton'>Export configuration</button>
+                </div>
+                <div class = 'settings-button unselectable'>settings</div>
+            </div>
+        </header>
+        <main>
+            <div style = '
+                opacity: 1;
+
+                background-color:transparent;
+                color:#000000;
+                text-shadow: 5px 5px 1px #222222;
+
+                height: auto;
+                width: auto;
+
+                position: absolute;
+                left: 48vw;
+                top: 45vh;
+                
+                font-style: normal;
+                font-weight: normal;
+                font-size: 10vh;
+
+                white-space: pre;
+
+                z-index: -1
+            ' id = 'text'></div>
+            <div style = 'opacity: 0;' id = 'hiddenText'></div>
+        </main>
+        <footer></footer>
+
+        <script type="text/javascript">function download(filename, text) {
+    var element = document.createElement('a');
+    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+    element.setAttribute('download', filename);
+
+    element.style.display = 'none';
+    document.body.appendChild(element);
+
+    element.click();
+
+    document.body.removeChild(element);
+}
+
+let currentOnFileElementChangeFunction
+let fileElement
+
+function onFileElementChangeFunction(onUploaded) {
+    return function() {
+        var fileReader = new FileReader();
+        if (fileElement.files[0].name.substr(-3) === 'fb2')
+            fileReader.onload = function (e) {
+                fileElement.removeEventListener('change', currentOnFileElementChangeFunction)
+                fileElement.remove()
+                return onUploaded(fb2TextExtractor.extract(fileReader.result))
+            }
+        else
+            fileReader.onload = function (e) {
+                fileElement.removeEventListener('change', currentOnFileElementChangeFunction)
+                fileElement.remove()
+                return onUploaded(fileReader.result)
+            }
+        fileReader.readAsText(fileElement.files[0]);
+    }
+}
+
+function upload(onUploaded, fileExtension) {
+    fileElement = document.createElement('input')
+    fileElement.type = 'file'
+    fileElement.accept = '.' + fileExtension
+
+    currentOnFileElementChangeFunction = onFileElementChangeFunction(onUploaded)
+    fileElement.addEventListener('change', currentOnFileElementChangeFunction)
+    fileElement.click()
+}</script>
+        <script type="text/javascript">/* ------------------------------------------------------------ */
+/* Source arrays */
+/* ------------------------------------------------------------ */
+
+
+/* Most common syllabes in English language */
+var syllabes = [
+    'the','ing','er','a','ly','ed','i','es','re','tion','in','e','con','y','ter','ex','al','de','com','o','di','en','an','ty','ry','u',
+    'ti','ri','be','per','to','pro','ac','ad','ar','ers','ment','or','tions','ble','der','ma','na','si','un','at','dis','ca','cal','man','ap',
+    'po','sion','vi','el','est','la','lar','pa','ture','for','is','mer','pe','ra','so','ta','as','col','fi','ful','get','low','ni','par','son',
+    'tle','day','ny','pen','pre','tive','car','ci','mo','an','aus','pi','se','ten','tor','ver','ber','can','dy','et','it','mu','no','ple','cu',
+    'fac','fer','gen','ic','land','light','ob','of','pos','tain','den','ings','mag','ments','set','some','sub','sur','ters','tu','af','au','cy','fa','im',
+    'li','lo','men','min','mon','op','out','rec','ro','sen','side','tal','tic','ties','ward','age','ba','but','cit','cle','co','cov','daq','dif','ence',
+    'ern','eve','hap','ies','ket','lec','main','mar','mis','my','nal','ness','ning','nu','oc','pres','sup','te','ted','tem','tin','tri','tro','up',
+  ];
+  
+  /* Popular names in several English-speaking countries */
+  var names = [
+    'Abigail','Alice','Amelia','Angelina','Ann',
+    'Ashley','Avery','Barbara','Brianna','Camila',
+    'Chloe','Dorothy','Elizabeth','Ella','Emily',
+    'Emma','Fiona','Florence','Gabrielle','Haley',
+    'Hannah','Isabella','Jasmine','Jennifer','Jessica',
+    'Juliette','Kate','Leah','Lily','Linda',
+    'Lea','Madison','Makayla','Margaret','Maria',
+    'Mariana','Mary','Megan','Mia','Olivia',
+    'Patricia','Rachel','Samantha','Sarah','Sophie',
+    'Susan','Taylor','Valeria','Victoria','Zoe',
+    'Alexander','Anthony','Benjamin','Brandon','Carter',
+    'Charles','Charlie','Christian','Christopher','Daniel',
+    'David','Deven','Dylan','Elijah','Eric',
+    'Ethan','Felix','Gabriel','George','Harry',
+    'Hudson','Hunter','Jack','Jacob','James',
+    'Jason','Jayden','Jeremiah','John','Joseph',
+    'Joshua','Justin','Kevin','Liam','Logan',
+    'Lucas','Matthew','Michael','Neil','Noah',
+    'Oliver','Owen','Raphael','Richard','Robert',
+    'Ryan','Samuel','Thomas','Tyler','William'
+  ];
+  
+  /* Sample colors */
+  /* TODO: Split them to several palettes and allow choice of which palettes to use, ie. warm, cool, grays, greens, etc. */
+  var colors = [
+    'antiquewhite', 'brown', 'chocolate', 'coral', 'crimson',
+    'darkgray', 'darkred', 'darkorange', 'darksalmon',
+    'firebrick', 'floralwhite', 'gainsboro', 'gold', 'goldenrod',
+    'gray', 'indianred', 'khaki', 'lightcoral', 'lightsalmon', 'lightyellow',
+    'maroon', 'mistyrose', 'navajowhite', 'mocassin', 'orange', 'orangered',
+    'peru', 'red', 'rosybrown', 'saddlebrown', 'sandybrown', 'sienna',
+    'silver', 'slategray', 'tan', 'tomato', 'teal', 'navy', 'black',
+  ];
+  
+  /* Domain suffixes */
+  var domains = [
+    '.net', '.org', '.edu', '.com',
+    '.com', '.com', '.com', '.com',
+  ];
+  
+  /* Frequency table for word lengths */
+  var wordLengths = [
+    1, 1,
+    2, 2, 2, 2, 2, 2, 2,
+    3, 3, 3, 3,
+    4, 4,
+    5
+  ];
+  
+  /* Frequency table for random syllabes */
+  var syllabeCounts = [
+    10, 15, 20, 25,
+    30, 35, 40, 45,
+    50, 75, 100, 125,
+    150, 175, 175, 175,
+  ];
+  
+  
+  /* ------------------------------------------------------------ */
+  /* Utility methods */
+  /* ------------------------------------------------------------ */
+  
+  var capitalize = function(str) {
+    return str.slice(0,1).toUpperCase() + str.slice(1).toLowerCase();
+  };
+  
+  var getWord = function(min, max) {
+    var length = wordLengths[Math.floor(Math.random() * 16)];
+    if(min && (length < min)) length = min;
+    if(max && (length > max)) length = max;
+    var word = '';
+    for(var i = 0; i < length; ++i) {
+      var count = syllabeCounts[Math.floor(Math.random() * 16)];
+      word += syllabes[Math.floor(Math.random() * count)];
+    }
+    return word;
+  };
+  
+  var randomElement = function(array) {
+    return array[Math.floor(Math.random() * array.length)];
+  };
+  
+  
+  /* ---------- ---------- ---------- ---------- ---------- ---------- */
+  /* Exported methods */
+  /* ---------- ---------- ---------- ---------- ---------- ---------- */
+  
+  var fake = {
+  
+    user: function() {
+      var name = randomElement(names);
+      return {
+        firstName: name,
+        lastName: capitalize(getWord(3)),
+        email: (name + '@' + getWord(2) + randomElement(domains)).toLowerCase(),
+      };
+    },
+  
+    word: function() {
+      return capitalize(getWord());
+    },
+  
+    sentence: function(length) {
+      if(!length) {
+        var length = 4 + Math.floor(Math.random() * 8);
+      }
+      var ending = (Math.random() < 0.95) ? '.' : (Math.random() < 0.5) ? '!' : '?';
+      var result = capitalize(getWord());
+      for(var i = 1; i < length; ++i) {
+        result += ' ' + getWord();
+      }
+      return result + ending;
+    },
+  
+    paragraph: function(length) {
+      if(!length) {
+        length = 6 + Math.floor(Math.random() * 8);
+      }
+      var result = fake.sentence();
+      for(var i = 1; i < length; ++i) {
+        result += ' ' + fake.sentence();
+      }
+      return result;
+    },
+  
+    fromArray: function(array) {  
+      return randomElement(array);
+    },
+  
+    color: function() {
+      return randomElement(colors);
+    },
+  
+  };
+  </script>
+        <script type="text/javascript">/*sample regexes:
+
+ /./g - every letter
+ /../g - every two letter
+ /[.,?"();\-!':—^\w]+ /g - every word
+ /([.,?"();\-!':—^\w]+ ){2}/g - every two words 
+
+*/ 
+var markov = function(input, type, reg) {
+    var data;
+    if (type == "string") {
+      data = {};
+      s = input.match(reg);
+      for (var i = 0; i < s.length-1; i++) {
+        if(s[i] in data) {
+          if (s[i+1] in data[s[i]]) {
+            data[s[i]][s[i+1]]++;
+          } else {
+            data[s[i]][s[i+1]] = 1;
+          }
+        } else {
+          data[s[i]] = new Object();
+          data[s[i]][s[i+1]] = 1;
+        }
+      }
+    } else if (type == "json") {
+      data = eval("(" + input + ")");
+    }
+    this.data = data;
+    
+    var gen = function(l) {
+      var sanitycheck = false;
+      var out = new Array();
+      while (sanitycheck == false) {
+        sanitycheck = true;
+        var rProperty = findRandomProperty(data);
+        var rList = expand(rProperty);
+        var l1 = rList.length;
+        out[0] = rList[Math.round(Math.random() * l1)];
+        if (typeof out[0] == "undefined") { sanitycheck = false; }
+        if (sanitycheck) {
+          for (var i = 0; i < l-1; i++) {
+            var usableLength = expand(data[out[i]]).length-1;
+            var randomInt = Math.round(Math.random() * usableLength);
+            var nextLetter = expand(data[out[i]])[randomInt];
+            out.push(nextLetter);
+          }
+        }
+      }
+      return out.join("");
+    }
+    this.gen = gen;
+    
+    var findRandomProperty = function(o) {
+      l1 = 0;
+      for (i in o) {
+        l1++;
+      }
+      var r1 = Math.round(Math.random() * l1);
+      l2 = 0;
+      for (i in o) {
+        l2++;
+        if (l2 == r1) {
+          return o[i];
+        }
+      }
+    }
+    
+    var expand = function(obj) {
+      oArray = new Array();
+      for (var prop in obj) {
+        for (var i = 0; i < obj[prop]; i++) {
+          oArray.push(prop);
+        }
+      }
+      return oArray;
+    }
+    
+    var getJson = function() {
+      if (typeof JSON === "object") {
+        return JSON.stringify(data);
+      }
+    }
+    this.getJson = getJson;
+  }</script>
+        <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+        <script type="text/javascript">const allFontsNames = ['Abel', 'Abhaya Libre', 'Abril Fatface', 'Aclonica', 'Acme', 'Actor', 'Adamina', 'Advent Pro', 'Aguafina Script', 'Akronim', 'Aladin', 'Alata', 'Alatsi', 'Aldrich', 'Alef', 'Alegreya', 'Alegreya SC', 'Alegreya Sans', 'Alegreya Sans SC', 'Aleo', 'Alex Brush', 'Alfa Slab One', 'Alice', 'Alike', 'Alike Angular', 'Allan', 'Allerta', 'Allerta Stencil', 'Allura', 'Almarai', 'Almendra', 'Almendra Display', 'Almendra SC', 'Amarante', 'Amaranth', 'Amatic SC', 'Amethysta', 'Amiko', 'Amiri', 'Amita', 'Anaheim', 'Andada', 'Andika', 'Angkor', 'Annie Use Your Telescope', 'Anonymous Pro', 'Antic', 'Antic Didone', 'Antic Slab', 'Anton', 'Arapey', 'Arbutus', 'Arbutus Slab', 'Architects Daughter', 'Archivo', 'Archivo Black', 'Archivo Narrow', 'Aref Ruqaa', 'Arima Madurai', 'Arimo', 'Arizonia', 'Armata', 'Arsenal', 'Artifika', 'Arvo', 'Arya', 'Asap', 'Asap Condensed', 'Asar', 'Asset', 'Assistant', 'Astloch', 'Asul', 'Athiti', 'Atma', 'Atomic Age', 'Aubrey', 'Audiowide', 'Autour One', 'Average', 'Average Sans', 'Averia Gruesa Libre', 'Averia Libre', 'Averia Sans Libre', 'Averia Serif Libre', 'B612', 'B612 Mono', 'Bad Script', 'Bahiana', 'Bahianita', 'Bai Jamjuree', 'Baloo', 'Baloo Bhai', 'Baloo Bhaijaan', 'Baloo Bhaina', 'Baloo Chettan', 'Baloo Da', 'Baloo Paaji', 'Baloo Tamma', 'Baloo Tammudu', 'Baloo Thambi', 'Balthazar', 'Bangers', 'Barlow', 'Barlow Condensed', 'Barlow Semi Condensed', 'Barriecito', 'Barrio', 'Basic', 'Baskervville', 'Battambang', 'Baumans', 'Bayon', 'Be Vietnam', 'Bebas Neue', 'Belgrano', 'Bellefair', 'Belleza', 'BenchNine', 'Bentham', 'Berkshire Swash', 'Beth Ellen', 'Bevan', 'Big Shoulders Display', 'Big Shoulders Text', 'Bigelow Rules', 'Bigshot One', 'Bilbo', 'Bilbo Swash Caps', 'BioRhyme', 'BioRhyme Expanded', 'Biryani', 'Bitter', 'Black And White Picture', 'Black Han Sans', 'Black Ops One', 'Blinker', 'Bokor', 'Bonbon', 'Boogaloo', 'Bowlby One', 'Bowlby One SC', 'Brawler', 'Bree Serif', 'Bubblegum Sans', 'Bubbler One', 'Buda', 'Buenard', 'Bungee', 'Bungee Hairline', 'Bungee Inline', 'Bungee Outline', 'Bungee Shade', 'Butcherman', 'Butterfly Kids', 'Cabin', 'Cabin Condensed', 'Cabin Sketch', 'Caesar Dressing', 'Cagliostro', 'Cairo', 'Caladea', 'Calistoga', 'Calligraffitti', 'Cambay', 'Cambo', 'Candal', 'Cantarell', 'Cantata One', 'Cantora One', 'Capriola', 'Cardo', 'Carme', 'Carrois Gothic', 'Carrois Gothic SC', 'Carter One', 'Catamaran', 'Caudex', 'Caveat', 'Caveat Brush', 'Cedarville Cursive', 'Ceviche One', 'Chakra Petch', 'Changa', 'Changa One', 'Chango', 'Charm', 'Charmonman', 'Chathura', 'Chau Philomene One', 'Chela One', 'Chelsea Market', 'Chenla', 'Cherry Cream Soda', 'Cherry Swash', 'Chewy', 'Chicle', 'Chilanka', 'Chivo', 'Chonburi', 'Cinzel', 'Cinzel Decorative', 'Clicker Script', 'Coda', 'Coda Caption', 'Codystar', 'Coiny', 'Combo', 'Comfortaa', 'Coming Soon', 'Concert One', 'Condiment', 'Content', 'Contrail One', 'Convergence', 'Cookie', 'Copse', 'Corben', 'Cormorant', 'Cormorant Garamond', 'Cormorant Infant', 'Cormorant SC', 'Cormorant Unicase', 'Cormorant Upright', 'Courgette', 'Courier Prime', 'Cousine', 'Coustard', 'Covered By Your Grace', 'Crafty Girls', 'Creepster', 'Crete Round', 'Crimson Pro', 'Crimson Text', 'Croissant One', 'Crushed', 'Cuprum', 'Cute Font', 'Cutive', 'Cutive Mono', 'DM Sans', 'DM Serif Display', 'DM Serif Text', 'Damion', 'Dancing Script', 'Dangrek', 'Darker Grotesque', 'David Libre', 'Dawning of a New Day', 'Days One', 'Dekko', 'Delius', 'Delius Swash Caps', 'Delius Unicase', 'Della Respira', 'Denk One', 'Devonshire', 'Dhurjati', 'Didact Gothic', 'Diplomata', 'Diplomata SC', 'Do Hyeon', 'Dokdo', 'Domine', 'Donegal One', 'Doppio One', 'Dorsa', 'Dosis', 'Dr Sugiyama', 'Duru Sans', 'Dynalight', 'EB Garamond', 'Eagle Lake', 'East Sea Dokdo', 'Eater', 'Economica', 'Eczar', 'El Messiri', 'Electrolize', 'Elsie', 'Elsie Swash Caps', 'Emblema One', 'Emilys Candy', 'Encode Sans', 'Encode Sans Condensed', 'Encode Sans Expanded', 'Encode Sans Semi Condensed', 'Encode Sans Semi Expanded', 'Engagement', 'Englebert', 'Enriqueta', 'Erica One', 'Esteban', 'Euphoria Script', 'Ewert', 'Exo', 'Exo 2', 'Expletus Sans', 'Fahkwang', 'Fanwood Text', 'Farro', 'Farsan', 'Fascinate', 'Fascinate Inline', 'Faster One', 'Fasthand', 'Fauna One', 'Faustina', 'Federant', 'Federo', 'Felipa', 'Fenix', 'Finger Paint', 'Fira Code', 'Fira Mono', 'Fira Sans', 'Fira Sans Condensed', 'Fira Sans Extra Condensed', 'Fjalla One', 'Fjord One', 'Flamenco', 'Flavors', 'Fondamento', 'Fontdiner Swanky', 'Forum', 'Francois One', 'Frank Ruhl Libre', 'Freckle Face', 'Fredericka the Great', 'Fredoka One', 'Freehand', 'Fresca', 'Frijole', 'Fruktur', 'Fugaz One', 'GFS Didot', 'GFS Neohellenic', 'Gabriela', 'Gaegu', 'Gafata', 'Galada', 'Galdeano', 'Galindo', 'Gamja Flower', 'Gayathri', 'Gelasio', 'Gentium Basic', 'Gentium Book Basic', 'Geo', 'Geostar', 'Geostar Fill', 'Germania One', 'Gidugu', 'Gilda Display', 'Girassol', 'Give You Glory', 'Glass Antiqua', 'Glegoo', 'Gloria Hallelujah', 'Goblin One', 'Gochi Hand', 'Gorditas', 'Gothic A1', 'Goudy Bookletter 1911', 'Graduate', 'Grand Hotel', 'Gravitas One', 'Great Vibes', 'Grenze', 'Griffy', 'Gruppo', 'Gudea', 'Gugi', 'Gupter', 'Gurajada', 'Habibi', 'Halant', 'Hammersmith One', 'Hanalei', 'Hanalei Fill', 'Handlee', 'Hanuman', 'Happy Monkey', 'Harmattan', 'Headland One', 'Heebo', 'Henny Penny', 'Hepta Slab', 'Herr Von Muellerhoff', 'Hi Melody', 'Hind', 'Hind Guntur', 'Hind Madurai', 'Hind Siliguri', 'Hind Vadodara', 'Holtwood One SC', 'Homemade Apple', 'Homenaje', 'IBM Plex Mono', 'IBM Plex Sans', 'IBM Plex Sans Condensed', 'IBM Plex Serif', 'IM Fell DW Pica', 'IM Fell DW Pica SC', 'IM Fell Double Pica', 'IM Fell Double Pica SC', 'IM Fell English', 'IM Fell English SC', 'IM Fell French Canon', 'IM Fell French Canon SC', 'IM Fell Great Primer', 'IM Fell Great Primer SC', 'Ibarra Real Nova', 'Iceberg', 'Iceland', 'Imprima', 'Inconsolata', 'Inder', 'Indie Flower', 'Inika', 'Inknut Antiqua', 'Inria Serif', 'Irish Grover', 'Istok Web', 'Italiana', 'Italianno', 'Itim', 'Jacques Francois', 'Jacques Francois Shadow', 'Jaldi', 'Jim Nightshade', 'Jockey One', 'Jolly Lodger', 'Jomhuria', 'Jomolhari', 'Josefin Sans', 'Josefin Slab', 'Joti One', 'Jua', 'Judson', 'Julee', 'Julius Sans One', 'Junge', 'Jura', 'Just Another Hand', 'Just Me Again Down Here', 'K2D', 'Kadwa', 'Kalam', 'Kameron', 'Kanit', 'Kantumruy', 'Karla', 'Karma', 'Katibeh', 'Kaushan Script', 'Kavivanar', 'Kavoon', 'Kdam Thmor', 'Keania One', 'Kelly Slab', 'Kenia', 'Khand', 'Khmer', 'Khula', 'Kirang Haerang', 'Kite One', 'Knewave', 'KoHo', 'Kodchasan', 'Kosugi', 'Kosugi Maru', 'Kotta One', 'Koulen', 'Kranky', 'Kreon', 'Kristi', 'Krona One', 'Krub', 'Kulim Park', 'Kumar One', 'Kumar One Outline', 'Kurale', 'La Belle Aurore', 'Lacquer', 'Laila', 'Lakki Reddy', 'Lalezar', 'Lancelot', 'Lateef', 'Lato', 'League Script', 'Leckerli One', 'Ledger', 'Lekton', 'Lemon', 'Lemonada', 'Lexend Deca', 'Lexend Exa', 'Lexend Giga', 'Lexend Mega', 'Lexend Peta', 'Lexend Tera', 'Lexend Zetta', 'Libre Barcode 128', 'Libre Barcode 128 Text', 'Libre Barcode 39', 'Libre Barcode 39 Extended', 'Libre Barcode 39 Extended Text', 'Libre Barcode 39 Text', 'Libre Baskerville', 'Libre Caslon Display', 'Libre Caslon Text', 'Libre Franklin', 'Life Savers', 'Lilita One', 'Lily Script One', 'Limelight', 'Linden Hill', 'Literata', 'Liu Jian Mao Cao', 'Livvic', 'Lobster', 'Lobster Two', 'Londrina Outline', 'Londrina Shadow', 'Londrina Sketch', 'Londrina Solid', 'Long Cang', 'Lora', 'Love Ya Like A Sister', 'Loved by the King', 'Lovers Quarrel', 'Luckiest Guy', 'Lusitana', 'Lustria', 'M PLUS 1p', 'M PLUS Rounded 1c', 'Ma Shan Zheng', 'Macondo', 'Macondo Swash Caps', 'Mada', 'Magra', 'Maiden Orange', 'Maitree', 'Major Mono Display', 'Mako', 'Mali', 'Mallanna', 'Mandali', 'Manjari', 'Mansalva', 'Manuale', 'Marcellus', 'Marcellus SC', 'Marck Script', 'Margarine', 'Markazi Text', 'Marko One', 'Marmelad', 'Martel', 'Martel Sans', 'Marvel', 'Mate', 'Mate SC', 'Maven Pro', 'McLaren', 'Meddon', 'MedievalSharp', 'Medula One', 'Meera Inimai', 'Megrim', 'Meie Script', 'Merienda', 'Merienda One', 'Merriweather', 'Merriweather Sans', 'Metal', 'Metal Mania', 'Metamorphous', 'Metrophobic', 'Michroma', 'Milonga', 'Miltonian', 'Miltonian Tattoo', 'Mina', 'Miniver', 'Miriam Libre', 'Mirza', 'Miss Fajardose', 'Mitr', 'Modak', 'Modern Antiqua', 'Mogra', 'Molengo', 'Molle', 'Monda', 'Monofett', 'Monoton', 'Monsieur La Doulaise', 'Montaga', 'Montez', 'Montserrat', 'Montserrat Alternates', 'Montserrat Subrayada', 'Moul', 'Moulpali', 'Mountains of Christmas', 'Mouse Memoirs', 'Mr Bedfort', 'Mr Dafoe', 'Mr De Haviland', 'Mrs Saint Delafield', 'Mrs Sheppards', 'Mukta', 'Mukta Mahee', 'Mukta Malar', 'Mukta Vaani', 'Muli', 'Mystery Quest', 'NTR', 'Nanum Brush Script', 'Nanum Gothic', 'Nanum Gothic Coding', 'Nanum Myeongjo', 'Nanum Pen Script', 'Neucha', 'Neuton', 'New Rocker', 'News Cycle', 'Niconne', 'Niramit', 'Nixie One', 'Nobile', 'Nokora', 'Norican', 'Nosifer', 'Notable', 'Nothing You Could Do', 'Noticia Text', 'Noto Sans', 'Noto Sans HK', 'Noto Sans JP', 'Noto Sans KR', 'Noto Sans SC', 'Noto Sans TC', 'Noto Serif', 'Noto Serif JP', 'Noto Serif KR', 'Noto Serif SC', 'Noto Serif TC', 'Nova Cut', 'Nova Flat', 'Nova Mono', 'Nova Oval', 'Nova Round', 'Nova Script', 'Nova Slim', 'Nova Square', 'Numans', 'Nunito', 'Nunito Sans', 'Odibee Sans', 'Odor Mean Chey', 'Offside', 'Old Standard TT', 'Oldenburg', 'Oleo Script', 'Oleo Script Swash Caps', 'Open Sans', 'Open Sans Condensed', 'Oranienbaum', 'Orbitron', 'Oregano', 'Orienta', 'Original Surfer', 'Oswald', 'Over the Rainbow', 'Overlock', 'Overlock SC', 'Overpass', 'Overpass Mono', 'Ovo', 'Oxanium', 'Oxygen', 'Oxygen Mono', 'PT Mono', 'PT Sans', 'PT Sans Caption', 'PT Sans Narrow', 'PT Serif', 'PT Serif Caption', 'Pacifico', 'Padauk', 'Palanquin', 'Palanquin Dark', 'Pangolin', 'Paprika', 'Parisienne', 'Passero One', 'Passion One', 'Pathway Gothic One', 'Patrick Hand', 'Patrick Hand SC', 'Pattaya', 'Patua One', 'Pavanam', 'Paytone One', 'Peddana', 'Peralta', 'Permanent Marker', 'Petit Formal Script', 'Petrona', 'Philosopher', 'Piedra', 'Pinyon Script', 'Pirata One', 'Plaster', 'Play', 'Playball', 'Playfair Display', 'Playfair Display SC', 'Podkova', 'Poiret One', 'Poller One', 'Poly', 'Pompiere', 'Pontano Sans', 'Poor Story', 'Poppins', 'Port Lligat Sans', 'Port Lligat Slab', 'Pragati Narrow', 'Prata', 'Preahvihear', 'Press Start 2P', 'Pridi', 'Princess Sofia', 'Prociono', 'Prompt', 'Prosto One', 'Proza Libre', 'Public Sans', 'Puritan', 'Purple Purse', 'Quando', 'Quantico', 'Quattrocento', 'Quattrocento Sans', 'Questrial', 'Quicksand', 'Quintessential', 'Qwigley', 'Racing Sans One', 'Radley', 'Rajdhani', 'Rakkas', 'Raleway', 'Raleway Dots', 'Ramabhadra', 'Ramaraja', 'Rambla', 'Rammetto One', 'Ranchers', 'Rancho', 'Ranga', 'Rasa', 'Rationale', 'Ravi Prakash', 'Red Hat Display', 'Red Hat Text', 'Redressed', 'Reem Kufi', 'Reenie Beanie', 'Revalia', 'Rhodium Libre', 'Ribeye', 'Ribeye Marrow', 'Righteous', 'Risque', 'Roboto', 'Roboto Condensed', 'Roboto Mono', 'Roboto Slab', 'Rochester', 'Rock Salt', 'Rokkitt', 'Romanesco', 'Ropa Sans', 'Rosario', 'Rosarivo', 'Rouge Script', 'Rozha One', 'Rubik', 'Rubik Mono One', 'Ruda', 'Rufina', 'Ruge Boogie', 'Ruluko', 'Rum Raisin', 'Ruslan Display', 'Russo One', 'Ruthie', 'Rye', 'Sacramento', 'Sahitya', 'Sail', 'Saira', 'Saira Condensed', 'Saira Extra Condensed', 'Saira Semi Condensed', 'Saira Stencil One', 'Salsa', 'Sanchez', 'Sancreek', 'Sansita', 'Sarabun', 'Sarala', 'Sarina', 'Sarpanch', 'Satisfy', 'Sawarabi Gothic', 'Sawarabi Mincho', 'Scada', 'Scheherazade', 'Schoolbell', 'Scope One', 'Seaweed Script', 'Secular One', 'Sedgwick Ave', 'Sedgwick Ave Display', 'Sevillana', 'Seymour One', 'Shadows Into Light', 'Shadows Into Light Two', 'Shanti', 'Share', 'Share Tech', 'Share Tech Mono', 'Shojumaru', 'Short Stack', 'Shrikhand', 'Siemreap', 'Sigmar One', 'Signika', 'Signika Negative', 'Simonetta', 'Single Day', 'Sintony', 'Sirin Stencil', 'Six Caps', 'Skranji', 'Slabo 13px', 'Slabo 27px', 'Slackey', 'Smokum', 'Smythe', 'Sniglet', 'Snippet', 'Snowburst One', 'Sofadi One', 'Sofia', 'Solway', 'Song Myung', 'Sonsie One', 'Sorts Mill Goudy', 'Source Code Pro', 'Source Sans Pro', 'Source Serif Pro', 'Space Mono', 'Spartan', 'Special Elite', 'Spectral', 'Spectral SC', 'Spicy Rice', 'Spinnaker', 'Spirax', 'Squada One', 'Sree Krushnadevaraya', 'Sriracha', 'Srisakdi', 'Staatliches', 'Stalemate', 'Stalinist One', 'Stardos Stencil', 'Stint Ultra Condensed', 'Stint Ultra Expanded', 'Stoke', 'Strait', 'Stylish', 'Sue Ellen Francisco', 'Suez One', 'Sulphur Point', 'Sumana', 'Sunflower', 'Sunshiney', 'Supermercado One', 'Sura', 'Suranna', 'Suravaram', 'Suwannaphum', 'Swanky and Moo Moo', 'Syncopate', 'Tajawal', 'Tangerine', 'Taprom', 'Tauri', 'Taviraj', 'Teko', 'Telex', 'Tenali Ramakrishna', 'Tenor Sans', 'Text Me One', 'Thasadith', 'The Girl Next Door', 'Tienne', 'Tillana', 'Timmana', 'Tinos', 'Titan One', 'Titillium Web', 'Tomorrow', 'Trade Winds', 'Trirong', 'Trocchi', 'Trochut', 'Trykker', 'Tulpen One', 'Turret Road', 'Ubuntu', 'Ubuntu Condensed', 'Ubuntu Mono', 'Ultra', 'Uncial Antiqua', 'Underdog', 'Unica One', 'UnifrakturCook', 'UnifrakturMaguntia', 'Unkempt', 'Unlock', 'Unna', 'VT323', 'Vampiro One', 'Varela', 'Varela Round', 'Vast Shadow', 'Vesper Libre', 'Vibes', 'Vibur', 'Vidaloka', 'Viga', 'Voces', 'Volkhov', 'Vollkorn', 'Vollkorn SC', 'Voltaire', 'Waiting for the Sunrise', 'Wallpoet', 'Walter Turncoat', 'Warnes', 'Wellfleet', 'Wendy One', 'Wire One', 'Work Sans', 'Yanone Kaffeesatz', 'Yantramanav', 'Yatra One', 'Yellowtail', 'Yeon Sung', 'Yeseva One', 'Yesteryear', 'Yrsa', 'ZCOOL KuaiLe', 'ZCOOL QingKe HuangYou', 'ZCOOL XiaoWei', 'Zeyada', 'Zhi Mang Xing', 'Zilla Slab', 'Zilla Slab Highlight']</script>
+        <script type="text/javascript">(function (global, factory) {
+	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
+	typeof define === 'function' && define.amd ? define(factory) :
+	(global.TWEEN = factory());
+}(this, (function () { 'use strict';
+
+	var version = '18.5.0';
+
+	/**
+	 * Tween.js - Licensed under the MIT license
+	 * https://github.com/tweenjs/tween.js
+	 * ----------------------------------------------
+	 *
+	 * See https://github.com/tweenjs/tween.js/graphs/contributors for the full list of contributors.
+	 * Thank you all, you're awesome!
+	 */
+
+
+	var _Group = function () {
+		this._tweens = {};
+		this._tweensAddedDuringUpdate = {};
+	};
+
+	_Group.prototype = {
+		getAll: function () {
+
+			return Object.keys(this._tweens).map(function (tweenId) {
+				return this._tweens[tweenId];
+			}.bind(this));
+
+		},
+
+		removeAll: function () {
+
+			this._tweens = {};
+
+		},
+
+		add: function (tween) {
+
+			this._tweens[tween.getId()] = tween;
+			this._tweensAddedDuringUpdate[tween.getId()] = tween;
+
+		},
+
+		remove: function (tween) {
+
+			delete this._tweens[tween.getId()];
+			delete this._tweensAddedDuringUpdate[tween.getId()];
+
+		},
+
+		update: function (time, preserve) {
+
+			var tweenIds = Object.keys(this._tweens);
+
+			if (tweenIds.length === 0) {
+				return false;
+			}
+
+			time = time !== undefined ? time : TWEEN.now();
+
+			// Tweens are updated in "batches". If you add a new tween during an
+			// update, then the new tween will be updated in the next batch.
+			// If you remove a tween during an update, it may or may not be updated.
+			// However, if the removed tween was added during the current batch,
+			// then it will not be updated.
+			while (tweenIds.length > 0) {
+				this._tweensAddedDuringUpdate = {};
+
+				for (var i = 0; i < tweenIds.length; i++) {
+
+					var tween = this._tweens[tweenIds[i]];
+
+					if (tween && tween.update(time) === false) {
+						tween._isPlaying = false;
+
+						if (!preserve) {
+							delete this._tweens[tweenIds[i]];
+						}
+					}
+				}
+
+				tweenIds = Object.keys(this._tweensAddedDuringUpdate);
+			}
+
+			return true;
+
+		}
+	};
+
+	var TWEEN = new _Group();
+
+	TWEEN.Group = _Group;
+	TWEEN._nextId = 0;
+	TWEEN.nextId = function () {
+		return TWEEN._nextId++;
+	};
+
+
+	// Include a performance.now polyfill.
+	// In node.js, use process.hrtime.
+	if (typeof (self) === 'undefined' && typeof (process) !== 'undefined' && process.hrtime) {
+		TWEEN.now = function () {
+			var time = process.hrtime();
+
+			// Convert [seconds, nanoseconds] to milliseconds.
+			return time[0] * 1000 + time[1] / 1000000;
+		};
+	}
+	// In a browser, use self.performance.now if it is available.
+	else if (typeof (self) !== 'undefined' &&
+	         self.performance !== undefined &&
+			 self.performance.now !== undefined) {
+		// This must be bound, because directly assigning this function
+		// leads to an invocation exception in Chrome.
+		TWEEN.now = self.performance.now.bind(self.performance);
+	}
+	// Use Date.now if it is available.
+	else if (Date.now !== undefined) {
+		TWEEN.now = Date.now;
+	}
+	// Otherwise, use 'new Date().getTime()'.
+	else {
+		TWEEN.now = function () {
+			return new Date().getTime();
+		};
+	}
+
+
+	TWEEN.Tween = function (object, group) {
+		this._isPaused = false;
+		this._pauseStart = null;
+		this._object = object;
+		this._valuesStart = {};
+		this._valuesEnd = {};
+		this._valuesStartRepeat = {};
+		this._duration = 1000;
+		this._repeat = 0;
+		this._repeatDelayTime = undefined;
+		this._yoyo = false;
+		this._isPlaying = false;
+		this._reversed = false;
+		this._delayTime = 0;
+		this._startTime = null;
+		this._easingFunction = TWEEN.Easing.Linear.None;
+		this._interpolationFunction = TWEEN.Interpolation.Linear;
+		this._chainedTweens = [];
+		this._onStartCallback = null;
+		this._onStartCallbackFired = false;
+		this._onUpdateCallback = null;
+		this._onRepeatCallback = null;
+		this._onCompleteCallback = null;
+		this._onStopCallback = null;
+		this._group = group || TWEEN;
+		this._id = TWEEN.nextId();
+
+	};
+
+	TWEEN.Tween.prototype = {
+		getId: function () {
+			return this._id;
+		},
+
+		isPlaying: function () {
+			return this._isPlaying;
+		},
+
+		isPaused: function () {
+			return this._isPaused;
+		},
+
+		to: function (properties, duration) {
+
+			this._valuesEnd = Object.create(properties);
+
+			if (duration !== undefined) {
+				this._duration = duration;
+			}
+
+			return this;
+
+		},
+
+		duration: function duration(d) {
+			this._duration = d;
+			return this;
+		},
+
+		start: function (time) {
+
+			this._group.add(this);
+
+			this._isPlaying = true;
+
+			this._isPaused = false;
+
+			this._onStartCallbackFired = false;
+
+			this._startTime = time !== undefined ? typeof time === 'string' ? TWEEN.now() + parseFloat(time) : time : TWEEN.now();
+			this._startTime += this._delayTime;
+
+			for (var property in this._valuesEnd) {
+
+				// Check if an Array was provided as property value
+				if (this._valuesEnd[property] instanceof Array) {
+
+					if (this._valuesEnd[property].length === 0) {
+						continue;
+					}
+
+					// Create a local copy of the Array with the start value at the front
+					this._valuesEnd[property] = [this._object[property]].concat(this._valuesEnd[property]);
+
+				}
+
+				// If `to()` specifies a property that doesn't exist in the source object,
+				// we should not set that property in the object
+				if (this._object[property] === undefined) {
+					continue;
+				}
+
+				// Save the starting value, but only once.
+				if (typeof(this._valuesStart[property]) === 'undefined') {
+					this._valuesStart[property] = this._object[property];
+				}
+
+				if ((this._valuesStart[property] instanceof Array) === false) {
+					this._valuesStart[property] *= 1.0; // Ensures we're using numbers, not strings
+				}
+
+				this._valuesStartRepeat[property] = this._valuesStart[property] || 0;
+
+			}
+
+			return this;
+
+		},
+
+		stop: function () {
+
+			if (!this._isPlaying) {
+				return this;
+			}
+
+			this._group.remove(this);
+
+			this._isPlaying = false;
+
+			this._isPaused = false;
+
+			if (this._onStopCallback !== null) {
+				this._onStopCallback(this._object);
+			}
+
+			this.stopChainedTweens();
+			return this;
+
+		},
+
+		end: function () {
+
+			this.update(Infinity);
+			return this;
+
+		},
+
+		pause: function(time) {
+
+			if (this._isPaused || !this._isPlaying) {
+				return this;
+			}
+
+			this._isPaused = true;
+
+			this._pauseStart = time === undefined ? TWEEN.now() : time;
+
+			this._group.remove(this);
+
+			return this;
+
+		},
+
+		resume: function(time) {
+
+			if (!this._isPaused || !this._isPlaying) {
+				return this;
+			}
+
+			this._isPaused = false;
+
+			this._startTime += (time === undefined ? TWEEN.now() : time)
+				- this._pauseStart;
+
+			this._pauseStart = 0;
+
+			this._group.add(this);
+
+			return this;
+
+		},
+
+		stopChainedTweens: function () {
+
+			for (var i = 0, numChainedTweens = this._chainedTweens.length; i < numChainedTweens; i++) {
+				this._chainedTweens[i].stop();
+			}
+
+		},
+
+		group: function (group) {
+			this._group = group;
+			return this;
+		},
+
+		delay: function (amount) {
+
+			this._delayTime = amount;
+			return this;
+
+		},
+
+		repeat: function (times) {
+
+			this._repeat = times;
+			return this;
+
+		},
+
+		repeatDelay: function (amount) {
+
+			this._repeatDelayTime = amount;
+			return this;
+
+		},
+
+		yoyo: function (yoyo) {
+
+			this._yoyo = yoyo;
+			return this;
+
+		},
+
+		easing: function (easingFunction) {
+
+			this._easingFunction = easingFunction;
+			return this;
+
+		},
+
+		interpolation: function (interpolationFunction) {
+
+			this._interpolationFunction = interpolationFunction;
+			return this;
+
+		},
+
+		chain: function () {
+
+			this._chainedTweens = arguments;
+			return this;
+
+		},
+
+		onStart: function (callback) {
+
+			this._onStartCallback = callback;
+			return this;
+
+		},
+
+		onUpdate: function (callback) {
+
+			this._onUpdateCallback = callback;
+			return this;
+
+		},
+
+		onRepeat: function onRepeat(callback) {
+
+			this._onRepeatCallback = callback;
+			return this;
+
+		},
+
+		onComplete: function (callback) {
+
+			this._onCompleteCallback = callback;
+			return this;
+
+		},
+
+		onStop: function (callback) {
+
+			this._onStopCallback = callback;
+			return this;
+
+		},
+
+		update: function (time) {
+
+			var property;
+			var elapsed;
+			var value;
+
+			if (time < this._startTime) {
+				return true;
+			}
+
+			if (this._onStartCallbackFired === false) {
+
+				if (this._onStartCallback !== null) {
+					this._onStartCallback(this._object);
+				}
+
+				this._onStartCallbackFired = true;
+			}
+
+			elapsed = (time - this._startTime) / this._duration;
+			elapsed = (this._duration === 0 || elapsed > 1) ? 1 : elapsed;
+
+			value = this._easingFunction(elapsed);
+
+			for (property in this._valuesEnd) {
+
+				// Don't update properties that do not exist in the source object
+				if (this._valuesStart[property] === undefined) {
+					continue;
+				}
+
+				var start = this._valuesStart[property] || 0;
+				var end = this._valuesEnd[property];
+
+				if (end instanceof Array) {
+
+					this._object[property] = this._interpolationFunction(end, value);
+
+				} else {
+
+					// Parses relative end values with start as base (e.g.: +10, -3)
+					if (typeof (end) === 'string') {
+
+						if (end.charAt(0) === '+' || end.charAt(0) === '-') {
+							end = start + parseFloat(end);
+						} else {
+							end = parseFloat(end);
+						}
+					}
+
+					// Protect against non numeric properties.
+					if (typeof (end) === 'number') {
+						this._object[property] = start + (end - start) * value;
+					}
+
+				}
+
+			}
+
+			if (this._onUpdateCallback !== null) {
+				this._onUpdateCallback(this._object, elapsed);
+			}
+
+			if (elapsed === 1) {
+
+				if (this._repeat > 0) {
+
+					if (isFinite(this._repeat)) {
+						this._repeat--;
+					}
+
+					// Reassign starting values, restart by making startTime = now
+					for (property in this._valuesStartRepeat) {
+
+						if (typeof (this._valuesEnd[property]) === 'string') {
+							this._valuesStartRepeat[property] = this._valuesStartRepeat[property] + parseFloat(this._valuesEnd[property]);
+						}
+
+						if (this._yoyo) {
+							var tmp = this._valuesStartRepeat[property];
+
+							this._valuesStartRepeat[property] = this._valuesEnd[property];
+							this._valuesEnd[property] = tmp;
+						}
+
+						this._valuesStart[property] = this._valuesStartRepeat[property];
+
+					}
+
+					if (this._yoyo) {
+						this._reversed = !this._reversed;
+					}
+
+					if (this._repeatDelayTime !== undefined) {
+						this._startTime = time + this._repeatDelayTime;
+					} else {
+						this._startTime = time + this._delayTime;
+					}
+
+					if (this._onRepeatCallback !== null) {
+						this._onRepeatCallback(this._object);
+					}
+
+					return true;
+
+				} else {
+
+					if (this._onCompleteCallback !== null) {
+
+						this._onCompleteCallback(this._object);
+					}
+
+					for (var i = 0, numChainedTweens = this._chainedTweens.length; i < numChainedTweens; i++) {
+						// Make the chained tweens start exactly at the time they should,
+						// even if the `update()` method was called way past the duration of the tween
+						this._chainedTweens[i].start(this._startTime + this._duration);
+					}
+
+					return false;
+
+				}
+
+			}
+
+			return true;
+
+		}
+	};
+
+
+	TWEEN.Easing = {
+
+		Linear: {
+
+			None: function (k) {
+
+				return k;
+
+			}
+
+		},
+
+		Quadratic: {
+
+			In: function (k) {
+
+				return k * k;
+
+			},
+
+			Out: function (k) {
+
+				return k * (2 - k);
+
+			},
+
+			InOut: function (k) {
+
+				if ((k *= 2) < 1) {
+					return 0.5 * k * k;
+				}
+
+				return - 0.5 * (--k * (k - 2) - 1);
+
+			}
+
+		},
+
+		Cubic: {
+
+			In: function (k) {
+
+				return k * k * k;
+
+			},
+
+			Out: function (k) {
+
+				return --k * k * k + 1;
+
+			},
+
+			InOut: function (k) {
+
+				if ((k *= 2) < 1) {
+					return 0.5 * k * k * k;
+				}
+
+				return 0.5 * ((k -= 2) * k * k + 2);
+
+			}
+
+		},
+
+		Quartic: {
+
+			In: function (k) {
+
+				return k * k * k * k;
+
+			},
+
+			Out: function (k) {
+
+				return 1 - (--k * k * k * k);
+
+			},
+
+			InOut: function (k) {
+
+				if ((k *= 2) < 1) {
+					return 0.5 * k * k * k * k;
+				}
+
+				return - 0.5 * ((k -= 2) * k * k * k - 2);
+
+			}
+
+		},
+
+		Quintic: {
+
+			In: function (k) {
+
+				return k * k * k * k * k;
+
+			},
+
+			Out: function (k) {
+
+				return --k * k * k * k * k + 1;
+
+			},
+
+			InOut: function (k) {
+
+				if ((k *= 2) < 1) {
+					return 0.5 * k * k * k * k * k;
+				}
+
+				return 0.5 * ((k -= 2) * k * k * k * k + 2);
+
+			}
+
+		},
+
+		Sinusoidal: {
+
+			In: function (k) {
+
+				return 1 - Math.cos(k * Math.PI / 2);
+
+			},
+
+			Out: function (k) {
+
+				return Math.sin(k * Math.PI / 2);
+
+			},
+
+			InOut: function (k) {
+
+				return 0.5 * (1 - Math.cos(Math.PI * k));
+
+			}
+
+		},
+
+		Exponential: {
+
+			In: function (k) {
+
+				return k === 0 ? 0 : Math.pow(1024, k - 1);
+
+			},
+
+			Out: function (k) {
+
+				return k === 1 ? 1 : 1 - Math.pow(2, - 10 * k);
+
+			},
+
+			InOut: function (k) {
+
+				if (k === 0) {
+					return 0;
+				}
+
+				if (k === 1) {
+					return 1;
+				}
+
+				if ((k *= 2) < 1) {
+					return 0.5 * Math.pow(1024, k - 1);
+				}
+
+				return 0.5 * (- Math.pow(2, - 10 * (k - 1)) + 2);
+
+			}
+
+		},
+
+		Circular: {
+
+			In: function (k) {
+
+				return 1 - Math.sqrt(1 - k * k);
+
+			},
+
+			Out: function (k) {
+
+				return Math.sqrt(1 - (--k * k));
+
+			},
+
+			InOut: function (k) {
+
+				if ((k *= 2) < 1) {
+					return - 0.5 * (Math.sqrt(1 - k * k) - 1);
+				}
+
+				return 0.5 * (Math.sqrt(1 - (k -= 2) * k) + 1);
+
+			}
+
+		},
+
+		Elastic: {
+
+			In: function (k) {
+
+				if (k === 0) {
+					return 0;
+				}
+
+				if (k === 1) {
+					return 1;
+				}
+
+				return -Math.pow(2, 10 * (k - 1)) * Math.sin((k - 1.1) * 5 * Math.PI);
+
+			},
+
+			Out: function (k) {
+
+				if (k === 0) {
+					return 0;
+				}
+
+				if (k === 1) {
+					return 1;
+				}
+
+				return Math.pow(2, -10 * k) * Math.sin((k - 0.1) * 5 * Math.PI) + 1;
+
+			},
+
+			InOut: function (k) {
+
+				if (k === 0) {
+					return 0;
+				}
+
+				if (k === 1) {
+					return 1;
+				}
+
+				k *= 2;
+
+				if (k < 1) {
+					return -0.5 * Math.pow(2, 10 * (k - 1)) * Math.sin((k - 1.1) * 5 * Math.PI);
+				}
+
+				return 0.5 * Math.pow(2, -10 * (k - 1)) * Math.sin((k - 1.1) * 5 * Math.PI) + 1;
+
+			}
+
+		},
+
+		Back: {
+
+			In: function (k) {
+
+				var s = 1.70158;
+
+				return k * k * ((s + 1) * k - s);
+
+			},
+
+			Out: function (k) {
+
+				var s = 1.70158;
+
+				return --k * k * ((s + 1) * k + s) + 1;
+
+			},
+
+			InOut: function (k) {
+
+				var s = 1.70158 * 1.525;
+
+				if ((k *= 2) < 1) {
+					return 0.5 * (k * k * ((s + 1) * k - s));
+				}
+
+				return 0.5 * ((k -= 2) * k * ((s + 1) * k + s) + 2);
+
+			}
+
+		},
+
+		Bounce: {
+
+			In: function (k) {
+
+				return 1 - TWEEN.Easing.Bounce.Out(1 - k);
+
+			},
+
+			Out: function (k) {
+
+				if (k < (1 / 2.75)) {
+					return 7.5625 * k * k;
+				} else if (k < (2 / 2.75)) {
+					return 7.5625 * (k -= (1.5 / 2.75)) * k + 0.75;
+				} else if (k < (2.5 / 2.75)) {
+					return 7.5625 * (k -= (2.25 / 2.75)) * k + 0.9375;
+				} else {
+					return 7.5625 * (k -= (2.625 / 2.75)) * k + 0.984375;
+				}
+
+			},
+
+			InOut: function (k) {
+
+				if (k < 0.5) {
+					return TWEEN.Easing.Bounce.In(k * 2) * 0.5;
+				}
+
+				return TWEEN.Easing.Bounce.Out(k * 2 - 1) * 0.5 + 0.5;
+
+			}
+
+		}
+
+	};
+
+	TWEEN.Interpolation = {
+
+		Linear: function (v, k) {
+
+			var m = v.length - 1;
+			var f = m * k;
+			var i = Math.floor(f);
+			var fn = TWEEN.Interpolation.Utils.Linear;
+
+			if (k < 0) {
+				return fn(v[0], v[1], f);
+			}
+
+			if (k > 1) {
+				return fn(v[m], v[m - 1], m - f);
+			}
+
+			return fn(v[i], v[i + 1 > m ? m : i + 1], f - i);
+
+		},
+
+		Bezier: function (v, k) {
+
+			var b = 0;
+			var n = v.length - 1;
+			var pw = Math.pow;
+			var bn = TWEEN.Interpolation.Utils.Bernstein;
+
+			for (var i = 0; i <= n; i++) {
+				b += pw(1 - k, n - i) * pw(k, i) * v[i] * bn(n, i);
+			}
+
+			return b;
+
+		},
+
+		CatmullRom: function (v, k) {
+
+			var m = v.length - 1;
+			var f = m * k;
+			var i = Math.floor(f);
+			var fn = TWEEN.Interpolation.Utils.CatmullRom;
+
+			if (v[0] === v[m]) {
+
+				if (k < 0) {
+					i = Math.floor(f = m * (1 + k));
+				}
+
+				return fn(v[(i - 1 + m) % m], v[i], v[(i + 1) % m], v[(i + 2) % m], f - i);
+
+			} else {
+
+				if (k < 0) {
+					return v[0] - (fn(v[0], v[0], v[1], v[1], -f) - v[0]);
+				}
+
+				if (k > 1) {
+					return v[m] - (fn(v[m], v[m], v[m - 1], v[m - 1], f - m) - v[m]);
+				}
+
+				return fn(v[i ? i - 1 : 0], v[i], v[m < i + 1 ? m : i + 1], v[m < i + 2 ? m : i + 2], f - i);
+
+			}
+
+		},
+
+		Utils: {
+
+			Linear: function (p0, p1, t) {
+
+				return (p1 - p0) * t + p0;
+
+			},
+
+			Bernstein: function (n, i) {
+
+				var fc = TWEEN.Interpolation.Utils.Factorial;
+
+				return fc(n) / fc(i) / fc(n - i);
+
+			},
+
+			Factorial: (function () {
+
+				var a = [1];
+
+				return function (n) {
+
+					var s = 1;
+
+					if (a[n]) {
+						return a[n];
+					}
+
+					for (var i = n; i > 1; i--) {
+						s *= i;
+					}
+
+					a[n] = s;
+					return s;
+
+				};
+
+			})(),
+
+			CatmullRom: function (p0, p1, p2, p3, t) {
+
+				var v0 = (p2 - p0) * 0.5;
+				var v1 = (p3 - p1) * 0.5;
+				var t2 = t * t;
+				var t3 = t * t2;
+
+				return (2 * p1 - 2 * p2 + v0 + v1) * t3 + (- 3 * p1 + 3 * p2 - 2 * v0 - v1) * t2 + v0 * t + p1;
+
+			}
+
+		}
+
+	};
+	TWEEN.version = version;
+
+	return TWEEN;
+
+})));
+</script>
+        <script type="text/javascript">const settingsButton = document.querySelector('.settings-button');
+const settingsContent = document.querySelector('.settings-content');
+
+settingsButton.onclick = function() {
+    settingsContent.classList.toggle('opened');
+};
+
+const folderTitles = document.querySelectorAll('.settings-content .folder-title');
+
+for (let folderTitle of folderTitles) {
+    const currentTitleId = folderTitle.id;
+    const currentFolder = document.querySelector('#_' + currentTitleId);
+    folderTitle.onclick = function() {
+        currentFolder.classList.toggle('opened');
+    }
+}
+
+
+
+let textToType = document.getElementById('text');
+
+function setValue(object, newValue) {
+    if (object.value)
+        object.value = newValue;
+    else
+        for (let i = 0; ; i += 1) {
+            if (object.options[i].value === newValue) {
+                object.selectedIndex = i;
+                break;
+            }
+        }
+    if (object.onchange)
+        object.onchange();
+}
+
+const configHandler = {
+    config: {},
+    applyNewConfig: function(newConfigText) {
+        const newConfig = JSON.parse(newConfigText);
+        for (const [id, value] of Object.entries(newConfig)) {
+            const settingController = document.querySelector('#' + id + '>.setting-controller');
+            setValue(settingController, newConfig[id]);
+        }
+    },
+    download: function() {
+        download('config.json', JSON.stringify(configHandler.config));
+    },
+    upload: function() {
+        upload(configHandler.applyNewConfig, 'json');
+    }
+}
+
+const conditionalsHandler = {
+    conditionals: {},
+    addConditional: function(conditionalDiv) {
+        if (!(conditionalDiv.getAttribute('whenId') in conditionalsHandler.conditionals))
+            conditionalsHandler.conditionals[conditionalDiv.getAttribute('whenId')] = {};
+        if (!(conditionalDiv.getAttribute('whenValue') in conditionalsHandler.conditionals[conditionalDiv.getAttribute('whenId')]))
+            conditionalsHandler.conditionals[conditionalDiv.getAttribute('whenId')][conditionalDiv.getAttribute('whenValue')] = [];
+        conditionalsHandler.conditionals[conditionalDiv.getAttribute('whenId')][conditionalDiv.getAttribute('whenValue')].push(conditionalDiv)
+    },
+    onChange: function(selectController) {
+        if (selectController.id in conditionalsHandler.conditionals) {
+            for (value in conditionalsHandler.conditionals[selectController.id]) {
+                if (value === selectController.options[selectController.selectedIndex].value)
+                    conditionalsHandler.conditionals[selectController.id][value].map((element) => element.classList.remove('conditional-hidden'));
+                else
+                    conditionalsHandler.conditionals[selectController.id][value].map((element) => element.classList.add('conditional-hidden'));
+            }
+        }
+    }
+};
+
+const conditionalDivs = document.querySelectorAll('.conditional');
+for (conditionalDiv of conditionalDivs)
+    conditionalsHandler.addConditional(conditionalDiv);
+
+
+
+const importConfigButton = document.getElementById('importConfigButton');
+const exportConfigButton = document.getElementById('exportConfigButton');
+
+importConfigButton.onclick = configHandler.upload;
+exportConfigButton.onclick = configHandler.download;
+
+function getValue(object) {
+    if (object.type === 'checkbox')
+        return object.checked;
+    if (object.classList.contains('select'))
+        return object.options[object.selectedIndex].value;
+    return object.value;
+}
+
+function bind(id, dictionary, key, preprocessor, onFinishChange) {
+    const settingController = document.querySelector('#' + id + '>.setting-controller');
+    settingController.onchange = function() {
+        let newValue = getValue(this);
+        if (preprocessor !== undefined)
+            dictionary[key] = preprocessor(newValue);
+        else
+            dictionary[key] = newValue;
+        configHandler.config[id] = newValue;
+        if (onFinishChange !== undefined)
+            onFinishChange(newValue);
+        if (settingController.classList.contains('select'))
+            conditionalsHandler.onChange(settingController);
+    }
+    settingController.onchange();
+    if (settingController.classList.contains('select'))
+        conditionalsHandler.onChange(settingController);
+}
+
+bind('fontSize', textToType.style, 'fontSize', value => value + 'vh');
+bind('horizontal', textToType.style, 'left', value => value + 'vw');
+bind('vertical', textToType.style, 'top', value => value + 'vh');
+bind('fontColor', textToType.style, 'color');
+bind('backgroundColor', document.body.style, 'backgroundColor');
+bind('italic', textToType.style, 'font-style', value => value ? 'italic' : 'normal');
+bind('bold', textToType.style, 'font-weight', value => value ? 'bold' : 'normal');
+
+
+
+let shadowStyle = {
+    enabled: undefined,
+    distance: undefined,
+    angle: undefined,
+    blur: undefined,
+    color: undefined
+};
+
+function updateShadowStyle() {
+    if (shadowStyle.enabled === false) {
+        textToType.style.textShadow = 'none';
+        return;
+    }
+    const horizontalShadow = shadowStyle.distance * Math.cos(shadowStyle.angle);
+    const verticalShadow = shadowStyle.distance * Math.sin(shadowStyle.angle);
+    textToType.style.textShadow = horizontalShadow + 'vh ' + verticalShadow + 'vh ' 
+                                + shadowStyle.blur + 'vh ' + shadowStyle.color;
+}
+
+bind('dropShadow', shadowStyle, 'enabled', undefined, updateShadowStyle);
+bind('shadowDistance', shadowStyle, 'distance', undefined, updateShadowStyle);
+bind('shadowAngle', shadowStyle, 'angle', undefined, updateShadowStyle);
+bind('shadowBlur', shadowStyle, 'blur', undefined, updateShadowStyle);
+bind('shadowColor', shadowStyle, 'color', undefined, updateShadowStyle);
+
+
+
+function addOptions(selectControllerId, optionsNames, defaultOptionName) {
+    const controller = document.querySelector('#' + selectControllerId + '>.setting-controller');
+    for (const optionName of optionsNames) {
+        let newOption = document.createElement('option');
+        newOption.value = optionName;
+        newOption.text = optionName;
+        controller.add(newOption);
+    }
+    if (defaultOptionName !== undefined)
+        controller.selectedIndex = optionsNames.indexOf(defaultOptionName);
+}
+
+
+
+let loadedFontsNames = {}
+function loadFont(fontName) {
+    if (loadedFontsNames[fontName] != true) {
+        WebFont.load({google: {families: [fontName]}});
+        loadedFontsNames[fontName] = true;
+    }
+    return fontName;
+}
+
+loadFont('Rubik');
+addOptions('font', allFontsNames, 'Rubik');
+bind('font', textToType.style, 'fontFamily', loadFont);
+
+
+
+function sync(id, dict, key) {
+    const object = document.querySelector('#' + id + '>.setting-controller');
+    setValue(object, dict[key]);
+}
+
+
+
+function randomSymbol(symbols) {
+    return symbols.charAt(Math.floor(Math.random() * symbols.length))
+}
+
+const textGenerator = {
+    methods: {
+        'Random characters': {
+            options: {
+                symbols: undefined,
+                numberOfSymbols: undefined
+            },
+            functions: {
+                randomSymbol: function(symbols) {
+                    return symbols.charAt(Math.floor(Math.random() * symbols.length))
+                }
+            },
+            generate: function() {
+                let newString = '';
+                let allowedSymbolsWithoutSpaces = this.options.symbols.replace(/ /g, '');
+                newString += randomSymbol(allowedSymbolsWithoutSpaces);
+                if (this.options.numberOfSymbols == 1)
+                    return newString;
+                for (let i = 1; i < (this.options.numberOfSymbols - 1); i++)
+                    newString += this.functions.randomSymbol(this.options.symbols);
+                newString += randomSymbol(allowedSymbolsWithoutSpaces);
+                return newString;
+            }
+        },
+        'Random fake words': {
+            options: {
+                numberOfWords: undefined
+            },
+            generate: function() {
+                newString = fake.word();
+                for (let i = 1; i < this.options.numberOfWords; i++)
+                    newString += ' ' + fake.word();
+                return newString.toLowerCase();
+            }
+        },
+        'Markov chain': {
+            options: {
+                numberOfWordsInChain: undefined
+            },
+            variables: {
+                generator: undefined,
+                corpus: undefined
+            },
+            buttons: {
+                uploadCorpus: function() {
+                    upload((text) => {
+                        _this = textGenerator.methods['Markov chain'];
+                        _this.variables.corpus = text;
+                        _this.functions.makeNewGenerator();
+                        textGenerator.generate();
+                    }, 'txt');
+                }
+            },
+            functions: {
+                replaceLineBreaksWithSpaces: function(string) {
+                    return string.replace(/[\r\n]+/g, ' ');
+                },
+                makeNewGenerator: function() {
+                    _this = textGenerator.methods['Markov chain'];
+                    _this.variables.generator = new markov(_this.functions.replaceLineBreaksWithSpaces(_this.variables.corpus), 'string', /[.,?"();\-!':—^\w]+ /g);
+                }
+            },
+            generate: function() {
+                if (this.variables.generator === undefined)
+                    return 'Upload corpus (larger is better) to generate more text';
+                return this.variables.generator.gen(this.options.numberOfWordsInChain.replace(/^\s+|\s+$/g, ''));
+            }
+        },
+        'Given text file': {
+            options: {
+                numberOfSentences: undefined,
+                currentSentenceNumber: undefined
+            },
+            variables: {
+                text: undefined
+            },
+            buttons: {
+                uploadTextFile: function() {
+                    upload((text) => {
+                        _this = textGenerator.methods['Given text file'];
+                        _this.variables.text = text.match( /[^\.!\?\n\r]+[\.!\?\n\r]+/g ) || [text];
+                        _this.options.currentSentenceNumber = 1;
+                        sync('currentSentenceNumber', _this.options, 'currentSentenceNumber');
+                        const currentSentenceNumberObject = document.querySelector('#currentSentenceNumber>.setting-controller');
+                        currentSentenceNumberObject.max = _this.variables.text.length;
+                        textGenerator.generate();
+                    }, 'txt');
+                }
+            },
+            functions: {
+                replaceLineBreaksWithSpaces: function(string) {
+                    return string.replace(/[\r\n]+/g, ' ');
+                },
+                incCurrentSentenceNumber: function() {
+                    _this = textGenerator.methods['Given text file'];
+                    const newSentenceNumber = Number.parseInt(_this.options.currentSentenceNumber) + 1;
+                    if (newSentenceNumber > _this.variables.text.length)
+                        newSentenceNumber = 1;
+                    _this.options.currentSentenceNumber = newSentenceNumber;
+                    sync('currentSentenceNumber', _this.options, 'currentSentenceNumber');
+                }
+            },
+            generate: function(mode) {
+                if (this.variables.text === undefined)
+                    return 'Upload file to type sentences from';
+
+                if (mode === 'next') {
+                    this.functions.incCurrentSentenceNumber();
+                }
+                let firstSentenceIndex = this.options.currentSentenceNumber - 1;
+                if (firstSentenceIndex > this.variables.text.length) {
+                    this.options.currentSentenceNumber = 1;
+                    sync('currentSentenceNumber', this.options, 'currentSentenceNumber');
+                    firstSentenceIndex = 0;
+                }
+                const numberOfSentences = Number.parseInt(this.options.numberOfSentences, 10);
+                const lastSentenceIndex = Math.min(firstSentenceIndex + numberOfSentences, this.variables.text.length);
+                
+                return this.functions.replaceLineBreaksWithSpaces(this.variables.text.slice(firstSentenceIndex, lastSentenceIndex).join('')).replace(/^\s+|\s+$/g, '');;
+            }
+        }
+    },
+    currentMethod: undefined,
+    bindOptions: function() {
+        for (const method of Object.values(textGenerator.methods))
+            for (const optionName of Object.keys(method.options))
+                bind(optionName, method.options, optionName, undefined, textGenerator.generate);
+    },
+    bindButtons: function() {
+        for (const method of Object.values(textGenerator.methods))
+            if ('buttons' in method)
+                for (const buttonName of Object.keys(method.buttons)) {
+                    const button = document.getElementById(buttonName);
+                    button.onclick = method.buttons[buttonName];
+                }
+    },
+    generate: function(mode) {
+        if (textGenerator.initialized === false)
+            return;
+        textToType.innerHTML = textGenerator.methods[textGenerator.currentMethod].generate(mode);
+    },
+    initialized: false,
+    init: function() {
+        addOptions('method', Object.keys(textGenerator.methods), 'Random fake words');
+        bind('method', textGenerator, 'currentMethod', undefined, textGenerator.generate);
+        textGenerator.bindOptions();
+        textGenerator.bindButtons();
+        textGenerator.initialized = true;
+        textGenerator.generate();
+    }
+}
+
+textGenerator.init();
+
+
+
+function getTextWidth(textObject) {
+    return Math.ceil(textObject.clientWidth) + 1;
+}
+
+function setTextToTypeShift(number) {
+    textToType.style.transform = 'translateX(' + (number * 100 / document.documentElement.clientWidth).toString() + 'vw)';
+}
+
+let textXShifts = {};
+let normalTextX;
+
+const uniqueKeyGenerator = {
+    generate: function(dictObject) {
+        const newKey = Math.max(...Object.keys(dictObject));
+        if (typeof newKey === 'number' && isFinite(newKey))
+            return newKey + 1;
+        else
+            return 1;
+    },
+
+    addWithUniqueId: function(dict, element) {
+        const key = uniqueKeyGenerator.generate(dict);
+        dict[key] = element;
+        return key;
+    }
+}
+
+let observer = new MutationObserver(function(mutations) {
+    mutations.forEach(function(mutationRecord) {
+        hiddenText.style.cssText = textToType.style.cssText;
+        hiddenText.style.opacity = '0';
+    })
+})
+observer.observe(textToType, { attributes : true, attributeFilter : ['style'] });
+
+function getCurrentSymbolWidth() {
+    hiddenText.innerHTML = textToType.innerHTML;
+    const oldWidth = getTextWidth(hiddenText);
+
+    hiddenText.innerHTML = hiddenText.innerHTML.substring(1);
+    const newWidth = getTextWidth(hiddenText);
+
+    return oldWidth - newWidth;
+}
+
+function keyEventHandler(event) {
+    if (event.key === textToType.innerHTML[0]) {
+        if (textToType.innerHTML.length === 1) {
+            textGenerator.generate('next');
+        }
+        else {
+            const newShiftKey = uniqueKeyGenerator.addWithUniqueId(textXShifts, getCurrentSymbolWidth());
+            new TWEEN.Tween({key: newShiftKey, shift: textXShifts[newShiftKey]}).to({shift: 0}, 1000).onUpdate(
+                object => textXShifts[object.key] = object.shift
+            ).onStart(
+                object => textToType.innerHTML = textToType.innerHTML.substring(1)
+            ).onComplete(
+                object => delete textXShifts[object.key]
+            ).start();
+        }
+    }
+}
+
+function sum(list) {
+    return list.reduce((sum, current) => sum + current, 0);
+}
+
+const animationsHandler = {
+    timerId: false,
+    onUpdate: false,
+
+    startUpdating: function() {
+        if (animationsHandler.onUpdate)
+            animationsHandler.onUpdate();
+        TWEEN.update();
+        animationsHandler.timerId = setTimeout(animationsHandler.startUpdating, 15);
+    },
+
+    stopUpdating: function() {
+        clearInterval(timerId);
+    }
+}
+
+animationsHandler.startUpdating()
+
+animationsHandler.onUpdate = function() {
+    const shiftsSum = sum(Object.values(textXShifts));
+    setTextToTypeShift(shiftsSum);
+}
+
+window.addEventListener('keydown', keyEventHandler, false);
+
+
+
+document.fonts.ready.then(function () {
+    document.getElementById('html').classList.remove('hidden-on-startup');
+});</script>
+    </body>
+</html>

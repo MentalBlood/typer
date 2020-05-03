@@ -170,6 +170,7 @@ function loadFont(fontName) {
     return fontName;
 }
 
+loadFont('Rubik');
 addOptions('font', allFontsNames, 'Rubik');
 bind('font', textToType.style, 'fontFamily', loadFont);
 

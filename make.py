@@ -23,6 +23,20 @@ def makeIncludes(fileWithIncludesName):
                 fileToIncludeText = fileToInclude.read()
                 fileWithIncludesText = fileWithIncludesText.replace(' src="' + fileToIncludeName + '">', '>' + fileToIncludeText)
                 shift += len(fileToIncludeText)
+
+        shift = 0
+        while True:
+            index = fileWithIncludesText.find('<link rel="stylesheet" href="', shift)
+            if index == -1:
+                break
+            quotesBeforeFileNameIndex = index + len('<link rel="stylesheet" href="') - 1
+            fileToIncludeName = fileWithIncludesText[quotesBeforeFileNameIndex + 1:fileWithIncludesText.find('"', quotesBeforeFileNameIndex + 1)]
+            print('\t' + fileToIncludeName)
+            shift = quotesBeforeFileNameIndex - len(' href="') + len('>')
+            with open(fileToIncludeName, 'r') as fileToInclude:
+                fileToIncludeText = fileToInclude.read()
+                fileWithIncludesText = fileWithIncludesText.replace('<link rel="stylesheet" href="' + fileToIncludeName + '">', '<style type="text/css">' + fileToIncludeText + '</style>')
+                shift += len(fileToIncludeText)
         outputFile.write(fileWithIncludesText)
 
 for name in filesNames('html', '.build'):

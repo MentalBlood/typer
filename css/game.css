@@ -182,12 +182,14 @@ header .settings .settings-content .setting:first-of-type {
     padding-right: max(0.5vw, 4px);
 }
 
-.setting.number .setting-title,
-.setting.checkbox .setting-title{
-    width: 85%;
+.setting-controller.color {
+    width: 15%;
 }
-.setting.color .setting-title {
-    width: 70%;
+
+.setting.number .setting-title,
+.setting.checkbox .setting-title
+.setting-color .setting-title {
+    width: 85%;
 }
 
 .setting-controller.number {
@@ -204,6 +206,8 @@ header .settings .settings-content .setting:first-of-type {
 header .settings .settings-content .button {
     background-color: transparent;
     color: white;
+
+    font-family: "Marmelad", sans-serif;
 
     height: max(4vh, 32px);
     min-height: max(4vh, 32px);
