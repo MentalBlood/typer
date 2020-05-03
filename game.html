@@ -1,5 +1,5 @@
 <!doctype html>
-<html class = ''>
+<html class = 'hidden-on-startup' id = 'html'>
     <head>
         <link rel = 'SHORTCUT ICON' href = './favicon.ico' type = 'image/x-icon'>
         <title>Typer</title>
@@ -13,8 +13,8 @@
     <body leftmargin = "0" topmargin = "0" style = "background-color:#ffffff; overflow-x: hidden; overflow-y: hidden">
         <header>
             <div class="settings">
-                <div class="settings-content opened">
-                    <div class="folder opened" id = '_textGeneration'>
+                <div class="settings-content">
+                    <div class="folder" id = '_textGeneration'>
                         <div class="folder-title unselectable" id = 'textGeneration'>Text generation</div>
                         <div class="folder-content">
                             <div class="setting" id = 'method'>
@@ -57,7 +57,7 @@
                             </button>
                         </div>
                     </div>
-                    <div class="folder opened" id = '_textStyle'>
+                    <div class="folder" id = '_textStyle'>
                         <div class="folder-title unselectable" id = 'textStyle'>Text style</div>
                         <div class="folder-content">
                             <div class="setting" id = 'font'>
@@ -78,9 +78,9 @@
                             </div>
                             <div class="setting" id = 'fontColor'>
                                 <div class="setting-title unselectable">Font color</div>
-                                <input type="color" class="setting-controller color">
+                                <input type="color" value = '#29363a' class="setting-controller color">
                             </div>
-                            <div class="folder opened" id = '_shadowStyle'>
+                            <div class="folder" id = '_shadowStyle'>
                                 <div class="folder-title unselectable" id = 'shadowStyle'>Shadow style</div>
                                 <div class="folder-content">
                                     <div class="setting checkbox" id = 'dropShadow'>
@@ -89,11 +89,11 @@
                                     </div>
                                     <div class="setting number" id = 'shadowDistance'>
                                         <div class="setting-title unselectable">Shadow distance</div>
-                                        <input type="number" value = '1' min = '0' max = '5' step = 0.1 class="setting-controller number">
+                                        <input type="number" value = '0.5' min = '0' max = '5' step = 0.1 class="setting-controller number">
                                     </div>
                                     <div class="setting number" id = 'shadowAngle'>
                                         <div class="setting-title unselectable">Shadow angle</div>
-                                        <input type="number" value = '0' min = '-3.14' max = '3.14' step = 0.01 class="setting-controller number">
+                                        <input type="number" value = '1' min = '-3.14' max = '3.14' step = 0.01 class="setting-controller number">
                                     </div>
                                     <div class="setting number" id = 'shadowBlur'>
                                         <div class="setting-title unselectable">Shadow blur</div>
@@ -105,27 +105,27 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="folder opened" id = '_position'>
+                            <div class="folder" id = '_position'>
                                 <div class="folder-title unselectable" id = 'position'>Position</div>
                                 <div class="folder-content">
                                     <div class="setting" id = 'horizontal'>
                                         <div class="setting-title unselectable">Horizontal</div>
-                                        <input type="number" value = '10' min = '1' max = '100' step = 0.1 class="setting-controller number">
+                                        <input type="number" value = '48' min = '1' max = '100' step = 0.1 class="setting-controller number">
                                     </div>
                                     <div class="setting" id = 'vertical'>
                                         <div class="setting-title unselectable">Vertical</div>
-                                        <input type="number" value = '10' min = '1' max = '100' step = 0.1 class="setting-controller number">
+                                        <input type="number" value = '43' min = '1' max = '100' step = 0.1 class="setting-controller number">
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="folder opened" id = '_backgroundStyle'>
+                    <div class="folder" id = '_backgroundStyle'>
                         <div class="folder-title unselectable" id = 'backgroundStyle'>Background Style</div>
                         <div class="folder-content">
                             <div class="setting" id = 'backgroundColor'>
                                 <div class="setting-title unselectable">Background color</div>
-                                <input type="color" value='#ffffff' class="setting-controller color">
+                                <input type="color" value='#d0d2c0' class="setting-controller color">
                             </div>
                         </div>
                     </div>
@@ -137,10 +137,28 @@
             </div>
         </header>
         <main>
-            <div style = "opacity: 1; background-color:transparent; color:#000000;
-            text-shadow:5px 5px 1px #222222; font-size:10vh; 
-            white-space: pre; height: auto; width: auto; position: absolute; left: 50vw; top: 50vh;
-            font-style: normal; font-weight: normal; z-index: -1" id="text"></div>
+            <div style = '
+                opacity: 1;
+
+                background-color:transparent;
+                color:#000000;
+                text-shadow: 5px 5px 1px #222222;
+
+                height: auto;
+                width: auto;
+
+                position: absolute;
+                left: 48vw;
+                top: 45vh;
+                
+                font-style: normal;
+                font-weight: normal;
+                font-size: 10vh;
+
+                white-space: pre;
+
+                z-index: -1
+            ' id = 'text'></div>
             <div style = 'opacity: 0;' id = 'hiddenText'></div>
         </main>
         <footer></footer>
@@ -149,8 +167,8 @@
         <script type="text/javascript" src="fake-words.js"></script>
         <script type="text/javascript" src="markov-generator.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
-        <script type="text/javascript" src="new/allFontsNames.js"></script>
+        <script type="text/javascript" src="allFontsNames.js"></script>
         <script type="text/javascript" src="tween.umd.js"></script>
-        <script type="text/javascript" src="new/main.js"></script>
+        <script type="text/javascript" src="main.js"></script>
     </body>
 </html>

@@ -29,7 +29,8 @@ function setValue(object, newValue) {
                 break;
             }
         }
-    object.onchange();
+    if (object.onchange)
+        object.onchange();
 }
 
 const configHandler = {
@@ -110,8 +111,8 @@ function bind(id, dictionary, key, preprocessor, onFinishChange) {
 }
 
 bind('fontSize', textToType.style, 'fontSize', value => value + 'vh');
-bind('horizontal', textToType.style, 'left', value => value + 'vh');
-bind('vertical', textToType.style, 'top', value => value + 'vw');
+bind('horizontal', textToType.style, 'left', value => value + 'vw');
+bind('vertical', textToType.style, 'top', value => value + 'vh');
 bind('fontColor', textToType.style, 'color');
 bind('backgroundColor', document.body.style, 'backgroundColor');
 bind('italic', textToType.style, 'font-style', value => value ? 'italic' : 'normal');
@@ -146,7 +147,7 @@ bind('shadowColor', shadowStyle, 'color', undefined, updateShadowStyle);
 
 
 
-function addOptions(selectControllerId, optionsNames) {
+function addOptions(selectControllerId, optionsNames, defaultOptionName) {
     const controller = document.querySelector('#' + selectControllerId + '>.setting-controller');
     for (const optionName of optionsNames) {
         let newOption = document.createElement('option');
@@ -154,6 +155,8 @@ function addOptions(selectControllerId, optionsNames) {
         newOption.text = optionName;
         controller.add(newOption);
     }
+    if (defaultOptionName !== undefined)
+        controller.selectedIndex = optionsNames.indexOf(defaultOptionName);
 }
 
 
@@ -167,7 +170,7 @@ function loadFont(fontName) {
     return fontName;
 }
 
-addOptions('font', allFontsNames);
+addOptions('font', allFontsNames, 'Rubik');
 bind('font', textToType.style, 'fontFamily', loadFont);
 
 
@@ -326,7 +329,7 @@ const textGenerator = {
     },
     initialized: false,
     init: function() {
-        addOptions('method', Object.keys(textGenerator.methods));
+        addOptions('method', Object.keys(textGenerator.methods), 'Random fake words');
         bind('method', textGenerator, 'currentMethod', undefined, textGenerator.generate);
         textGenerator.bindOptions();
         textGenerator.bindButtons();
@@ -341,10 +344,6 @@ textGenerator.init();
 
 function getTextWidth(textObject) {
     return Math.ceil(textObject.clientWidth) + 1;
-}
-
-function getTextToTypeX() {
-    return Number(textToType.style.left.replace('vw', '')) / 100 * document.documentElement.clientWidth;
 }
 
 function setTextToTypeShift(number) {
@@ -434,3 +433,9 @@ animationsHandler.onUpdate = function() {
 }
 
 window.addEventListener('keydown', keyEventHandler, false);
+
+
+
+document.fonts.ready.then(function () {
+    document.getElementById('html').classList.remove('hidden-on-startup');
+});
