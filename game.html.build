@@ -28,7 +28,7 @@ header .settings {
 
 header .settings .settings-button {
     position: absolute;
-    top: calc(50vh - calc(max(10vh, 8px) / 2 + 1vh));
+    top: calc(50vh - calc(max(10vh, 70px) / 2 + 1vh));
     height: max(10vh, 70px);
 
     font-size: max(2vh, 16px);
@@ -118,13 +118,11 @@ header .settings .settings-content .folder {
 }
 
 header .settings .settings-content .folder:not(.opened) {
-    height: max(2.5vh, 20px);
-    padding-top: 0;
-    padding-bottom: 1.25vh;
+    height: min(max(3vh, 24px), 3vw);
 }
 
 header .settings .settings-content .folder-title {
-    font-size: max(3vh, 24px);
+    font-size: min(max(3vh, 24px), 3vw);
     color: white;
     font-weight: bold;
 }
@@ -144,12 +142,10 @@ header .settings .settings-content .setting {
     align-items: center;
 
     height: max(3vh, 24px);
-    font-size: max(2.5vh, 20px);
 
     padding-left: max(1.5vw, 12px);
     padding-right: max(1.5vw, 12px);
     padding-bottom: max(1vh, 6px);
-    line-height: max(1vh, 11px);
 
     color: white;
 }
@@ -163,19 +159,21 @@ header .settings .settings-content .setting:first-of-type {
 }
 
 .setting-title {
-    width: 40%;
+    width: calc(50% - calc(2 * max(0.4vw, 3px)));
+
+    font-size: min(max(2.5vh, 20px), 2.5vw);
 
     display: table-cell;
     vertical-align: center;
-    margin-right: 2vw;
-    line-height: max(2.5vh, 20px);
+    margin-right: 3vw;
+    line-height: min(max(2.5vh, 20px), 2.5vw);
 }
 
 .setting-controller {
     min-height: max(2.5vh, 20px);
     font-size: max(2vh, 16px);
 
-    background-color: #111111;
+    background-color: rgba(0,0,0,0.5);
     color: white;
 
     border-radius: max(1vh, 8px);
@@ -189,6 +187,7 @@ header .settings .settings-content .setting:first-of-type {
 
 .setting-controller.select {
     border: 0px solid rgb(220, 220, 220, 150);
+    font-size: min(max(2vh, 16px), 2vw);
 }
 
 .setting-controller.checkbox {
@@ -210,7 +209,11 @@ header .settings .settings-content .setting:first-of-type {
 }
 
 .setting-controller.color {
-    width: 15%;
+    width: calc(50% + calc(2 * max(0.4vw, 3px)));
+}
+
+input[type="color"]::-webkit-color-swatch-wrapper {
+    display: none;
 }
 
 .setting.checkbox .setting-title
@@ -297,7 +300,6 @@ header .settings .settings-content .button:hover {
 
 .slider {
     -webkit-appearance: none;
-    width: 100%;
     min-height: max(2.5vh, 20px);
     border: 2px solid rgba(220, 220, 220, 150);
     border-radius: max(1vh, 8px);
@@ -347,8 +349,11 @@ header .settings .settings-content .button:hover {
     width: 10%;
     height: max(3.5vh, 28px);
 
+    padding-left: max(0.4vw, 3px);
+    padding-right: max(0.4vw, 3px);
+
     line-height: max(3.5vh, 28px);
-    font-size: max(2vh, 16px);
+    font-size: min(max(2vh, 16px), 2vw);
 }</style>
     </head>
     <body leftmargin = "0" topmargin = "0" style = "background-color:#ffffff; overflow-x: hidden; overflow-y: hidden">
@@ -1882,6 +1887,9 @@ function bind(id, dictionary, key, preprocessor, onFinishChange) {
             const outputElement = document.querySelector('#' + id + '>.output');
             if (outputElement !== null)
                 outputElement.innerHTML = newValue;
+        }
+        else if (settingController.type === 'color') {
+            settingController.style.backgroundColor = newValue;
         }
     }
     if (settingController.type === 'range')
