@@ -76,7 +76,7 @@ header .settings .settings-content {
     flex-direction: column;
     overflow-y: auto;
 
-    width: max(45vw, 200px);
+    width: max(45vw, 220px);
     height: calc(100vh - max(1vw, 10px));
 
     background-color: rgba(0,0,0,0.5);
@@ -163,7 +163,12 @@ header .settings .settings-content .setting:first-of-type {
 }
 
 .setting-title {
+    width: 40%;
+
+    display: table-cell;
+    vertical-align: center;
     margin-right: 2vw;
+    line-height: max(2.5vh, 20px);
 }
 
 .setting-controller {
@@ -173,18 +178,26 @@ header .settings .settings-content .setting:first-of-type {
     background-color: #111111;
     color: white;
 
-    border: 1px solid white;
     border-radius: max(1vh, 8px);
 
     outline: none;
 }
 
+.setting-controller:not(.select) {
+    border: 2px solid rgb(220, 220, 220, 150);
+}
+
+.setting-controller.select {
+    border: 0px solid rgb(220, 220, 220, 150);
+}
+
 .setting-controller.checkbox {
-    min-width: max(2.5vh, 20px);
+    width: max(2.5vh, 20px);
     margin: 0;
 }
 
-.setting-controller:not(.number):not(.checkbox):not(.color) {
+.setting-controller.text,
+.setting-controller.select {
     width: 60%;
     height: max(2.2vh, 17px);
 
@@ -192,20 +205,17 @@ header .settings .settings-content .setting:first-of-type {
     padding-right: max(0.5vw, 4px);
 }
 
+.setting-controller.number {
+    width: 40%;
+}
+
 .setting-controller.color {
     width: 15%;
 }
 
-.setting.number .setting-title,
 .setting.checkbox .setting-title
 .setting-color .setting-title {
     width: 85%;
-}
-
-.setting-controller.number {
-    width: 15%;
-    height: max(1.7vh, 14px);
-    padding: 3px;
 }
 
 .setting-controller.color {
@@ -226,7 +236,7 @@ header .settings .settings-content .button {
     margin-bottom: max(1vh, 8px);
     margin-left: max(1.5vw, 12px);
 
-    border: 1px solid white;
+    border: 2px solid rgb(220, 220, 220, 150);
     border-radius: max(1vh, 8px);
 
     outline: none;
@@ -256,15 +266,15 @@ header .settings .settings-content .button:hover {
 }
 
 ::-webkit-scrollbar-thumb {
-    border-radius: 1.5vh;
+    border-radius: max(1.5vh, 10px);
 }
 
 ::-webkit-scrollbar-thumb:not(:hover) {
-    background: #444444;
+    background: rgba(40, 40, 40, 128);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #666666;
+    background: rgba(64, 64, 64, 128);
 }
 
 
@@ -281,6 +291,64 @@ header .settings .settings-content .button:hover {
 
 .hidden-on-startup {
     opacity: 0 !important;
+}
+
+
+
+.slider {
+    -webkit-appearance: none;
+    width: 100%;
+    min-height: max(2.5vh, 20px);
+    border: 2px solid rgba(220, 220, 220, 150);
+    border-radius: max(1vh, 8px);
+    background: transparent;
+    outline: none;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: max(2.3vh, 18px);
+    min-height: max(2.3vh, 18px);
+    border: 2px solid rgba(220, 220, 220, 150);
+    border-radius: 50%; 
+    background: transparent;
+    cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+    width: max(2.3vh, 18px);
+    min-height: max(2.3vh, 18px);
+    border: 2px solid rgba(220, 220, 220, 150);
+    border-radius: 50%;
+    background: transparent;
+    cursor: pointer;
+}
+
+.slider::-ms-thumb {
+    width: max(2.3vh, 18px);
+    min-height: max(2.3vh, 18px);
+    border: 2px solid rgba(220, 220, 220, 150);
+    border-radius: 50%;
+    background: transparent;
+    cursor: pointer;
+}
+
+
+
+.setting .output {
+    color: white;
+
+    text-align: center;
+
+    border: 2px solid rgb(220, 220, 220, 150);
+    border-radius: max(1vh, 8px);
+
+    width: 10%;
+    height: max(3.5vh, 28px);
+
+    line-height: max(3.5vh, 28px);
+    font-size: max(2vh, 16px);
 }</style>
     </head>
     <body leftmargin = "0" topmargin = "0" style = "background-color:#ffffff; overflow-x: hidden; overflow-y: hidden">
@@ -297,21 +365,24 @@ header .settings .settings-content .button:hover {
 
                             <div class="setting conditional" whenId = 'methodController' whenValue = 'Random characters' id = 'symbols'>
                                 <div class="setting-title unselectable">Symbols</div>
-                                <input type="text" value = 'qwertyuiopasdfghjklzxcvbnm'class="setting-controller">
+                                <input type="text" value = 'qwertyuiopasdfghjklzxcvbnm'class="setting-controller text">
                             </div>
                             <div class="setting conditional" whenId = 'methodController' whenValue = 'Random characters' id = 'numberOfSymbols'>
                                 <div class="setting-title unselectable">Number of symbols</div>
-                                <input type="number" value = '10' min = '1' max = '100' step = 1 class="setting-controller number">
+                                <input type="range" value = '10' min = '1' max = '100' step = 1 class="setting-controller number slider">
+                                <div class="output"></div>
                             </div>
                             
                             <div class="setting conditional" whenId = 'methodController' whenValue = 'Random fake words' id = 'numberOfWords'>
                                 <div class="setting-title unselectable">Number of words</div>
-                                <input type="number" value = '10' min = '1' max = '100' step = 1 class="setting-controller number">
+                                <input type="range" value = '10' min = '1' max = '100' step = 1 class="setting-controller number slider">
+                                <div class="output"></div>
                             </div>
 
                             <div class="setting conditional" whenId = 'methodController' whenValue = 'Markov chain' id = 'numberOfWordsInChain'>
                                 <div class="setting-title unselectable">Number of words</div>
-                                <input type="number" value = '10' min = '1' max = '100' step = 1 class="setting-controller number">
+                                <input type="range" value = '10' min = '1' max = '100' step = 1 class="setting-controller number slider">
+                                <div class="output"></div>
                             </div>
                             <button class="button conditional" whenId = 'methodController' whenValue = 'Markov chain' id = 'uploadCorpus'>
                                 Upload corpus
@@ -319,11 +390,13 @@ header .settings .settings-content .button:hover {
 
                             <div class="setting conditional" whenId = 'methodController' whenValue = 'Given text file' id = 'numberOfSentences'>
                                 <div class="setting-title unselectable">Number of sentences</div>
-                                <input type="number" value = '1' min = '1' max = '100' step = 1 class="setting-controller number">
+                                <input type="range" value = '1' min = '1' max = '100' step = 1 class="setting-controller number slider">
+                                <div class="output"></div>
                             </div>
                             <div class="setting conditional" whenId = 'methodController' whenValue = 'Given text file' id = 'currentSentenceNumber'>
                                 <div class="setting-title unselectable">Current sentence number</div>
-                                <input type="number" value = '1' min = '1' max = '100' step = 1 class="setting-controller number">
+                                <input type="range" value = '1' min = '1' max = '100' step = 1 class="setting-controller number slider">
+                                <div class="output"></div>
                             </div>
                             <button class="button conditional" whenId = 'methodController' whenValue = 'Given text file' id = 'uploadTextFile'>
                                 Upload text file
@@ -347,7 +420,8 @@ header .settings .settings-content .button:hover {
                             </div>
                             <div class="setting" id = 'fontSize'>
                                 <div class="setting-title unselectable">Font size</div>
-                                <input type="number" value = '10' min = '1' max = '100' step = '0.1' class="setting-controller number">
+                                <input type="range" value = '10' min = '1' max = '100' step = '0.1' class="setting-controller number slider">
+                                <div class="output"></div>
                             </div>
                             <div class="setting" id = 'fontColor'>
                                 <div class="setting-title unselectable">Font color</div>
@@ -362,15 +436,18 @@ header .settings .settings-content .button:hover {
                                     </div>
                                     <div class="setting number" id = 'shadowDistance'>
                                         <div class="setting-title unselectable">Shadow distance</div>
-                                        <input type="number" value = '0.5' min = '0' max = '5' step = '0.1' class="setting-controller number">
+                                        <input type="range" value = '0.5' min = '0' max = '5' step = '0.1' class="setting-controller number slider">
+                                <div class="output"></div>
                                     </div>
                                     <div class="setting number" id = 'shadowAngle'>
                                         <div class="setting-title unselectable">Shadow angle</div>
-                                        <input type="number" value = '1' min = '-3.14' max = '3.14' step = '0.01' class="setting-controller number">
+                                        <input type="range" value = '1' min = '-3.14' max = '3.14' step = '0.01' class="setting-controller number slider">
+                                <div class="output"></div>
                                     </div>
                                     <div class="setting number" id = 'shadowBlur'>
                                         <div class="setting-title unselectable">Shadow blur</div>
-                                        <input type="number" value = '1' min = '0' max = '3' step = '0.1' class="setting-controller number">
+                                        <input type="range" value = '1' min = '0' max = '3' step = '0.1' class="setting-controller number slider">
+                                <div class="output"></div>
                                     </div>
                                     <div class="setting color" id = 'shadowColor'>
                                         <div class="setting-title unselectable">Shadow color</div>
@@ -383,11 +460,13 @@ header .settings .settings-content .button:hover {
                                 <div class="folder-content">
                                     <div class="setting" id = 'horizontal'>
                                         <div class="setting-title unselectable">Horizontal</div>
-                                        <input type="number" value = '48' min = '1' max = '100' step = '0.1' class="setting-controller number">
+                                        <input type="range" value = '48' min = '1' max = '100' step = '0.1' class="setting-controller number slider">
+                                <div class="output"></div>
                                     </div>
                                     <div class="setting" id = 'vertical'>
                                         <div class="setting-title unselectable">Vertical</div>
-                                        <input type="number" value = '43' min = '1' max = '100' step = '0.1' class="setting-controller number">
+                                        <input type="range" value = '43' min = '1' max = '100' step = '0.1' class="setting-controller number slider">
+                                <div class="output"></div>
                                     </div>
                                 </div>
                             </div>
@@ -1799,10 +1878,15 @@ function bind(id, dictionary, key, preprocessor, onFinishChange) {
             onFinishChange(newValue);
         if (settingController.classList.contains('select'))
             conditionalsHandler.onChange(settingController);
+        else if (settingController.type === 'range') {
+            const outputElement = document.querySelector('#' + id + '>.output');
+            if (outputElement !== null)
+                outputElement.innerHTML = newValue;
+        }
     }
+    if (settingController.type === 'range')
+        settingController.oninput = settingController.onchange;
     settingController.onchange();
-    if (settingController.classList.contains('select'))
-        conditionalsHandler.onChange(settingController);
 }
 
 bind('fontSize', textToType.style, 'fontSize', value => value + 'vh');
@@ -2129,6 +2213,10 @@ animationsHandler.onUpdate = function() {
 }
 
 window.addEventListener('keydown', keyEventHandler, false);
+
+
+
+
 
 
 

@@ -104,10 +104,15 @@ function bind(id, dictionary, key, preprocessor, onFinishChange) {
             onFinishChange(newValue);
         if (settingController.classList.contains('select'))
             conditionalsHandler.onChange(settingController);
+        else if (settingController.type === 'range') {
+            const outputElement = document.querySelector('#' + id + '>.output');
+            if (outputElement !== null)
+                outputElement.innerHTML = newValue;
+        }
     }
+    if (settingController.type === 'range')
+        settingController.oninput = settingController.onchange;
     settingController.onchange();
-    if (settingController.classList.contains('select'))
-        conditionalsHandler.onChange(settingController);
 }
 
 bind('fontSize', textToType.style, 'fontSize', value => value + 'vh');
@@ -434,6 +439,10 @@ animationsHandler.onUpdate = function() {
 }
 
 window.addEventListener('keydown', keyEventHandler, false);
+
+
+
+
 
 
 

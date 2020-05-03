@@ -66,7 +66,7 @@ header .settings .settings-content {
     flex-direction: column;
     overflow-y: auto;
 
-    width: max(45vw, 200px);
+    width: max(45vw, 220px);
     height: calc(100vh - max(1vw, 10px));
 
     background-color: rgba(0,0,0,0.5);
@@ -153,7 +153,12 @@ header .settings .settings-content .setting:first-of-type {
 }
 
 .setting-title {
+    width: 40%;
+
+    display: table-cell;
+    vertical-align: center;
     margin-right: 2vw;
+    line-height: max(2.5vh, 20px);
 }
 
 .setting-controller {
@@ -163,18 +168,26 @@ header .settings .settings-content .setting:first-of-type {
     background-color: #111111;
     color: white;
 
-    border: 1px solid white;
     border-radius: max(1vh, 8px);
 
     outline: none;
 }
 
+.setting-controller:not(.select) {
+    border: 2px solid rgb(220, 220, 220, 150);
+}
+
+.setting-controller.select {
+    border: 0px solid rgb(220, 220, 220, 150);
+}
+
 .setting-controller.checkbox {
-    min-width: max(2.5vh, 20px);
+    width: max(2.5vh, 20px);
     margin: 0;
 }
 
-.setting-controller:not(.number):not(.checkbox):not(.color) {
+.setting-controller.text,
+.setting-controller.select {
     width: 60%;
     height: max(2.2vh, 17px);
 
@@ -182,20 +195,17 @@ header .settings .settings-content .setting:first-of-type {
     padding-right: max(0.5vw, 4px);
 }
 
+.setting-controller.number {
+    width: 40%;
+}
+
 .setting-controller.color {
     width: 15%;
 }
 
-.setting.number .setting-title,
 .setting.checkbox .setting-title
 .setting-color .setting-title {
     width: 85%;
-}
-
-.setting-controller.number {
-    width: 15%;
-    height: max(1.7vh, 14px);
-    padding: 3px;
 }
 
 .setting-controller.color {
@@ -216,7 +226,7 @@ header .settings .settings-content .button {
     margin-bottom: max(1vh, 8px);
     margin-left: max(1.5vw, 12px);
 
-    border: 1px solid white;
+    border: 2px solid rgb(220, 220, 220, 150);
     border-radius: max(1vh, 8px);
 
     outline: none;
@@ -246,15 +256,15 @@ header .settings .settings-content .button:hover {
 }
 
 ::-webkit-scrollbar-thumb {
-    border-radius: 1.5vh;
+    border-radius: max(1.5vh, 10px);
 }
 
 ::-webkit-scrollbar-thumb:not(:hover) {
-    background: #444444;
+    background: rgba(40, 40, 40, 128);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #666666;
+    background: rgba(64, 64, 64, 128);
 }
 
 
@@ -271,4 +281,62 @@ header .settings .settings-content .button:hover {
 
 .hidden-on-startup {
     opacity: 0 !important;
+}
+
+
+
+.slider {
+    -webkit-appearance: none;
+    width: 100%;
+    min-height: max(2.5vh, 20px);
+    border: 2px solid rgba(220, 220, 220, 150);
+    border-radius: max(1vh, 8px);
+    background: transparent;
+    outline: none;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: max(2.3vh, 18px);
+    min-height: max(2.3vh, 18px);
+    border: 2px solid rgba(220, 220, 220, 150);
+    border-radius: 50%; 
+    background: transparent;
+    cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+    width: max(2.3vh, 18px);
+    min-height: max(2.3vh, 18px);
+    border: 2px solid rgba(220, 220, 220, 150);
+    border-radius: 50%;
+    background: transparent;
+    cursor: pointer;
+}
+
+.slider::-ms-thumb {
+    width: max(2.3vh, 18px);
+    min-height: max(2.3vh, 18px);
+    border: 2px solid rgba(220, 220, 220, 150);
+    border-radius: 50%;
+    background: transparent;
+    cursor: pointer;
+}
+
+
+
+.setting .output {
+    color: white;
+
+    text-align: center;
+
+    border: 2px solid rgb(220, 220, 220, 150);
+    border-radius: max(1vh, 8px);
+
+    width: 10%;
+    height: max(3.5vh, 28px);
+
+    line-height: max(3.5vh, 28px);
+    font-size: max(2vh, 16px);
 }
