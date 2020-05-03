@@ -16,16 +16,14 @@ header {
 header .settings {
 }
 
-header .settings .settings-button {
+header .side-button {
     position: absolute;
-    top: calc(50vh - calc(max(10vh, 70px) / 2 + 1vh));
+    top: calc(calc(50vh - calc(max(10vh, 70px) / 2 + 1vh)) / 4);
     height: max(10vh, 70px);
 
     font-size: max(2vh, 16px);
     text-align: center;
     padding: 0.5vh;
-
-    writing-mode: vertical-lr;
 
     background-color: #222;
     color: white;
@@ -38,21 +36,37 @@ header .settings .settings-button {
     outline: none;
 }
 
-header .settings .settings-button:not(:hover) {
-    opacity: 0.3;
+header .side-button.settings-button {
+    writing-mode: vertical-lr;
+}
 
+header .side-button.statistics-button {
+    right: 0;
+    writing-mode: vertical-rl;
+}
+
+header .side-button:not(:hover) {
+    opacity: 0.3;
     transition-duration: 0.5s;
 }
 
-header .settings .settings-button:hover {
+header .side-button:hover {
     opacity: 1;
+    transition-duration: 0.5s;
+}
 
+header .statistics .side-panel:not(.opened)+.side-button {
+    right: 0;
+    transition-duration: 0.5s;
+}
+
+header .statistics .side-panel.opened+.side-button {
+    right: max(46vw, 205px);
     transition-duration: 0.5s;
 }
 
 header .settings .settings-content:not(.opened)+.settings-button {
     left: 0;
-
     transition-duration: 0.5s;
 }
 
@@ -61,10 +75,8 @@ header .settings .settings-content.opened+.settings-button {
     transition-duration: 0.5s;
 }
 
-header .settings .settings-content {
-    display: flex;
-    flex-direction: column;
-    overflow-y: auto;
+header .side-panel {
+    position: absolute;
 
     width: max(45vw, 220px);
     height: calc(100vh - max(1vw, 10px));
@@ -73,21 +85,34 @@ header .settings .settings-content {
 
     border: max(0.5vw, 5px) solid black;
     border-radius: 1vw;
+
+    overflow-y: auto;
 }
 
-header .settings .settings-content:not(.opened) {
-    position: relative;
-    left: min(-46vw, -205px);
+header .settings .side-panel {
+    display: flex;
+    flex-direction: column;
+}
 
+header .settings .side-panel:not(.opened) {
+    left: min(-46vw, -205px);
     transition-duration: 0.5s;
 }
 
-header .settings .settings-content.opened {
-    position: relative;
+header .settings .side-panel.opened {
     left: 0;
-
     box-shadow: max(1.5vw, 12px) 0 max(2vw, 16px) rgba(0,0,0,0.6);
+    transition-duration: 0.5s;
+}
 
+header .statistics .side-panel:not(.opened) {
+    left: 100vw;
+    transition-duration: 0.5s;
+}
+
+header .statistics .side-panel.opened {
+    left: calc(100vw - max(46vw, 205px));
+    box-shadow: max(1.5vw, 12px) 0 max(2vw, 16px) rgba(0,0,0,0.6);
     transition-duration: 0.5s;
 }
 

@@ -1,9 +1,18 @@
-const settingsButton = document.querySelector('.settings-button');
-const settingsContent = document.querySelector('.settings-content');
+const settingsButton = document.querySelector('.settings .side-button');
+const settingsContent = document.querySelector('.settings .side-panel');
 
 settingsButton.onclick = function() {
     settingsContent.classList.toggle('opened');
 };
+
+const statisticsButton = document.querySelector('.statistics .side-button');
+const statisticsContent = document.querySelector('.statistics .side-panel');
+
+statisticsButton.onclick = function() {
+    statisticsContent.classList.toggle('opened');
+};
+
+
 
 const folderTitles = document.querySelectorAll('.settings-content .folder-title');
 
