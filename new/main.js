@@ -175,7 +175,7 @@ bind('font', textToType.style, 'fontFamily', loadFont);
 
 function sync(id, dict, key) {
     const object = document.querySelector('#' + id + '>.setting-controller');
-    dict[key] = getValue(object);
+    setValue(object, dict[key]);
 }
 
 
@@ -276,20 +276,33 @@ const textGenerator = {
             functions: {
                 replaceLineBreaksWithSpaces: function(string) {
                     return string.replace(/[\r\n]+/g, ' ');
+                },
+                incCurrentSentenceNumber: function() {
+                    _this = textGenerator.methods['Given text file'];
+                    const newSentenceNumber = Number.parseInt(_this.options.currentSentenceNumber) + 1;
+                    if (newSentenceNumber > _this.variables.text.length)
+                        newSentenceNumber = 1;
+                    _this.options.currentSentenceNumber = newSentenceNumber;
+                    sync('currentSentenceNumber', _this.options, 'currentSentenceNumber');
                 }
             },
-            generate: function() {
+            generate: function(mode) {
                 console.log('generate');
                 if (this.variables.text === undefined)
                     return 'Upload file to type sentences from';
 
+                if (mode === 'next') {
+                    this.functions.incCurrentSentenceNumber();
+                }
                 let firstSentenceIndex = this.options.currentSentenceNumber - 1;
                 if (firstSentenceIndex > this.variables.text.length) {
                     this.options.currentSentenceNumber = 1;
                     sync('currentSentenceNumber', this.options, 'currentSentenceNumber');
                     firstSentenceIndex = 0;
                 }
-                const lastSentenceIndex = Math.min(this.options.currentSentenceNumber - 1 + this.options.numberOfSentences, this.variables.text.length);
+                const numberOfSentences = Number.parseInt(this.options.numberOfSentences, 10);
+                const lastSentenceIndex = Math.min(firstSentenceIndex + numberOfSentences, this.variables.text.length);
+                console.log(firstSentenceIndex, lastSentenceIndex);
                 
                 return this.functions.replaceLineBreaksWithSpaces(this.variables.text.slice(firstSentenceIndex, lastSentenceIndex).join('')).replace(/^\s+|\s+$/g, '');;
             }
@@ -309,11 +322,10 @@ const textGenerator = {
                     button.onclick = method.buttons[buttonName];
                 }
     },
-    generate: function() {
+    generate: function(mode) {
         if (textGenerator.initialized === false)
             return;
-        textToType.innerHTML = textGenerator.methods[textGenerator.currentMethod].generate();
-        //charactersLeft = textToType.innerHTML.length;
+        textToType.innerHTML = textGenerator.methods[textGenerator.currentMethod].generate(mode);
     },
     initialized: false,
     init: function() {
@@ -327,3 +339,17 @@ const textGenerator = {
 }
 
 textGenerator.init();
+
+
+
+function keyEventHandler(event) {
+    if (event.key === textToType.innerHTML[0]) {
+        if (textToType.innerHTML.length === 1) {
+            textGenerator.generate('next');
+        }
+        else
+            textToType.innerHTML = textToType.innerHTML.substring(1);
+    }
+}
+
+window.addEventListener('keydown', keyEventHandler, false);
