@@ -282,7 +282,7 @@ const textGenerator = {
                 },
                 incCurrentSentenceNumber: function() {
                     _this = textGenerator.methods['Given text file'];
-                    const newSentenceNumber = Number.parseInt(_this.options.currentSentenceNumber) + 1;
+                    let newSentenceNumber = Number.parseInt(_this.options.currentSentenceNumber) + 1;
                     if (newSentenceNumber > _this.variables.text.length)
                         newSentenceNumber = 1;
                     _this.options.currentSentenceNumber = newSentenceNumber;
