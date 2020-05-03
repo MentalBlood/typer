@@ -109,6 +109,9 @@ function bind(id, dictionary, key, preprocessor, onFinishChange) {
             if (outputElement !== null)
                 outputElement.innerHTML = newValue;
         }
+        else if (settingController.type === 'color') {
+            settingController.style.backgroundColor = newValue;
+        }
     }
     if (settingController.type === 'range')
         settingController.oninput = settingController.onchange;

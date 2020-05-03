@@ -165,7 +165,7 @@ header .settings .settings-content .setting:first-of-type {
     min-height: max(2.5vh, 20px);
     font-size: max(2vh, 16px);
 
-    background-color: #111111;
+    background-color: rgba(0,0,0,0.5);
     color: white;
 
     border-radius: max(1vh, 8px);
@@ -201,6 +201,10 @@ header .settings .settings-content .setting:first-of-type {
 
 .setting-controller.color {
     width: 15%;
+}
+
+input[type="color"]::-webkit-color-swatch-wrapper {
+    display: none;
 }
 
 .setting.checkbox .setting-title
@@ -337,6 +341,12 @@ header .settings .settings-content .button:hover {
     width: 10%;
     height: max(3.5vh, 28px);
 
+        padding-left: max(0.4vw, 3px);
+    padding-right: max(0.4vw, 3px);
+
     line-height: max(3.5vh, 28px);
     font-size: max(2vh, 16px);
 }
+
+
+
