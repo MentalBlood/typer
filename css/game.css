@@ -112,7 +112,7 @@ header .statistics .side-panel:not(.opened) {
 
 header .statistics .side-panel.opened {
     left: calc(100vw - max(46vw, 205px));
-    box-shadow: max(1.5vw, 12px) 0 max(2vw, 16px) rgba(0,0,0,0.6);
+    box-shadow: min(-1.5vw, -12px) 0 max(2vw, 16px) rgba(0,0,0,0.6);
     transition-duration: 0.5s;
 }
 
