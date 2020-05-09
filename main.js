@@ -256,14 +256,14 @@ const statisticsHandler = {
             statisticsHandler.draggingHadler.updateDesktopVariableSize(_this);
         },
         updateDesktopVariableSize: function(desktopVariable) {
-            const heightWithPadding = Math.max(desktopVariable.height, 10);
-            const widthWithPadding = Math.max(desktopVariable.width, 10);
+            const heightWithPadding = Math.max(desktopVariable.height, 5);
+            const widthWithPadding = Math.max(desktopVariable.width, 5);
             const padding = Math.min(widthWithPadding / 40, heightWithPadding / 10) * 1.5;
             const height = heightWithPadding - padding;
             const width = widthWithPadding - padding;
             desktopVariable.style.padding = 'min(' + padding + 'vh, ' + padding + 'vw)';
             desktopVariable.style.width = 'calc(' + width + 'vw - 2*' + 'min(' + padding + 'vh, ' + padding + 'vw))';
-            desktopVariable.style.height = 'max(calc(' + height + 'vh - 2*' + 'min(' + padding + 'vh, ' + padding + 'vw)), default)';
+            desktopVariable.style.height = 'default';
             const desktopVariableTitle = desktopVariable.childNodes[1];
             const multiplier = Math.min(height / 10, width / 15);
             const titleFontSize = multiplier * 3;
