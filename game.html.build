@@ -35,10 +35,11 @@ header .side-button {
     z-index: 3;
 
     position: absolute;
-    top: calc(calc(50vh - calc(max(10vh, 70px) / 2 + 1vh)) / 4);
-    height: min(10vh, 10vw);
+    height: min(2.5vh, 2.5vw);
+    width: min(10vh, 10vw);
 
     font-size: min(2vh, 2vw);
+    line-height: min(2.5vh, 2.5vw);
     text-align: center;
     padding: 0.5vh;
 
@@ -49,16 +50,6 @@ header .side-button {
     border-radius: max(1.2vh, 10px);
 
     outline: none;
-}
-
-header .side-button.settings-button {
-    left: 0;
-    writing-mode: vertical-lr;
-}
-
-header .side-button.statistics-button {
-    right: 0;
-    writing-mode: vertical-rl;
 }
 
 header .side-button:not(:hover) {
@@ -95,6 +86,7 @@ header .statistics .side-panel:not(.opened)+.side-button {
 }
 
 header .statistics .side-panel.opened+.side-button {
+    transform: rotate(-0.25turn) translateX(calc(0px - min(10vh, 10vw) / 2)) translateY(calc(0px - min(2.5vh, 2.5vw) / 2 + min(10vh, 10vw) / 2));
     right: 41vw;
     transition-duration: 0.5s;
 }
@@ -105,6 +97,7 @@ header .settings .side-panel:not(.opened)+.settings-button {
 }
 
 header .settings .side-panel.opened+.settings-button {
+    transform: rotate(0.25turn) translateX(calc(min(10vh, 10vw) / 2)) translateY(calc(0px - min(2.5vh, 2.5vw) / 2 + min(10vh, 10vw) / 2));
     left: 41vw;
     transition-duration: 0.5s;
 }
@@ -148,7 +141,7 @@ header .settings .side-panel .folder {
 
     background-color: transparent;
 
-    border-left: max(0.4vw, 4px) solid #7ac;
+    border-left: max(0.4vw, 4px) solid #8aa;
     border-radius: max(0.8vw, 6px);
 }
 
@@ -478,7 +471,7 @@ header .settings .side-panel .button:hover {
     <body leftmargin = "0" topmargin = "0" style = "background-color:#ffffff; overflow-x: hidden; overflow-y: hidden">
         <header id = 'header'>
             <div class="settings">
-                <div class="side-panel opened">
+                <div class="side-panel">
                     <div class="folder" id = '_textGeneration'>
                         <div class="folder-title unselectable" id = 'textGeneration'>Text generation</div>
                         <div class="folder-content">
@@ -612,7 +605,7 @@ header .settings .side-panel .button:hover {
                 <div class = 'side-button settings-button unselectable'>settings</div>
             </div>
             <div class="statistics">
-                <div class="side-panel opened">
+                <div class="side-panel">
                     <div class="variable unselectable" id = 'lastTypingSpeed'>
                         <div class="title">Last string typing speed</div>
                         <div class="value">?</div>
@@ -2153,6 +2146,7 @@ function sync(id, dict, key) {
 
 const statisticsHandler = {
     variables: {},
+    desktopVariables: [],
     draggingHadler: {
         objectThatIsDraggedNow: undefined,
         objectThatIsResizedNow: undefined,
@@ -2182,7 +2176,7 @@ const statisticsHandler = {
 
             desktopVariable.style.height = 'calc(' + height + 'vh - 2*' + 'min(' + padding + 'vh, ' + padding + 'vw))';
             const desktopVariableTitle = desktopVariable.childNodes[1];
-            const multiplier = Math.min(height / 10, width / 20);
+            const multiplier = Math.min(height / 14, width / 20);
             const titleFontSize = multiplier * 3;
             desktopVariableTitle.style.fontSize = 'min(' + titleFontSize + 'vh, ' + titleFontSize + 'vw)';
             const desktopVariableValue = desktopVariable.childNodes[3];
@@ -2251,9 +2245,20 @@ const statisticsHandler = {
                 return false;
             };
             desktopVariable.height = '7';
-            desktopVariable.width = '45';
+            desktopVariable.width = '40';
             statisticsHandler.draggingHadler.updateDesktopVariableSize(desktopVariable);
             statisticsHandler.variables[variable.id].clones.push({'value': desktopVariable.childNodes[3]});
+            statisticsHandler.desktopVariables.push(desktopVariable);
+            document.addEventListener('mousemove', e => {
+                for (const desktopVariable of statisticsHandler.desktopVariables) {
+                    const rect = desktopVariable.getBoundingClientRect();
+                    if ((e.pageX < rect.x) || (e.pageX > rect.x + rect.width) || (e.pageY < rect.y) || (e.pageY > rect.y + rect.height)) {
+                        desktopVariable.style.zIndex = 0;
+                        continue;
+                    }
+                    desktopVariable.style.zIndex = 1000;
+                }
+            });
             closePanels();
             document.getElementById('header').appendChild(desktopVariable);
             desktopVariable.onmousedown(e);
@@ -2544,11 +2549,16 @@ function getCurrentSymbolWidth() {
 }
 
 function keyEventHandler(event) {
-    if (typing === false) {
+
+    if ((textToType.innerHTML.length === 1) && (typing === false)) {
         typing = true;
         statisticsHandler.onTypingStart();
     }
     if (event.key === textToType.innerHTML[0]) {
+        if (typing === false) {
+            typing = true;
+            statisticsHandler.onTypingStart();
+        }
         if (textToType.innerHTML.length === 1) {
             statisticsHandler.onTypingEnd();
             typing = false;

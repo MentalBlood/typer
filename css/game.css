@@ -24,10 +24,11 @@ header .side-button {
     z-index: 3;
 
     position: absolute;
-    top: calc(calc(50vh - calc(max(10vh, 70px) / 2 + 1vh)) / 4);
-    height: min(10vh, 10vw);
+    height: min(2.5vh, 2.5vw);
+    width: min(10vh, 10vw);
 
     font-size: min(2vh, 2vw);
+    line-height: min(2.5vh, 2.5vw);
     text-align: center;
     padding: 0.5vh;
 
@@ -38,16 +39,6 @@ header .side-button {
     border-radius: max(1.2vh, 10px);
 
     outline: none;
-}
-
-header .side-button.settings-button {
-    left: 0;
-    writing-mode: vertical-lr;
-}
-
-header .side-button.statistics-button {
-    right: 0;
-    writing-mode: vertical-rl;
 }
 
 header .side-button:not(:hover) {
@@ -84,6 +75,7 @@ header .statistics .side-panel:not(.opened)+.side-button {
 }
 
 header .statistics .side-panel.opened+.side-button {
+    transform: rotate(-0.25turn) translateX(calc(0px - min(10vh, 10vw) / 2)) translateY(calc(0px - min(2.5vh, 2.5vw) / 2 + min(10vh, 10vw) / 2));
     right: 41vw;
     transition-duration: 0.5s;
 }
@@ -94,6 +86,7 @@ header .settings .side-panel:not(.opened)+.settings-button {
 }
 
 header .settings .side-panel.opened+.settings-button {
+    transform: rotate(0.25turn) translateX(calc(min(10vh, 10vw) / 2)) translateY(calc(0px - min(2.5vh, 2.5vw) / 2 + min(10vh, 10vw) / 2));
     left: 41vw;
     transition-duration: 0.5s;
 }
@@ -137,7 +130,7 @@ header .settings .side-panel .folder {
 
     background-color: transparent;
 
-    border-left: max(0.4vw, 4px) solid #7ac;
+    border-left: max(0.4vw, 4px) solid #8aa;
     border-radius: max(0.8vw, 6px);
 }
 
