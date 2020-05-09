@@ -130,7 +130,7 @@ header .settings .side-panel .folder {
 
     background-color: transparent;
 
-    border-left: max(0.4vw, 4px) solid #8aa;
+    border-left: max(0.4vw, 4px) solid rgba(255, 255, 255, 0.6);
     border-radius: max(0.8vw, 6px);
 }
 

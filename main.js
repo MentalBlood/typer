@@ -256,23 +256,24 @@ const statisticsHandler = {
             statisticsHandler.draggingHadler.updateDesktopVariableSize(_this);
         },
         updateDesktopVariableSize: function(desktopVariable) {
-            const height = Math.max(desktopVariable.height, 10);
-            const width = Math.max(desktopVariable.width, 10);
-            const padding = Math.min(width / 40, height / 10) * 1.5;
+            const heightWithPadding = Math.max(desktopVariable.height, 10);
+            const widthWithPadding = Math.max(desktopVariable.width, 10);
+            const padding = Math.min(widthWithPadding / 40, heightWithPadding / 10) * 1.5;
+            const height = heightWithPadding - padding;
+            const width = widthWithPadding - padding;
             desktopVariable.style.padding = 'min(' + padding + 'vh, ' + padding + 'vw)';
             desktopVariable.style.width = 'calc(' + width + 'vw - 2*' + 'min(' + padding + 'vh, ' + padding + 'vw))';
-
-            desktopVariable.style.height = 'calc(' + height + 'vh - 2*' + 'min(' + padding + 'vh, ' + padding + 'vw))';
+            desktopVariable.style.height = 'max(calc(' + height + 'vh - 2*' + 'min(' + padding + 'vh, ' + padding + 'vw)), default)';
             const desktopVariableTitle = desktopVariable.childNodes[1];
-            const multiplier = Math.min(height / 14, width / 20);
+            const multiplier = Math.min(height / 10, width / 15);
             const titleFontSize = multiplier * 3;
-            desktopVariableTitle.style.fontSize = 'min(' + titleFontSize + 'vh, ' + titleFontSize + 'vw)';
+            desktopVariableTitle.style.fontSize = titleFontSize + 'vh';
             const desktopVariableValue = desktopVariable.childNodes[3];
             const valueFontSize = multiplier * 2.5;
-            desktopVariableValue.style.fontSize = 'min(' + valueFontSize + 'vh, ' + valueFontSize + 'vw)';
+            desktopVariableValue.style.fontSize = valueFontSize + 'vh';
             const desktopVariableUnits = desktopVariable.childNodes[5];
             const unitsFontSize = multiplier * 2;
-            desktopVariableUnits.style.fontSize = 'min(' + unitsFontSize + 'vh, ' + unitsFontSize + 'vw)';
+            desktopVariableUnits.style.fontSize = unitsFontSize + 'vh';
         },
         createDesktopVariable: function(variable, e) {
             const initialMouseOffsetX = e.offsetX;

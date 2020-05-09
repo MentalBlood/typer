@@ -39,12 +39,12 @@ header .logo {
 }
 
 header .description {
-    margin-top: 5vh;
+    margin-top: 3vh;
     font-size: min(5vh, 7vw);
 }
 
 header .startButtonForm {
-    margin-top: 2.5vh;
+    margin-top: 3.5vh;
 }
 
 header .startButtonForm .startButton {
