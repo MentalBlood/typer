@@ -19,35 +19,40 @@
                                   not supported by any browser */
 }
 
+html, header {
+    width: 100vw;
+    height: 100vh;
+}
+
 header {
     font-family: "Marmelad", sans-serif;
     align-text: left;
 }
 
-header .settings {
-}
+
 
 header .side-button {
+    z-index: 3;
+
     position: absolute;
     top: calc(calc(50vh - calc(max(10vh, 70px) / 2 + 1vh)) / 4);
-    height: max(10vh, 70px);
+    height: min(10vh, 10vw);
 
-    font-size: max(2vh, 16px);
+    font-size: min(2vh, 2vw);
     text-align: center;
     padding: 0.5vh;
 
     background-color: #222;
-    color: white;
+    color: rgba(255, 255, 255, 0.9);
 
-    border-right: 1px solid #222;
-    border-top: 1px solid #222;
-    border-bottom: 1px solid #222;
+    border: 1px solid #222;
     border-radius: max(1.2vh, 10px);
 
     outline: none;
 }
 
 header .side-button.settings-button {
+    left: 0;
     writing-mode: vertical-lr;
 }
 
@@ -66,38 +71,42 @@ header .side-button:hover {
     transition-duration: 0.5s;
 }
 
+
+
+header .side-panel {
+    z-index: 2;
+
+    position: absolute;
+
+    width: 40vw;
+    height: calc(100vh - max(1vw, 10px));
+
+    background-color: rgba(0,0,0,0.5);
+
+    border: 0.5vw solid black;
+    border-radius: 1vw;
+
+    overflow-y: auto;
+}
+
 header .statistics .side-panel:not(.opened)+.side-button {
     right: 0;
     transition-duration: 0.5s;
 }
 
 header .statistics .side-panel.opened+.side-button {
-    right: max(46vw, 205px);
+    right: 41vw;
     transition-duration: 0.5s;
 }
 
-header .settings .settings-content:not(.opened)+.settings-button {
+header .settings .side-panel:not(.opened)+.settings-button {
     left: 0;
     transition-duration: 0.5s;
 }
 
-header .settings .settings-content.opened+.settings-button {
-    left: max(46vw, 205px);
+header .settings .side-panel.opened+.settings-button {
+    left: 41vw;
     transition-duration: 0.5s;
-}
-
-header .side-panel {
-    position: absolute;
-
-    width: max(45vw, 220px);
-    height: calc(100vh - max(1vw, 10px));
-
-    background-color: rgba(0,0,0,0.5);
-
-    border: max(0.5vw, 5px) solid black;
-    border-radius: 1vw;
-
-    overflow-y: auto;
 }
 
 header .settings .side-panel {
@@ -106,7 +115,7 @@ header .settings .side-panel {
 }
 
 header .settings .side-panel:not(.opened) {
-    left: min(-46vw, -205px);
+    left: -41vw;
     transition-duration: 0.5s;
 }
 
@@ -122,14 +131,14 @@ header .statistics .side-panel:not(.opened) {
 }
 
 header .statistics .side-panel.opened {
-    left: calc(100vw - max(46vw, 205px));
+    left: calc(100vw - max(41vw, 205px));
     box-shadow: min(-1.5vw, -12px) 0 max(2vw, 16px) rgba(0,0,0,0.6);
     transition-duration: 0.5s;
 }
 
 
 
-header .settings .settings-content .folder {
+header .settings .side-panel .folder {
     padding-bottom: max(1vh, 6px);
     padding-left: max(1.1vw, 8px);
 
@@ -143,26 +152,26 @@ header .settings .settings-content .folder {
     border-radius: max(0.8vw, 6px);
 }
 
-header .settings .settings-content .folder:not(.opened) {
+header .settings .side-panel .folder:not(.opened) {
     height: min(max(3vh, 24px), 3vw);
 }
 
-header .settings .settings-content .folder-title {
+header .settings .side-panel .folder-title {
     font-size: min(max(3vh, 24px), 3vw);
-    color: white;
+    color: rgba(255, 255, 255, 0.9);
     font-weight: bold;
 }
 
-header .settings .settings-content .folder:not(.opened)>.folder-content {
+header .settings .side-panel .folder:not(.opened)>.folder-content {
     display: none;
 }
 
-header .settings .settings-content .folder.opened>.folder-content{
+header .settings .side-panel .folder.opened>.folder-content{
     display: block;
 }
 
 
-header .settings .settings-content .setting {
+header .settings .side-panel .setting {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -173,14 +182,14 @@ header .settings .settings-content .setting {
     padding-right: max(1.5vw, 12px);
     padding-bottom: max(1vh, 6px);
 
-    color: white;
+    color: rgba(255, 255, 255, 0.9);
 }
 
-header .settings .settings-content .setting:not(:first-of-type) {
+header .settings .side-panel .setting:not(:first-of-type) {
     padding-top: max(0.5vh, 6px);
 }
 
-header .settings .settings-content .setting:first-of-type {
+header .settings .side-panel .setting:first-of-type {
     padding-top: max(1vh, 6px);
 }
 
@@ -200,7 +209,7 @@ header .settings .settings-content .setting:first-of-type {
     font-size: max(2vh, 16px);
 
     background-color: rgba(0,0,0,0.5);
-    color: white;
+    color: rgba(255, 255, 255, 0.9);
 
     border-radius: max(1vh, 8px);
 
@@ -208,11 +217,11 @@ header .settings .settings-content .setting:first-of-type {
 }
 
 .setting-controller:not(.select) {
-    border: 2px solid rgb(220, 220, 220, 150);
+    border: 2px solid rgb(255, 255, 255, 0.7);
 }
 
 .setting-controller.select {
-    border: 0px solid rgb(220, 220, 220, 150);
+    border: 0px solid rgb(255, 255, 255, 0.7);
     font-size: min(max(2vh, 16px), 2vw);
 }
 
@@ -252,9 +261,9 @@ input[type="color"]::-webkit-color-swatch-wrapper {
 }
 
 
-header .settings .settings-content .button {
+header .settings .side-panel .button {
     background-color: transparent;
-    color: white;
+    color: rgba(255, 255, 255, 0.9);
 
     font-family: "Marmelad", sans-serif;
 
@@ -265,20 +274,20 @@ header .settings .settings-content .button {
     margin-bottom: max(1vh, 8px);
     margin-left: max(1.5vw, 12px);
 
-    border: 2px solid rgb(220, 220, 220, 150);
+    border: 2px solid rgb(255, 255, 255, 0.7);
     border-radius: max(1vh, 8px);
 
     outline: none;
 }
 
-header .settings .settings-content .button:not(:hover) {
-    font-size: max(1.7vh, 14px);
+header .settings .side-panel .button:not(:hover) {
+    font-size: min(max(1.7vh, 14px), 2.5vw);
 
     transition-duration: 0.5s;
 }
 
-header .settings .settings-content .button:hover {
-    font-size: max(2vh, 16px);
+header .settings .side-panel .button:hover {
+    font-size: min(max(2vh, 16px), 3vw);
 
     transition-duration: 0.5s;
 }
@@ -327,7 +336,7 @@ header .settings .settings-content .button:hover {
 .slider {
     -webkit-appearance: none;
     min-height: max(2.5vh, 20px);
-    border: 2px solid rgba(220, 220, 220, 150);
+    border: 2px solid rgba(255, 255, 255, 0.7);
     border-radius: max(1vh, 8px);
     background: transparent;
     outline: none;
@@ -338,7 +347,7 @@ header .settings .settings-content .button:hover {
     appearance: none;
     width: max(2.3vh, 18px);
     min-height: max(2.3vh, 18px);
-    border: 2px solid rgba(220, 220, 220, 150);
+    border: 2px solid rgba(255, 255, 255, 0.7);
     border-radius: 50%; 
     background: transparent;
     cursor: pointer;
@@ -347,7 +356,7 @@ header .settings .settings-content .button:hover {
 .slider::-moz-range-thumb {
     width: max(2.3vh, 18px);
     min-height: max(2.3vh, 18px);
-    border: 2px solid rgba(220, 220, 220, 150);
+    border: 2px solid rgba(255, 255, 255, 0.7);
     border-radius: 50%;
     background: transparent;
     cursor: pointer;
@@ -356,7 +365,7 @@ header .settings .settings-content .button:hover {
 .slider::-ms-thumb {
     width: max(2.3vh, 18px);
     min-height: max(2.3vh, 18px);
-    border: 2px solid rgba(220, 220, 220, 150);
+    border: 2px solid rgba(255, 255, 255, 0.7);
     border-radius: 50%;
     background: transparent;
     cursor: pointer;
@@ -365,11 +374,11 @@ header .settings .settings-content .button:hover {
 
 
 .setting .output {
-    color: white;
+    color: rgba(255, 255, 255, 0.9);
 
     text-align: center;
 
-    border: 2px solid rgb(220, 220, 220, 150);
+    border: 2px solid rgb(255, 255, 255, 0.7);
     border-radius: max(1vh, 8px);
 
     width: 10%;
@@ -380,12 +389,96 @@ header .settings .settings-content .button:hover {
 
     line-height: max(3.5vh, 28px);
     font-size: min(max(2vh, 16px), 2vw);
+}
+
+
+
+.variable {
+    position: relative;
+
+    width: calc(100% - 4px - calc(2 * min(max(1.5vh, 12px), 1.5vw)));
+    height: min(max(7vh, 61px), 7vw);
+
+    border: 2px solid rgba(255, 255, 255, 0.7);
+    border-radius: max(1vh, 8px);
+
+    padding: min(max(1.5vh, 12px), 1.5vw);
+}
+
+.variable:hover {
+    cursor: move;
+}
+
+.variable .title {
+    font-size: min(max(3vh, 24px), 3vw);
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.variable .value {
+    display: inline-block;
+
+    font-size: min(max(2.5vh, 20px), 2.5vw);
+    font-weight: bold;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.variable .units {
+    display: inline-block;
+
+    font-size: min(max(2vh, 16px), 2vw);
+    color: rgba(255, 255, 255, 0.9);
+}
+
+
+
+.desktop-variable {
+    position: absolute;
+
+    background-color: rgba(0, 0, 0, 0.5);
+    border: 2px solid rgba(255, 255, 255, 0.7);
+    border-radius: max(1vh, 8px);
+}
+
+.desktop-variable:hover {
+    cursor: move;
+}
+
+.desktop-variable .title {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.desktop-variable .value {
+    display: inline-block;
+
+    font-weight: bold;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.desktop-variable .units {
+    display: inline-block;
+
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.desktop-variable .resizer {
+    position: absolute;
+    right: 0px;
+    bottom: 0px;
+
+    width: min(1.5vh, 1.5vw);
+    height: min(1.5vh, 1.5vw);
+
+    background-color: transparent;
+}
+
+.desktop-variable .resizer:hover {
+    cursor: nwse-resize;
 }</style>
     </head>
     <body leftmargin = "0" topmargin = "0" style = "background-color:#ffffff; overflow-x: hidden; overflow-y: hidden">
-        <header>
+        <header id = 'header'>
             <div class="settings">
-                <div class="side-panel settings-content">
+                <div class="side-panel opened">
                     <div class="folder" id = '_textGeneration'>
                         <div class="folder-title unselectable" id = 'textGeneration'>Text generation</div>
                         <div class="folder-content">
@@ -415,7 +508,7 @@ header .settings .settings-content .button:hover {
                                 <input type="range" value = '10' min = '1' max = '100' step = 1 class="setting-controller number slider">
                                 <div class="output"></div>
                             </div>
-                            <button class="button conditional" whenId = 'methodController' whenValue = 'Markov chain' id = 'uploadCorpus'>
+                            <button class="button conditional unselectable" whenId = 'methodController' whenValue = 'Markov chain' id = 'uploadCorpus'>
                                 Upload corpus
                             </button>
 
@@ -429,7 +522,7 @@ header .settings .settings-content .button:hover {
                                 <input type="range" value = '1' min = '1' max = '100' step = 1 class="setting-controller number slider">
                                 <div class="output"></div>
                             </div>
-                            <button class="button conditional" whenId = 'methodController' whenValue = 'Given text file' id = 'uploadTextFile'>
+                            <button class="button conditional unselectable" whenId = 'methodController' whenValue = 'Given text file' id = 'uploadTextFile'>
                                 Upload text file
                             </button>
                         </div>
@@ -513,13 +606,19 @@ header .settings .settings-content .button:hover {
                         </div>
                     </div>
                     <input type="file" id="fileElem" multiple accept=".json" style="display:none">
-                    <button class = 'button' id = 'importConfigButton'>Import configuration</button>
-                    <button class = 'button' id = 'exportConfigButton'>Export configuration</button>
+                    <button class = 'button unselectable' id = 'importConfigButton'>Import configuration</button>
+                    <button class = 'button unselectable' id = 'exportConfigButton'>Export configuration</button>
                 </div>
                 <div class = 'side-button settings-button unselectable'>settings</div>
             </div>
             <div class="statistics">
-                <div class="side-panel statistics-content"></div>
+                <div class="side-panel opened">
+                    <div class="variable unselectable" id = 'lastTypingSpeed'>
+                        <div class="title">Last string typing speed</div>
+                        <div class="value">?</div>
+                        <div class="units">symbols per minute</div>
+                    </div>
+                </div>
                 <div class = 'side-button statistics-button unselectable'>statistics</div>
             </div>
         </header>
@@ -544,9 +643,9 @@ header .settings .settings-content .button:hover {
 
                 white-space: pre;
 
-                z-index: -1
-            ' id = 'text'></div>
-            <div style = 'opacity: 0;' id = 'hiddenText'></div>
+                z-index: 1;
+            ' id = 'text' class = 'unselectable'></div>
+            <div style = 'opacity: 0;' id = 'hiddenText' class = 'unselectable'></div>
         </main>
         <footer></footer>
 
@@ -832,6 +931,28 @@ var markov = function(input, type, reg) {
     }
     this.getJson = getJson;
   }</script>
+        <script type="text/javascript">var fb2TextExtractor = {
+    extract: function(fb2FileText) {
+        indexBodyStartsAt = fb2FileText.indexOf('<body>')
+        indexBodyEndsAt = fb2FileText.indexOf('</body>')
+        body = fb2FileText.substring(indexBodyStartsAt, indexBodyEndsAt)
+        
+        let normalText = ''
+        while (true) {
+            let openTagIndex = body.indexOf('<p>')
+            if (openTagIndex === -1)
+                break
+            body = body.substring(openTagIndex + 3)
+            let closeTagIndex = body.indexOf('</p>')
+            if (closeTagIndex === -1)
+                break
+            normalText += body.substring(0, closeTagIndex) + '\n'
+        }
+        
+        console.log(normalText.substring(0, 200))
+        return normalText
+    }
+}</script>
         <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
         <script type="text/javascript">const allFontsNames = ['Abel', 'Abhaya Libre', 'Abril Fatface', 'Aclonica', 'Acme', 'Actor', 'Adamina', 'Advent Pro', 'Aguafina Script', 'Akronim', 'Aladin', 'Alata', 'Alatsi', 'Aldrich', 'Alef', 'Alegreya', 'Alegreya SC', 'Alegreya Sans', 'Alegreya Sans SC', 'Aleo', 'Alex Brush', 'Alfa Slab One', 'Alice', 'Alike', 'Alike Angular', 'Allan', 'Allerta', 'Allerta Stencil', 'Allura', 'Almarai', 'Almendra', 'Almendra Display', 'Almendra SC', 'Amarante', 'Amaranth', 'Amatic SC', 'Amethysta', 'Amiko', 'Amiri', 'Amita', 'Anaheim', 'Andada', 'Andika', 'Angkor', 'Annie Use Your Telescope', 'Anonymous Pro', 'Antic', 'Antic Didone', 'Antic Slab', 'Anton', 'Arapey', 'Arbutus', 'Arbutus Slab', 'Architects Daughter', 'Archivo', 'Archivo Black', 'Archivo Narrow', 'Aref Ruqaa', 'Arima Madurai', 'Arimo', 'Arizonia', 'Armata', 'Arsenal', 'Artifika', 'Arvo', 'Arya', 'Asap', 'Asap Condensed', 'Asar', 'Asset', 'Assistant', 'Astloch', 'Asul', 'Athiti', 'Atma', 'Atomic Age', 'Aubrey', 'Audiowide', 'Autour One', 'Average', 'Average Sans', 'Averia Gruesa Libre', 'Averia Libre', 'Averia Sans Libre', 'Averia Serif Libre', 'B612', 'B612 Mono', 'Bad Script', 'Bahiana', 'Bahianita', 'Bai Jamjuree', 'Baloo', 'Baloo Bhai', 'Baloo Bhaijaan', 'Baloo Bhaina', 'Baloo Chettan', 'Baloo Da', 'Baloo Paaji', 'Baloo Tamma', 'Baloo Tammudu', 'Baloo Thambi', 'Balthazar', 'Bangers', 'Barlow', 'Barlow Condensed', 'Barlow Semi Condensed', 'Barriecito', 'Barrio', 'Basic', 'Baskervville', 'Battambang', 'Baumans', 'Bayon', 'Be Vietnam', 'Bebas Neue', 'Belgrano', 'Bellefair', 'Belleza', 'BenchNine', 'Bentham', 'Berkshire Swash', 'Beth Ellen', 'Bevan', 'Big Shoulders Display', 'Big Shoulders Text', 'Bigelow Rules', 'Bigshot One', 'Bilbo', 'Bilbo Swash Caps', 'BioRhyme', 'BioRhyme Expanded', 'Biryani', 'Bitter', 'Black And White Picture', 'Black Han Sans', 'Black Ops One', 'Blinker', 'Bokor', 'Bonbon', 'Boogaloo', 'Bowlby One', 'Bowlby One SC', 'Brawler', 'Bree Serif', 'Bubblegum Sans', 'Bubbler One', 'Buda', 'Buenard', 'Bungee', 'Bungee Hairline', 'Bungee Inline', 'Bungee Outline', 'Bungee Shade', 'Butcherman', 'Butterfly Kids', 'Cabin', 'Cabin Condensed', 'Cabin Sketch', 'Caesar Dressing', 'Cagliostro', 'Cairo', 'Caladea', 'Calistoga', 'Calligraffitti', 'Cambay', 'Cambo', 'Candal', 'Cantarell', 'Cantata One', 'Cantora One', 'Capriola', 'Cardo', 'Carme', 'Carrois Gothic', 'Carrois Gothic SC', 'Carter One', 'Catamaran', 'Caudex', 'Caveat', 'Caveat Brush', 'Cedarville Cursive', 'Ceviche One', 'Chakra Petch', 'Changa', 'Changa One', 'Chango', 'Charm', 'Charmonman', 'Chathura', 'Chau Philomene One', 'Chela One', 'Chelsea Market', 'Chenla', 'Cherry Cream Soda', 'Cherry Swash', 'Chewy', 'Chicle', 'Chilanka', 'Chivo', 'Chonburi', 'Cinzel', 'Cinzel Decorative', 'Clicker Script', 'Coda', 'Coda Caption', 'Codystar', 'Coiny', 'Combo', 'Comfortaa', 'Coming Soon', 'Concert One', 'Condiment', 'Content', 'Contrail One', 'Convergence', 'Cookie', 'Copse', 'Corben', 'Cormorant', 'Cormorant Garamond', 'Cormorant Infant', 'Cormorant SC', 'Cormorant Unicase', 'Cormorant Upright', 'Courgette', 'Courier Prime', 'Cousine', 'Coustard', 'Covered By Your Grace', 'Crafty Girls', 'Creepster', 'Crete Round', 'Crimson Pro', 'Crimson Text', 'Croissant One', 'Crushed', 'Cuprum', 'Cute Font', 'Cutive', 'Cutive Mono', 'DM Sans', 'DM Serif Display', 'DM Serif Text', 'Damion', 'Dancing Script', 'Dangrek', 'Darker Grotesque', 'David Libre', 'Dawning of a New Day', 'Days One', 'Dekko', 'Delius', 'Delius Swash Caps', 'Delius Unicase', 'Della Respira', 'Denk One', 'Devonshire', 'Dhurjati', 'Didact Gothic', 'Diplomata', 'Diplomata SC', 'Do Hyeon', 'Dokdo', 'Domine', 'Donegal One', 'Doppio One', 'Dorsa', 'Dosis', 'Dr Sugiyama', 'Duru Sans', 'Dynalight', 'EB Garamond', 'Eagle Lake', 'East Sea Dokdo', 'Eater', 'Economica', 'Eczar', 'El Messiri', 'Electrolize', 'Elsie', 'Elsie Swash Caps', 'Emblema One', 'Emilys Candy', 'Encode Sans', 'Encode Sans Condensed', 'Encode Sans Expanded', 'Encode Sans Semi Condensed', 'Encode Sans Semi Expanded', 'Engagement', 'Englebert', 'Enriqueta', 'Erica One', 'Esteban', 'Euphoria Script', 'Ewert', 'Exo', 'Exo 2', 'Expletus Sans', 'Fahkwang', 'Fanwood Text', 'Farro', 'Farsan', 'Fascinate', 'Fascinate Inline', 'Faster One', 'Fasthand', 'Fauna One', 'Faustina', 'Federant', 'Federo', 'Felipa', 'Fenix', 'Finger Paint', 'Fira Code', 'Fira Mono', 'Fira Sans', 'Fira Sans Condensed', 'Fira Sans Extra Condensed', 'Fjalla One', 'Fjord One', 'Flamenco', 'Flavors', 'Fondamento', 'Fontdiner Swanky', 'Forum', 'Francois One', 'Frank Ruhl Libre', 'Freckle Face', 'Fredericka the Great', 'Fredoka One', 'Freehand', 'Fresca', 'Frijole', 'Fruktur', 'Fugaz One', 'GFS Didot', 'GFS Neohellenic', 'Gabriela', 'Gaegu', 'Gafata', 'Galada', 'Galdeano', 'Galindo', 'Gamja Flower', 'Gayathri', 'Gelasio', 'Gentium Basic', 'Gentium Book Basic', 'Geo', 'Geostar', 'Geostar Fill', 'Germania One', 'Gidugu', 'Gilda Display', 'Girassol', 'Give You Glory', 'Glass Antiqua', 'Glegoo', 'Gloria Hallelujah', 'Goblin One', 'Gochi Hand', 'Gorditas', 'Gothic A1', 'Goudy Bookletter 1911', 'Graduate', 'Grand Hotel', 'Gravitas One', 'Great Vibes', 'Grenze', 'Griffy', 'Gruppo', 'Gudea', 'Gugi', 'Gupter', 'Gurajada', 'Habibi', 'Halant', 'Hammersmith One', 'Hanalei', 'Hanalei Fill', 'Handlee', 'Hanuman', 'Happy Monkey', 'Harmattan', 'Headland One', 'Heebo', 'Henny Penny', 'Hepta Slab', 'Herr Von Muellerhoff', 'Hi Melody', 'Hind', 'Hind Guntur', 'Hind Madurai', 'Hind Siliguri', 'Hind Vadodara', 'Holtwood One SC', 'Homemade Apple', 'Homenaje', 'IBM Plex Mono', 'IBM Plex Sans', 'IBM Plex Sans Condensed', 'IBM Plex Serif', 'IM Fell DW Pica', 'IM Fell DW Pica SC', 'IM Fell Double Pica', 'IM Fell Double Pica SC', 'IM Fell English', 'IM Fell English SC', 'IM Fell French Canon', 'IM Fell French Canon SC', 'IM Fell Great Primer', 'IM Fell Great Primer SC', 'Ibarra Real Nova', 'Iceberg', 'Iceland', 'Imprima', 'Inconsolata', 'Inder', 'Indie Flower', 'Inika', 'Inknut Antiqua', 'Inria Serif', 'Irish Grover', 'Istok Web', 'Italiana', 'Italianno', 'Itim', 'Jacques Francois', 'Jacques Francois Shadow', 'Jaldi', 'Jim Nightshade', 'Jockey One', 'Jolly Lodger', 'Jomhuria', 'Jomolhari', 'Josefin Sans', 'Josefin Slab', 'Joti One', 'Jua', 'Judson', 'Julee', 'Julius Sans One', 'Junge', 'Jura', 'Just Another Hand', 'Just Me Again Down Here', 'K2D', 'Kadwa', 'Kalam', 'Kameron', 'Kanit', 'Kantumruy', 'Karla', 'Karma', 'Katibeh', 'Kaushan Script', 'Kavivanar', 'Kavoon', 'Kdam Thmor', 'Keania One', 'Kelly Slab', 'Kenia', 'Khand', 'Khmer', 'Khula', 'Kirang Haerang', 'Kite One', 'Knewave', 'KoHo', 'Kodchasan', 'Kosugi', 'Kosugi Maru', 'Kotta One', 'Koulen', 'Kranky', 'Kreon', 'Kristi', 'Krona One', 'Krub', 'Kulim Park', 'Kumar One', 'Kumar One Outline', 'Kurale', 'La Belle Aurore', 'Lacquer', 'Laila', 'Lakki Reddy', 'Lalezar', 'Lancelot', 'Lateef', 'Lato', 'League Script', 'Leckerli One', 'Ledger', 'Lekton', 'Lemon', 'Lemonada', 'Lexend Deca', 'Lexend Exa', 'Lexend Giga', 'Lexend Mega', 'Lexend Peta', 'Lexend Tera', 'Lexend Zetta', 'Libre Barcode 128', 'Libre Barcode 128 Text', 'Libre Barcode 39', 'Libre Barcode 39 Extended', 'Libre Barcode 39 Extended Text', 'Libre Barcode 39 Text', 'Libre Baskerville', 'Libre Caslon Display', 'Libre Caslon Text', 'Libre Franklin', 'Life Savers', 'Lilita One', 'Lily Script One', 'Limelight', 'Linden Hill', 'Literata', 'Liu Jian Mao Cao', 'Livvic', 'Lobster', 'Lobster Two', 'Londrina Outline', 'Londrina Shadow', 'Londrina Sketch', 'Londrina Solid', 'Long Cang', 'Lora', 'Love Ya Like A Sister', 'Loved by the King', 'Lovers Quarrel', 'Luckiest Guy', 'Lusitana', 'Lustria', 'M PLUS 1p', 'M PLUS Rounded 1c', 'Ma Shan Zheng', 'Macondo', 'Macondo Swash Caps', 'Mada', 'Magra', 'Maiden Orange', 'Maitree', 'Major Mono Display', 'Mako', 'Mali', 'Mallanna', 'Mandali', 'Manjari', 'Mansalva', 'Manuale', 'Marcellus', 'Marcellus SC', 'Marck Script', 'Margarine', 'Markazi Text', 'Marko One', 'Marmelad', 'Martel', 'Martel Sans', 'Marvel', 'Mate', 'Mate SC', 'Maven Pro', 'McLaren', 'Meddon', 'MedievalSharp', 'Medula One', 'Meera Inimai', 'Megrim', 'Meie Script', 'Merienda', 'Merienda One', 'Merriweather', 'Merriweather Sans', 'Metal', 'Metal Mania', 'Metamorphous', 'Metrophobic', 'Michroma', 'Milonga', 'Miltonian', 'Miltonian Tattoo', 'Mina', 'Miniver', 'Miriam Libre', 'Mirza', 'Miss Fajardose', 'Mitr', 'Modak', 'Modern Antiqua', 'Mogra', 'Molengo', 'Molle', 'Monda', 'Monofett', 'Monoton', 'Monsieur La Doulaise', 'Montaga', 'Montez', 'Montserrat', 'Montserrat Alternates', 'Montserrat Subrayada', 'Moul', 'Moulpali', 'Mountains of Christmas', 'Mouse Memoirs', 'Mr Bedfort', 'Mr Dafoe', 'Mr De Haviland', 'Mrs Saint Delafield', 'Mrs Sheppards', 'Mukta', 'Mukta Mahee', 'Mukta Malar', 'Mukta Vaani', 'Muli', 'Mystery Quest', 'NTR', 'Nanum Brush Script', 'Nanum Gothic', 'Nanum Gothic Coding', 'Nanum Myeongjo', 'Nanum Pen Script', 'Neucha', 'Neuton', 'New Rocker', 'News Cycle', 'Niconne', 'Niramit', 'Nixie One', 'Nobile', 'Nokora', 'Norican', 'Nosifer', 'Notable', 'Nothing You Could Do', 'Noticia Text', 'Noto Sans', 'Noto Sans HK', 'Noto Sans JP', 'Noto Sans KR', 'Noto Sans SC', 'Noto Sans TC', 'Noto Serif', 'Noto Serif JP', 'Noto Serif KR', 'Noto Serif SC', 'Noto Serif TC', 'Nova Cut', 'Nova Flat', 'Nova Mono', 'Nova Oval', 'Nova Round', 'Nova Script', 'Nova Slim', 'Nova Square', 'Numans', 'Nunito', 'Nunito Sans', 'Odibee Sans', 'Odor Mean Chey', 'Offside', 'Old Standard TT', 'Oldenburg', 'Oleo Script', 'Oleo Script Swash Caps', 'Open Sans', 'Open Sans Condensed', 'Oranienbaum', 'Orbitron', 'Oregano', 'Orienta', 'Original Surfer', 'Oswald', 'Over the Rainbow', 'Overlock', 'Overlock SC', 'Overpass', 'Overpass Mono', 'Ovo', 'Oxanium', 'Oxygen', 'Oxygen Mono', 'PT Mono', 'PT Sans', 'PT Sans Caption', 'PT Sans Narrow', 'PT Serif', 'PT Serif Caption', 'Pacifico', 'Padauk', 'Palanquin', 'Palanquin Dark', 'Pangolin', 'Paprika', 'Parisienne', 'Passero One', 'Passion One', 'Pathway Gothic One', 'Patrick Hand', 'Patrick Hand SC', 'Pattaya', 'Patua One', 'Pavanam', 'Paytone One', 'Peddana', 'Peralta', 'Permanent Marker', 'Petit Formal Script', 'Petrona', 'Philosopher', 'Piedra', 'Pinyon Script', 'Pirata One', 'Plaster', 'Play', 'Playball', 'Playfair Display', 'Playfair Display SC', 'Podkova', 'Poiret One', 'Poller One', 'Poly', 'Pompiere', 'Pontano Sans', 'Poor Story', 'Poppins', 'Port Lligat Sans', 'Port Lligat Slab', 'Pragati Narrow', 'Prata', 'Preahvihear', 'Press Start 2P', 'Pridi', 'Princess Sofia', 'Prociono', 'Prompt', 'Prosto One', 'Proza Libre', 'Public Sans', 'Puritan', 'Purple Purse', 'Quando', 'Quantico', 'Quattrocento', 'Quattrocento Sans', 'Questrial', 'Quicksand', 'Quintessential', 'Qwigley', 'Racing Sans One', 'Radley', 'Rajdhani', 'Rakkas', 'Raleway', 'Raleway Dots', 'Ramabhadra', 'Ramaraja', 'Rambla', 'Rammetto One', 'Ranchers', 'Rancho', 'Ranga', 'Rasa', 'Rationale', 'Ravi Prakash', 'Red Hat Display', 'Red Hat Text', 'Redressed', 'Reem Kufi', 'Reenie Beanie', 'Revalia', 'Rhodium Libre', 'Ribeye', 'Ribeye Marrow', 'Righteous', 'Risque', 'Roboto', 'Roboto Condensed', 'Roboto Mono', 'Roboto Slab', 'Rochester', 'Rock Salt', 'Rokkitt', 'Romanesco', 'Ropa Sans', 'Rosario', 'Rosarivo', 'Rouge Script', 'Rozha One', 'Rubik', 'Rubik Mono One', 'Ruda', 'Rufina', 'Ruge Boogie', 'Ruluko', 'Rum Raisin', 'Ruslan Display', 'Russo One', 'Ruthie', 'Rye', 'Sacramento', 'Sahitya', 'Sail', 'Saira', 'Saira Condensed', 'Saira Extra Condensed', 'Saira Semi Condensed', 'Saira Stencil One', 'Salsa', 'Sanchez', 'Sancreek', 'Sansita', 'Sarabun', 'Sarala', 'Sarina', 'Sarpanch', 'Satisfy', 'Sawarabi Gothic', 'Sawarabi Mincho', 'Scada', 'Scheherazade', 'Schoolbell', 'Scope One', 'Seaweed Script', 'Secular One', 'Sedgwick Ave', 'Sedgwick Ave Display', 'Sevillana', 'Seymour One', 'Shadows Into Light', 'Shadows Into Light Two', 'Shanti', 'Share', 'Share Tech', 'Share Tech Mono', 'Shojumaru', 'Short Stack', 'Shrikhand', 'Siemreap', 'Sigmar One', 'Signika', 'Signika Negative', 'Simonetta', 'Single Day', 'Sintony', 'Sirin Stencil', 'Six Caps', 'Skranji', 'Slabo 13px', 'Slabo 27px', 'Slackey', 'Smokum', 'Smythe', 'Sniglet', 'Snippet', 'Snowburst One', 'Sofadi One', 'Sofia', 'Solway', 'Song Myung', 'Sonsie One', 'Sorts Mill Goudy', 'Source Code Pro', 'Source Sans Pro', 'Source Serif Pro', 'Space Mono', 'Spartan', 'Special Elite', 'Spectral', 'Spectral SC', 'Spicy Rice', 'Spinnaker', 'Spirax', 'Squada One', 'Sree Krushnadevaraya', 'Sriracha', 'Srisakdi', 'Staatliches', 'Stalemate', 'Stalinist One', 'Stardos Stencil', 'Stint Ultra Condensed', 'Stint Ultra Expanded', 'Stoke', 'Strait', 'Stylish', 'Sue Ellen Francisco', 'Suez One', 'Sulphur Point', 'Sumana', 'Sunflower', 'Sunshiney', 'Supermercado One', 'Sura', 'Suranna', 'Suravaram', 'Suwannaphum', 'Swanky and Moo Moo', 'Syncopate', 'Tajawal', 'Tangerine', 'Taprom', 'Tauri', 'Taviraj', 'Teko', 'Telex', 'Tenali Ramakrishna', 'Tenor Sans', 'Text Me One', 'Thasadith', 'The Girl Next Door', 'Tienne', 'Tillana', 'Timmana', 'Tinos', 'Titan One', 'Titillium Web', 'Tomorrow', 'Trade Winds', 'Trirong', 'Trocchi', 'Trochut', 'Trykker', 'Tulpen One', 'Turret Road', 'Ubuntu', 'Ubuntu Condensed', 'Ubuntu Mono', 'Ultra', 'Uncial Antiqua', 'Underdog', 'Unica One', 'UnifrakturCook', 'UnifrakturMaguntia', 'Unkempt', 'Unlock', 'Unna', 'VT323', 'Vampiro One', 'Varela', 'Varela Round', 'Vast Shadow', 'Vesper Libre', 'Vibes', 'Vibur', 'Vidaloka', 'Viga', 'Voces', 'Volkhov', 'Vollkorn', 'Vollkorn SC', 'Voltaire', 'Waiting for the Sunrise', 'Wallpoet', 'Walter Turncoat', 'Warnes', 'Wellfleet', 'Wendy One', 'Wire One', 'Work Sans', 'Yanone Kaffeesatz', 'Yantramanav', 'Yatra One', 'Yellowtail', 'Yeon Sung', 'Yeseva One', 'Yesteryear', 'Yrsa', 'ZCOOL KuaiLe', 'ZCOOL QingKe HuangYou', 'ZCOOL XiaoWei', 'Zeyada', 'Zhi Mang Xing', 'Zilla Slab', 'Zilla Slab Highlight']</script>
         <script type="text/javascript">(function (global, factory) {
@@ -1814,6 +1935,14 @@ settingsButton.onclick = function() {
     settingsContent.classList.toggle('opened');
 };
 
+function closeSettings() {
+    settingsContent.classList.remove('opened');
+};
+
+function openSettings() {
+    settingsContent.classList.add('opened');
+};
+
 const statisticsButton = document.querySelector('.statistics .side-button');
 const statisticsContent = document.querySelector('.statistics .side-panel');
 
@@ -1821,9 +1950,22 @@ statisticsButton.onclick = function() {
     statisticsContent.classList.toggle('opened');
 };
 
+function closeStatistics() {
+    statisticsContent.classList.remove('opened');
+};
+
+function openStatistics() {
+    statisticsContent.classList.add('opened');
+};
+
+function closePanels() {
+    closeSettings();
+    closeStatistics();
+}
 
 
-const folderTitles = document.querySelectorAll('.settings-content .folder-title');
+
+const folderTitles = document.querySelectorAll('.settings .side-panel .folder-title');
 
 for (let folderTitle of folderTitles) {
     const currentTitleId = folderTitle.id;
@@ -2009,6 +2151,191 @@ function sync(id, dict, key) {
 
 
 
+const statisticsHandler = {
+    variables: {},
+    draggingHadler: {
+        objectThatIsDraggedNow: undefined,
+        objectThatIsResizedNow: undefined,
+        handleMouseMove: function(e) {
+            if ((e.pageX < 0) || (e.pageX > window.innerWidth) || (e.pageY < 0) || (e.pageY > window.innerHeight) || (statisticsHandler.draggingHadler.objectThatIsResizedNow !== undefined))
+                return;
+            _this = statisticsHandler.draggingHadler.objectThatIsDraggedNow;
+            _this.style.zIndex = 1000;
+            _this.style.top = (e.pageY - _this.getAttribute('initialMouseOffsetY')) / window.innerHeight * 100 + _this.initialY + 'vh';
+            _this.style.left = (e.pageX - _this.getAttribute('initialMouseOffsetX')) / window.innerWidth * 100 + _this.initialX + 'vw';
+        },
+        handleResize: function(e) {
+            if ((e.pageX < 0) || (e.pageX > window.innerWidth) || (e.pageY < 0) || (e.pageY > window.innerHeight))
+                return;
+            _this = statisticsHandler.draggingHadler.objectThatIsResizedNow;
+            _this.style.zIndex = 1000;
+            _this.height = (e.pageY - _this.getAttribute('initialMouseOffsetY') + _this.initialHeight) * 100 / window.innerHeight;
+            _this.width = (e.pageX - _this.getAttribute('initialMouseOffsetX') + _this.initialWidth) * 100 / window.innerWidth;
+            statisticsHandler.draggingHadler.updateDesktopVariableSize(_this);
+        },
+        updateDesktopVariableSize: function(desktopVariable) {
+            const height = Math.max(desktopVariable.height, 10);
+            const width = Math.max(desktopVariable.width, 10);
+            const padding = Math.min(width / 40, height / 10) * 1.5;
+            desktopVariable.style.padding = 'min(' + padding + 'vh, ' + padding + 'vw)';
+            desktopVariable.style.width = 'calc(' + width + 'vw - 2*' + 'min(' + padding + 'vh, ' + padding + 'vw))';
+
+            desktopVariable.style.height = 'calc(' + height + 'vh - 2*' + 'min(' + padding + 'vh, ' + padding + 'vw))';
+            const desktopVariableTitle = desktopVariable.childNodes[1];
+            const multiplier = Math.min(height / 10, width / 20);
+            const titleFontSize = multiplier * 3;
+            desktopVariableTitle.style.fontSize = 'min(' + titleFontSize + 'vh, ' + titleFontSize + 'vw)';
+            const desktopVariableValue = desktopVariable.childNodes[3];
+            const valueFontSize = multiplier * 2.5;
+            desktopVariableValue.style.fontSize = 'min(' + valueFontSize + 'vh, ' + valueFontSize + 'vw)';
+            const desktopVariableUnits = desktopVariable.childNodes[5];
+            const unitsFontSize = multiplier * 2;
+            desktopVariableUnits.style.fontSize = 'min(' + unitsFontSize + 'vh, ' + unitsFontSize + 'vw)';
+        },
+        createDesktopVariable: function(variable, e) {
+            const initialMouseOffsetX = e.offsetX;
+            const initialMouseOffsetY = e.offsetY;
+            let desktopVariable = variable.cloneNode(true);
+            desktopVariable.classList.remove('variable');
+            desktopVariable.classList.add('desktop-variable');
+            statisticsHandler.draggingHadler.removeEventListeners(desktopVariable);
+            const resizer = document.createElement('div');
+            resizer.classList.add('resizer');
+            desktopVariable.resizing = false;
+            resizer.onmousedown = function(e) {
+                statisticsHandler.draggingHadler.objectThatIsResizedNow = this.parentNode;
+                _this = this.parentNode;
+                _this.resizing = true;
+                document.addEventListener('mousemove', statisticsHandler.draggingHadler.handleResize);
+                _this.setAttribute('initialMouseOffsetX', e.pageX);
+                _this.setAttribute('initialMouseOffsetY', e.pageY);
+                const rect = _this.getBoundingClientRect();
+                _this.initialWidth = rect.width;
+                _this.initialHeight = rect.height;
+            };
+            document.addEventListener('mouseup', e => {
+                _this = statisticsHandler.draggingHadler.objectThatIsResizedNow;
+                if (_this === undefined)
+                    return;
+                _this.resizing = false;
+                document.removeEventListener('mousemove', statisticsHandler.draggingHadler.handleResize);
+                _this.style.zIndex = 0;
+                statisticsHandler.draggingHadler.objectThatIsResizedNow = undefined;
+            })
+            desktopVariable.appendChild(resizer);
+            desktopVariable.style.zIndex = 0;
+            const variableRect = variable.getBoundingClientRect();
+            desktopVariable.style.top = variableRect.top * 100 / window.innerHeight + 'vh';
+            desktopVariable.style.left = variableRect.left * 100 / window.innerWidth + 'vw';
+            desktopVariable.setAttribute('initialMouseOffsetX', initialMouseOffsetX);
+            desktopVariable.setAttribute('initialMouseOffsetY', initialMouseOffsetY);
+            desktopVariable.onmousedown = function(e) {
+                if (this.resizing === true)
+                    return;
+                statisticsHandler.draggingHadler.objectThatIsDraggedNow = this;
+                document.addEventListener('mousemove', statisticsHandler.draggingHadler.handleMouseMove);
+                this.setAttribute('initialMouseOffsetX', e.pageX);
+                this.setAttribute('initialMouseOffsetY', e.pageY);
+                this.initialX = Number.parseFloat(this.style.left);
+                this.initialY = Number.parseFloat(this.style.top);
+            };
+            document.addEventListener('mouseup', e => {
+                _this = statisticsHandler.draggingHadler.objectThatIsDraggedNow;
+                if (_this === undefined)
+                    return;
+                document.removeEventListener('mousemove', statisticsHandler.draggingHadler.handleMouseMove);
+                _this.style.zIndex = 0;
+                statisticsHandler.draggingHadler.objectThatIsDraggedNow = undefined;
+            });
+            desktopVariable.ondragstart = function() {
+                return false;
+            };
+            desktopVariable.height = '7';
+            desktopVariable.width = '45';
+            statisticsHandler.draggingHadler.updateDesktopVariableSize(desktopVariable);
+            statisticsHandler.variables[variable.id].clones.push({'value': desktopVariable.childNodes[3]});
+            closePanels();
+            document.getElementById('header').appendChild(desktopVariable);
+            desktopVariable.onmousedown(e);
+        },
+        isMousedown: false,
+        eventListeners: {
+            'onmousedown': function(e) {
+                const _this = statisticsHandler.draggingHadler;
+                _this.isMousedown = true;
+            },
+            'onmouseup': function(e) {
+                const _this = statisticsHandler.draggingHadler;
+                _this.isMousedown = false;
+            },
+            'onmousemove': function(e) {
+                const _this = statisticsHandler.draggingHadler;
+                if (_this.isMousedown === true) {
+                    _this.createDesktopVariable(this, e);
+                    _this.isMousedown = false;
+                }
+            }
+        },
+        addEventListeners: function(variable) {
+            const _this = statisticsHandler.draggingHadler;
+            for (eventListenerName of Object.keys(_this.eventListeners))
+                variable[eventListenerName] = _this.eventListeners[eventListenerName];
+        },
+        removeEventListeners: function(variable) {
+            const _this = statisticsHandler.draggingHadler;
+            for (eventListenerName of Object.keys(_this.eventListeners))
+                variable[eventListenerName] = undefined;
+        }
+    },
+    bindVariables: function() {
+        const variables = document.querySelectorAll('.variable');
+        for (const variable of variables) {
+            statisticsHandler.draggingHadler.addEventListeners(variable);
+            const variableValue = document.querySelector('#' + variable.id + '>.value');
+            statisticsHandler.variables[variable.id] = {'value': variableValue, 'clones': []};
+        }
+    },
+    setVariableValue: function(variableId, newValue) {
+        const variable = statisticsHandler.variables[variableId];
+        variable.value.innerHTML = newValue;
+        for (const clone of variable.clones)
+            clone.value.innerHTML = newValue;
+    },
+    stopwatches: {},
+    startStopwatch: function(name) {
+        statisticsHandler.stopwatches[name] = performance.now();
+    },
+    stopStopwatch: function(name) {
+        const timePassed = performance.now() - statisticsHandler.stopwatches[name];
+        delete statisticsHandler.stopwatches[name];
+        return timePassed;
+    },
+    stringLength: undefined,
+    onTypingStart: function() {
+        statisticsHandler.stringLength = textToType.innerHTML.length;
+        statisticsHandler.startStopwatch('string');
+    },
+    onTypingAborted: function() {
+        statisticsHandler.stopStopwatch('string');
+    },
+    onTypingEnd: function() {
+        const timePassed = statisticsHandler.stopStopwatch('string');
+        const symbolsPerMinute = Number((
+                statisticsHandler.stringLength / (timePassed / 1000 / 60)
+            ).toFixed(0)
+        );
+        statisticsHandler.setVariableValue('lastTypingSpeed', symbolsPerMinute);
+        statisticsHandler.stringLength = undefined;
+    },
+    init: function() {
+        statisticsHandler.bindVariables();
+    }
+}
+statisticsHandler.init();
+
+
+let typing = false;
+
 function randomSymbol(symbols) {
     return symbols.charAt(Math.floor(Math.random() * symbols.length))
 }
@@ -2150,6 +2477,8 @@ const textGenerator = {
                 }
     },
     generate: function(mode) {
+        statisticsHandler.onTypingAborted();
+        typing = false;
         if (textGenerator.initialized === false)
             return;
         textToType.innerHTML = textGenerator.methods[textGenerator.currentMethod].generate(mode);
@@ -2215,8 +2544,14 @@ function getCurrentSymbolWidth() {
 }
 
 function keyEventHandler(event) {
+    if (typing === false) {
+        typing = true;
+        statisticsHandler.onTypingStart();
+    }
     if (event.key === textToType.innerHTML[0]) {
         if (textToType.innerHTML.length === 1) {
+            statisticsHandler.onTypingEnd();
+            typing = false;
             textGenerator.generate('next');
         }
         else {
@@ -2260,10 +2595,6 @@ animationsHandler.onUpdate = function() {
 }
 
 window.addEventListener('keydown', keyEventHandler, false);
-
-
-
-
 
 
 

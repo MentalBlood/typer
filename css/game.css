@@ -8,35 +8,40 @@
                                   not supported by any browser */
 }
 
+html, header {
+    width: 100vw;
+    height: 100vh;
+}
+
 header {
     font-family: "Marmelad", sans-serif;
     align-text: left;
 }
 
-header .settings {
-}
+
 
 header .side-button {
+    z-index: 3;
+
     position: absolute;
     top: calc(calc(50vh - calc(max(10vh, 70px) / 2 + 1vh)) / 4);
-    height: max(10vh, 70px);
+    height: min(10vh, 10vw);
 
-    font-size: max(2vh, 16px);
+    font-size: min(2vh, 2vw);
     text-align: center;
     padding: 0.5vh;
 
     background-color: #222;
-    color: white;
+    color: rgba(255, 255, 255, 0.9);
 
-    border-right: 1px solid #222;
-    border-top: 1px solid #222;
-    border-bottom: 1px solid #222;
+    border: 1px solid #222;
     border-radius: max(1.2vh, 10px);
 
     outline: none;
 }
 
 header .side-button.settings-button {
+    left: 0;
     writing-mode: vertical-lr;
 }
 
@@ -55,38 +60,42 @@ header .side-button:hover {
     transition-duration: 0.5s;
 }
 
+
+
+header .side-panel {
+    z-index: 2;
+
+    position: absolute;
+
+    width: 40vw;
+    height: calc(100vh - max(1vw, 10px));
+
+    background-color: rgba(0,0,0,0.5);
+
+    border: 0.5vw solid black;
+    border-radius: 1vw;
+
+    overflow-y: auto;
+}
+
 header .statistics .side-panel:not(.opened)+.side-button {
     right: 0;
     transition-duration: 0.5s;
 }
 
 header .statistics .side-panel.opened+.side-button {
-    right: max(46vw, 205px);
+    right: 41vw;
     transition-duration: 0.5s;
 }
 
-header .settings .settings-content:not(.opened)+.settings-button {
+header .settings .side-panel:not(.opened)+.settings-button {
     left: 0;
     transition-duration: 0.5s;
 }
 
-header .settings .settings-content.opened+.settings-button {
-    left: max(46vw, 205px);
+header .settings .side-panel.opened+.settings-button {
+    left: 41vw;
     transition-duration: 0.5s;
-}
-
-header .side-panel {
-    position: absolute;
-
-    width: max(45vw, 220px);
-    height: calc(100vh - max(1vw, 10px));
-
-    background-color: rgba(0,0,0,0.5);
-
-    border: max(0.5vw, 5px) solid black;
-    border-radius: 1vw;
-
-    overflow-y: auto;
 }
 
 header .settings .side-panel {
@@ -95,7 +104,7 @@ header .settings .side-panel {
 }
 
 header .settings .side-panel:not(.opened) {
-    left: min(-46vw, -205px);
+    left: -41vw;
     transition-duration: 0.5s;
 }
 
@@ -111,14 +120,14 @@ header .statistics .side-panel:not(.opened) {
 }
 
 header .statistics .side-panel.opened {
-    left: calc(100vw - max(46vw, 205px));
+    left: calc(100vw - max(41vw, 205px));
     box-shadow: min(-1.5vw, -12px) 0 max(2vw, 16px) rgba(0,0,0,0.6);
     transition-duration: 0.5s;
 }
 
 
 
-header .settings .settings-content .folder {
+header .settings .side-panel .folder {
     padding-bottom: max(1vh, 6px);
     padding-left: max(1.1vw, 8px);
 
@@ -132,26 +141,26 @@ header .settings .settings-content .folder {
     border-radius: max(0.8vw, 6px);
 }
 
-header .settings .settings-content .folder:not(.opened) {
+header .settings .side-panel .folder:not(.opened) {
     height: min(max(3vh, 24px), 3vw);
 }
 
-header .settings .settings-content .folder-title {
+header .settings .side-panel .folder-title {
     font-size: min(max(3vh, 24px), 3vw);
-    color: white;
+    color: rgba(255, 255, 255, 0.9);
     font-weight: bold;
 }
 
-header .settings .settings-content .folder:not(.opened)>.folder-content {
+header .settings .side-panel .folder:not(.opened)>.folder-content {
     display: none;
 }
 
-header .settings .settings-content .folder.opened>.folder-content{
+header .settings .side-panel .folder.opened>.folder-content{
     display: block;
 }
 
 
-header .settings .settings-content .setting {
+header .settings .side-panel .setting {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -162,14 +171,14 @@ header .settings .settings-content .setting {
     padding-right: max(1.5vw, 12px);
     padding-bottom: max(1vh, 6px);
 
-    color: white;
+    color: rgba(255, 255, 255, 0.9);
 }
 
-header .settings .settings-content .setting:not(:first-of-type) {
+header .settings .side-panel .setting:not(:first-of-type) {
     padding-top: max(0.5vh, 6px);
 }
 
-header .settings .settings-content .setting:first-of-type {
+header .settings .side-panel .setting:first-of-type {
     padding-top: max(1vh, 6px);
 }
 
@@ -189,7 +198,7 @@ header .settings .settings-content .setting:first-of-type {
     font-size: max(2vh, 16px);
 
     background-color: rgba(0,0,0,0.5);
-    color: white;
+    color: rgba(255, 255, 255, 0.9);
 
     border-radius: max(1vh, 8px);
 
@@ -197,11 +206,11 @@ header .settings .settings-content .setting:first-of-type {
 }
 
 .setting-controller:not(.select) {
-    border: 2px solid rgb(220, 220, 220, 150);
+    border: 2px solid rgb(255, 255, 255, 0.7);
 }
 
 .setting-controller.select {
-    border: 0px solid rgb(220, 220, 220, 150);
+    border: 0px solid rgb(255, 255, 255, 0.7);
     font-size: min(max(2vh, 16px), 2vw);
 }
 
@@ -241,9 +250,9 @@ input[type="color"]::-webkit-color-swatch-wrapper {
 }
 
 
-header .settings .settings-content .button {
+header .settings .side-panel .button {
     background-color: transparent;
-    color: white;
+    color: rgba(255, 255, 255, 0.9);
 
     font-family: "Marmelad", sans-serif;
 
@@ -254,20 +263,20 @@ header .settings .settings-content .button {
     margin-bottom: max(1vh, 8px);
     margin-left: max(1.5vw, 12px);
 
-    border: 2px solid rgb(220, 220, 220, 150);
+    border: 2px solid rgb(255, 255, 255, 0.7);
     border-radius: max(1vh, 8px);
 
     outline: none;
 }
 
-header .settings .settings-content .button:not(:hover) {
-    font-size: max(1.7vh, 14px);
+header .settings .side-panel .button:not(:hover) {
+    font-size: min(max(1.7vh, 14px), 2.5vw);
 
     transition-duration: 0.5s;
 }
 
-header .settings .settings-content .button:hover {
-    font-size: max(2vh, 16px);
+header .settings .side-panel .button:hover {
+    font-size: min(max(2vh, 16px), 3vw);
 
     transition-duration: 0.5s;
 }
@@ -316,7 +325,7 @@ header .settings .settings-content .button:hover {
 .slider {
     -webkit-appearance: none;
     min-height: max(2.5vh, 20px);
-    border: 2px solid rgba(220, 220, 220, 150);
+    border: 2px solid rgba(255, 255, 255, 0.7);
     border-radius: max(1vh, 8px);
     background: transparent;
     outline: none;
@@ -327,7 +336,7 @@ header .settings .settings-content .button:hover {
     appearance: none;
     width: max(2.3vh, 18px);
     min-height: max(2.3vh, 18px);
-    border: 2px solid rgba(220, 220, 220, 150);
+    border: 2px solid rgba(255, 255, 255, 0.7);
     border-radius: 50%; 
     background: transparent;
     cursor: pointer;
@@ -336,7 +345,7 @@ header .settings .settings-content .button:hover {
 .slider::-moz-range-thumb {
     width: max(2.3vh, 18px);
     min-height: max(2.3vh, 18px);
-    border: 2px solid rgba(220, 220, 220, 150);
+    border: 2px solid rgba(255, 255, 255, 0.7);
     border-radius: 50%;
     background: transparent;
     cursor: pointer;
@@ -345,7 +354,7 @@ header .settings .settings-content .button:hover {
 .slider::-ms-thumb {
     width: max(2.3vh, 18px);
     min-height: max(2.3vh, 18px);
-    border: 2px solid rgba(220, 220, 220, 150);
+    border: 2px solid rgba(255, 255, 255, 0.7);
     border-radius: 50%;
     background: transparent;
     cursor: pointer;
@@ -354,11 +363,11 @@ header .settings .settings-content .button:hover {
 
 
 .setting .output {
-    color: white;
+    color: rgba(255, 255, 255, 0.9);
 
     text-align: center;
 
-    border: 2px solid rgb(220, 220, 220, 150);
+    border: 2px solid rgb(255, 255, 255, 0.7);
     border-radius: max(1vh, 8px);
 
     width: 10%;
@@ -369,4 +378,88 @@ header .settings .settings-content .button:hover {
 
     line-height: max(3.5vh, 28px);
     font-size: min(max(2vh, 16px), 2vw);
+}
+
+
+
+.variable {
+    position: relative;
+
+    width: calc(100% - 4px - calc(2 * min(max(1.5vh, 12px), 1.5vw)));
+    height: min(max(7vh, 61px), 7vw);
+
+    border: 2px solid rgba(255, 255, 255, 0.7);
+    border-radius: max(1vh, 8px);
+
+    padding: min(max(1.5vh, 12px), 1.5vw);
+}
+
+.variable:hover {
+    cursor: move;
+}
+
+.variable .title {
+    font-size: min(max(3vh, 24px), 3vw);
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.variable .value {
+    display: inline-block;
+
+    font-size: min(max(2.5vh, 20px), 2.5vw);
+    font-weight: bold;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.variable .units {
+    display: inline-block;
+
+    font-size: min(max(2vh, 16px), 2vw);
+    color: rgba(255, 255, 255, 0.9);
+}
+
+
+
+.desktop-variable {
+    position: absolute;
+
+    background-color: rgba(0, 0, 0, 0.5);
+    border: 2px solid rgba(255, 255, 255, 0.7);
+    border-radius: max(1vh, 8px);
+}
+
+.desktop-variable:hover {
+    cursor: move;
+}
+
+.desktop-variable .title {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.desktop-variable .value {
+    display: inline-block;
+
+    font-weight: bold;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.desktop-variable .units {
+    display: inline-block;
+
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.desktop-variable .resizer {
+    position: absolute;
+    right: 0px;
+    bottom: 0px;
+
+    width: min(1.5vh, 1.5vw);
+    height: min(1.5vh, 1.5vw);
+
+    background-color: transparent;
+}
+
+.desktop-variable .resizer:hover {
+    cursor: nwse-resize;
 }

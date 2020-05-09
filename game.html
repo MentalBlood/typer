@@ -12,9 +12,9 @@
         <link rel="stylesheet" href="css/game.css">
     </head>
     <body leftmargin = "0" topmargin = "0" style = "background-color:#ffffff; overflow-x: hidden; overflow-y: hidden">
-        <header>
+        <header id = 'header'>
             <div class="settings">
-                <div class="side-panel settings-content">
+                <div class="side-panel opened">
                     <div class="folder" id = '_textGeneration'>
                         <div class="folder-title unselectable" id = 'textGeneration'>Text generation</div>
                         <div class="folder-content">
@@ -44,7 +44,7 @@
                                 <input type="range" value = '10' min = '1' max = '100' step = 1 class="setting-controller number slider">
                                 <div class="output"></div>
                             </div>
-                            <button class="button conditional" whenId = 'methodController' whenValue = 'Markov chain' id = 'uploadCorpus'>
+                            <button class="button conditional unselectable" whenId = 'methodController' whenValue = 'Markov chain' id = 'uploadCorpus'>
                                 Upload corpus
                             </button>
 
@@ -58,7 +58,7 @@
                                 <input type="range" value = '1' min = '1' max = '100' step = 1 class="setting-controller number slider">
                                 <div class="output"></div>
                             </div>
-                            <button class="button conditional" whenId = 'methodController' whenValue = 'Given text file' id = 'uploadTextFile'>
+                            <button class="button conditional unselectable" whenId = 'methodController' whenValue = 'Given text file' id = 'uploadTextFile'>
                                 Upload text file
                             </button>
                         </div>
@@ -142,13 +142,19 @@
                         </div>
                     </div>
                     <input type="file" id="fileElem" multiple accept=".json" style="display:none">
-                    <button class = 'button' id = 'importConfigButton'>Import configuration</button>
-                    <button class = 'button' id = 'exportConfigButton'>Export configuration</button>
+                    <button class = 'button unselectable' id = 'importConfigButton'>Import configuration</button>
+                    <button class = 'button unselectable' id = 'exportConfigButton'>Export configuration</button>
                 </div>
                 <div class = 'side-button settings-button unselectable'>settings</div>
             </div>
             <div class="statistics">
-                <div class="side-panel statistics-content"></div>
+                <div class="side-panel opened">
+                    <div class="variable unselectable" id = 'lastTypingSpeed'>
+                        <div class="title">Last string typing speed</div>
+                        <div class="value">?</div>
+                        <div class="units">symbols per minute</div>
+                    </div>
+                </div>
                 <div class = 'side-button statistics-button unselectable'>statistics</div>
             </div>
         </header>
@@ -173,15 +179,16 @@
 
                 white-space: pre;
 
-                z-index: -1
-            ' id = 'text'></div>
-            <div style = 'opacity: 0;' id = 'hiddenText'></div>
+                z-index: 1;
+            ' id = 'text' class = 'unselectable'></div>
+            <div style = 'opacity: 0;' id = 'hiddenText' class = 'unselectable'></div>
         </main>
         <footer></footer>
 
         <script type="text/javascript" src="uploadDownload.js"></script>
         <script type="text/javascript" src="fake-words.js"></script>
         <script type="text/javascript" src="markov-generator.js"></script>
+        <script type="text/javascript" src="fb2TextExtractor.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
         <script type="text/javascript" src="allFontsNames.js"></script>
         <script type="text/javascript" src="tween.umd.js"></script>

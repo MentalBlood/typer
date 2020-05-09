@@ -5,6 +5,14 @@ settingsButton.onclick = function() {
     settingsContent.classList.toggle('opened');
 };
 
+function closeSettings() {
+    settingsContent.classList.remove('opened');
+};
+
+function openSettings() {
+    settingsContent.classList.add('opened');
+};
+
 const statisticsButton = document.querySelector('.statistics .side-button');
 const statisticsContent = document.querySelector('.statistics .side-panel');
 
@@ -12,9 +20,22 @@ statisticsButton.onclick = function() {
     statisticsContent.classList.toggle('opened');
 };
 
+function closeStatistics() {
+    statisticsContent.classList.remove('opened');
+};
+
+function openStatistics() {
+    statisticsContent.classList.add('opened');
+};
+
+function closePanels() {
+    closeSettings();
+    closeStatistics();
+}
 
 
-const folderTitles = document.querySelectorAll('.settings-content .folder-title');
+
+const folderTitles = document.querySelectorAll('.settings .side-panel .folder-title');
 
 for (let folderTitle of folderTitles) {
     const currentTitleId = folderTitle.id;
@@ -200,6 +221,191 @@ function sync(id, dict, key) {
 
 
 
+const statisticsHandler = {
+    variables: {},
+    draggingHadler: {
+        objectThatIsDraggedNow: undefined,
+        objectThatIsResizedNow: undefined,
+        handleMouseMove: function(e) {
+            if ((e.pageX < 0) || (e.pageX > window.innerWidth) || (e.pageY < 0) || (e.pageY > window.innerHeight) || (statisticsHandler.draggingHadler.objectThatIsResizedNow !== undefined))
+                return;
+            _this = statisticsHandler.draggingHadler.objectThatIsDraggedNow;
+            _this.style.zIndex = 1000;
+            _this.style.top = (e.pageY - _this.getAttribute('initialMouseOffsetY')) / window.innerHeight * 100 + _this.initialY + 'vh';
+            _this.style.left = (e.pageX - _this.getAttribute('initialMouseOffsetX')) / window.innerWidth * 100 + _this.initialX + 'vw';
+        },
+        handleResize: function(e) {
+            if ((e.pageX < 0) || (e.pageX > window.innerWidth) || (e.pageY < 0) || (e.pageY > window.innerHeight))
+                return;
+            _this = statisticsHandler.draggingHadler.objectThatIsResizedNow;
+            _this.style.zIndex = 1000;
+            _this.height = (e.pageY - _this.getAttribute('initialMouseOffsetY') + _this.initialHeight) * 100 / window.innerHeight;
+            _this.width = (e.pageX - _this.getAttribute('initialMouseOffsetX') + _this.initialWidth) * 100 / window.innerWidth;
+            statisticsHandler.draggingHadler.updateDesktopVariableSize(_this);
+        },
+        updateDesktopVariableSize: function(desktopVariable) {
+            const height = Math.max(desktopVariable.height, 10);
+            const width = Math.max(desktopVariable.width, 10);
+            const padding = Math.min(width / 40, height / 10) * 1.5;
+            desktopVariable.style.padding = 'min(' + padding + 'vh, ' + padding + 'vw)';
+            desktopVariable.style.width = 'calc(' + width + 'vw - 2*' + 'min(' + padding + 'vh, ' + padding + 'vw))';
+
+            desktopVariable.style.height = 'calc(' + height + 'vh - 2*' + 'min(' + padding + 'vh, ' + padding + 'vw))';
+            const desktopVariableTitle = desktopVariable.childNodes[1];
+            const multiplier = Math.min(height / 10, width / 20);
+            const titleFontSize = multiplier * 3;
+            desktopVariableTitle.style.fontSize = 'min(' + titleFontSize + 'vh, ' + titleFontSize + 'vw)';
+            const desktopVariableValue = desktopVariable.childNodes[3];
+            const valueFontSize = multiplier * 2.5;
+            desktopVariableValue.style.fontSize = 'min(' + valueFontSize + 'vh, ' + valueFontSize + 'vw)';
+            const desktopVariableUnits = desktopVariable.childNodes[5];
+            const unitsFontSize = multiplier * 2;
+            desktopVariableUnits.style.fontSize = 'min(' + unitsFontSize + 'vh, ' + unitsFontSize + 'vw)';
+        },
+        createDesktopVariable: function(variable, e) {
+            const initialMouseOffsetX = e.offsetX;
+            const initialMouseOffsetY = e.offsetY;
+            let desktopVariable = variable.cloneNode(true);
+            desktopVariable.classList.remove('variable');
+            desktopVariable.classList.add('desktop-variable');
+            statisticsHandler.draggingHadler.removeEventListeners(desktopVariable);
+            const resizer = document.createElement('div');
+            resizer.classList.add('resizer');
+            desktopVariable.resizing = false;
+            resizer.onmousedown = function(e) {
+                statisticsHandler.draggingHadler.objectThatIsResizedNow = this.parentNode;
+                _this = this.parentNode;
+                _this.resizing = true;
+                document.addEventListener('mousemove', statisticsHandler.draggingHadler.handleResize);
+                _this.setAttribute('initialMouseOffsetX', e.pageX);
+                _this.setAttribute('initialMouseOffsetY', e.pageY);
+                const rect = _this.getBoundingClientRect();
+                _this.initialWidth = rect.width;
+                _this.initialHeight = rect.height;
+            };
+            document.addEventListener('mouseup', e => {
+                _this = statisticsHandler.draggingHadler.objectThatIsResizedNow;
+                if (_this === undefined)
+                    return;
+                _this.resizing = false;
+                document.removeEventListener('mousemove', statisticsHandler.draggingHadler.handleResize);
+                _this.style.zIndex = 0;
+                statisticsHandler.draggingHadler.objectThatIsResizedNow = undefined;
+            })
+            desktopVariable.appendChild(resizer);
+            desktopVariable.style.zIndex = 0;
+            const variableRect = variable.getBoundingClientRect();
+            desktopVariable.style.top = variableRect.top * 100 / window.innerHeight + 'vh';
+            desktopVariable.style.left = variableRect.left * 100 / window.innerWidth + 'vw';
+            desktopVariable.setAttribute('initialMouseOffsetX', initialMouseOffsetX);
+            desktopVariable.setAttribute('initialMouseOffsetY', initialMouseOffsetY);
+            desktopVariable.onmousedown = function(e) {
+                if (this.resizing === true)
+                    return;
+                statisticsHandler.draggingHadler.objectThatIsDraggedNow = this;
+                document.addEventListener('mousemove', statisticsHandler.draggingHadler.handleMouseMove);
+                this.setAttribute('initialMouseOffsetX', e.pageX);
+                this.setAttribute('initialMouseOffsetY', e.pageY);
+                this.initialX = Number.parseFloat(this.style.left);
+                this.initialY = Number.parseFloat(this.style.top);
+            };
+            document.addEventListener('mouseup', e => {
+                _this = statisticsHandler.draggingHadler.objectThatIsDraggedNow;
+                if (_this === undefined)
+                    return;
+                document.removeEventListener('mousemove', statisticsHandler.draggingHadler.handleMouseMove);
+                _this.style.zIndex = 0;
+                statisticsHandler.draggingHadler.objectThatIsDraggedNow = undefined;
+            });
+            desktopVariable.ondragstart = function() {
+                return false;
+            };
+            desktopVariable.height = '7';
+            desktopVariable.width = '45';
+            statisticsHandler.draggingHadler.updateDesktopVariableSize(desktopVariable);
+            statisticsHandler.variables[variable.id].clones.push({'value': desktopVariable.childNodes[3]});
+            closePanels();
+            document.getElementById('header').appendChild(desktopVariable);
+            desktopVariable.onmousedown(e);
+        },
+        isMousedown: false,
+        eventListeners: {
+            'onmousedown': function(e) {
+                const _this = statisticsHandler.draggingHadler;
+                _this.isMousedown = true;
+            },
+            'onmouseup': function(e) {
+                const _this = statisticsHandler.draggingHadler;
+                _this.isMousedown = false;
+            },
+            'onmousemove': function(e) {
+                const _this = statisticsHandler.draggingHadler;
+                if (_this.isMousedown === true) {
+                    _this.createDesktopVariable(this, e);
+                    _this.isMousedown = false;
+                }
+            }
+        },
+        addEventListeners: function(variable) {
+            const _this = statisticsHandler.draggingHadler;
+            for (eventListenerName of Object.keys(_this.eventListeners))
+                variable[eventListenerName] = _this.eventListeners[eventListenerName];
+        },
+        removeEventListeners: function(variable) {
+            const _this = statisticsHandler.draggingHadler;
+            for (eventListenerName of Object.keys(_this.eventListeners))
+                variable[eventListenerName] = undefined;
+        }
+    },
+    bindVariables: function() {
+        const variables = document.querySelectorAll('.variable');
+        for (const variable of variables) {
+            statisticsHandler.draggingHadler.addEventListeners(variable);
+            const variableValue = document.querySelector('#' + variable.id + '>.value');
+            statisticsHandler.variables[variable.id] = {'value': variableValue, 'clones': []};
+        }
+    },
+    setVariableValue: function(variableId, newValue) {
+        const variable = statisticsHandler.variables[variableId];
+        variable.value.innerHTML = newValue;
+        for (const clone of variable.clones)
+            clone.value.innerHTML = newValue;
+    },
+    stopwatches: {},
+    startStopwatch: function(name) {
+        statisticsHandler.stopwatches[name] = performance.now();
+    },
+    stopStopwatch: function(name) {
+        const timePassed = performance.now() - statisticsHandler.stopwatches[name];
+        delete statisticsHandler.stopwatches[name];
+        return timePassed;
+    },
+    stringLength: undefined,
+    onTypingStart: function() {
+        statisticsHandler.stringLength = textToType.innerHTML.length;
+        statisticsHandler.startStopwatch('string');
+    },
+    onTypingAborted: function() {
+        statisticsHandler.stopStopwatch('string');
+    },
+    onTypingEnd: function() {
+        const timePassed = statisticsHandler.stopStopwatch('string');
+        const symbolsPerMinute = Number((
+                statisticsHandler.stringLength / (timePassed / 1000 / 60)
+            ).toFixed(0)
+        );
+        statisticsHandler.setVariableValue('lastTypingSpeed', symbolsPerMinute);
+        statisticsHandler.stringLength = undefined;
+    },
+    init: function() {
+        statisticsHandler.bindVariables();
+    }
+}
+statisticsHandler.init();
+
+
+let typing = false;
+
 function randomSymbol(symbols) {
     return symbols.charAt(Math.floor(Math.random() * symbols.length))
 }
@@ -341,6 +547,8 @@ const textGenerator = {
                 }
     },
     generate: function(mode) {
+        statisticsHandler.onTypingAborted();
+        typing = false;
         if (textGenerator.initialized === false)
             return;
         textToType.innerHTML = textGenerator.methods[textGenerator.currentMethod].generate(mode);
@@ -406,8 +614,14 @@ function getCurrentSymbolWidth() {
 }
 
 function keyEventHandler(event) {
+    if (typing === false) {
+        typing = true;
+        statisticsHandler.onTypingStart();
+    }
     if (event.key === textToType.innerHTML[0]) {
         if (textToType.innerHTML.length === 1) {
+            statisticsHandler.onTypingEnd();
+            typing = false;
             textGenerator.generate('next');
         }
         else {
@@ -451,10 +665,6 @@ animationsHandler.onUpdate = function() {
 }
 
 window.addEventListener('keydown', keyEventHandler, false);
-
-
-
-
 
 
 
