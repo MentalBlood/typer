@@ -152,7 +152,8 @@ bind('fontSize', textToType.style, 'fontSize', value => value + 'vh');
 bind('horizontal', textToType.style, 'left', value => value + 'vw');
 bind('vertical', textToType.style, 'top', value => value + 'vh');
 bind('fontColor', textToType.style, 'color');
-bind('backgroundColor', document.body.style, 'backgroundColor');
+const gradientOverlay = document.getElementById('gradientOverlay');
+bind('backgroundColor', document.body.style, 'backgroundColor', value => { gradientOverlay.style.background = 'linear-gradient(90deg, rgba(0, 0, 0, 0) 60%, ' + value + ' 95%)'; return value; });
 bind('italic', textToType.style, 'font-style', value => value ? 'italic' : 'normal');
 bind('bold', textToType.style, 'font-weight', value => value ? 'bold' : 'normal');
 

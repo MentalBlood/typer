@@ -21,7 +21,7 @@ header {
 
 
 header .side-button {
-    z-index: 3;
+    z-index: 4;
 
     position: absolute;
     height: min(2.5vh, 2.5vw);
@@ -54,7 +54,7 @@ header .side-button:hover {
 
 
 header .side-panel {
-    z-index: 2;
+    z-index: 4;
 
     position: absolute;
 
@@ -455,4 +455,19 @@ header .settings .side-panel .button:hover {
 
 .desktop-variable .resizer:hover {
     cursor: nwse-resize;
+}
+
+
+
+body main #gradientOverlay {
+    z-index: 2;
+
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 100vw;
+    height: 100vh;
+
+    background: linear-gradient(90deg, rgba(0,0,0,0) 60%, rgba(0,0,0,1) 100%);
 }
