@@ -418,7 +418,7 @@ header .settings .side-panel .button:hover {
 
     background-color: rgba(0, 0, 0, 0.5);
     border: 2px solid rgba(255, 255, 255, 0.7);
-    border-radius: max(1vh, 8px);
+    border-radius: 1vh;
 }
 
 .desktop-variable:hover {
@@ -455,6 +455,30 @@ header .settings .side-panel .button:hover {
 
 .desktop-variable .resizer:hover {
     cursor: nwse-resize;
+}
+
+.desktop-variable .closeButton {
+    position: absolute;
+    right: 0px;
+    top: 0px;
+
+    width: min(1.8vh, 1.8vw);
+    height: min(1.8vh, 1.8vw);
+
+    border: 0px;
+    border-radius: min(0.5vh, 0.5vw);
+
+    font-size: min(1.8vh, 1.8vw);
+}
+
+.desktop-variable .closeButton:not(:hover) {
+    color: rgba(180, 180, 180, 0.9);
+}
+
+.desktop-variable .closeButton:hover {
+    cursor: default;
+    color: rgba(255, 255, 255, 0.9);
+    transition-duration: 0.5s;
 }
 
 

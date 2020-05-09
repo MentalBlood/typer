@@ -258,7 +258,7 @@ const statisticsHandler = {
         updateDesktopVariableSize: function(desktopVariable) {
             const heightWithPadding = Math.max(desktopVariable.height, 5);
             const widthWithPadding = Math.max(desktopVariable.width, 5);
-            const padding = Math.min(widthWithPadding / 40, heightWithPadding / 10) * 1.5;
+            const padding = 1;
             const height = heightWithPadding - padding;
             const width = widthWithPadding - padding;
             desktopVariable.style.padding = 'min(' + padding + 'vh, ' + padding + 'vw)';
@@ -279,6 +279,7 @@ const statisticsHandler = {
             const initialMouseOffsetX = e.offsetX;
             const initialMouseOffsetY = e.offsetY;
             let desktopVariable = variable.cloneNode(true);
+            delete desktopVariable.id;  
             desktopVariable.classList.remove('variable');
             desktopVariable.classList.add('desktop-variable');
             statisticsHandler.draggingHadler.removeEventListeners(desktopVariable);
@@ -306,6 +307,13 @@ const statisticsHandler = {
                 statisticsHandler.draggingHadler.objectThatIsResizedNow = undefined;
             })
             desktopVariable.appendChild(resizer);
+            const closeButton = document.createElement('div');
+            closeButton.classList.add('closeButton');
+            closeButton.innerHTML = 'x';
+            closeButton.onclick = function(e) {
+                this.parentNode.remove();
+            }
+            desktopVariable.appendChild(closeButton);
             desktopVariable.style.zIndex = 3;
             const variableRect = variable.getBoundingClientRect();
             desktopVariable.style.top = variableRect.top * 100 / window.innerHeight + 'vh';
