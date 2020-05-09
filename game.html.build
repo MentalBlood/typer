@@ -429,7 +429,7 @@ header .settings .side-panel .button:hover {
 
     background-color: rgba(0, 0, 0, 0.5);
     border: 2px solid rgba(255, 255, 255, 0.7);
-    border-radius: max(1vh, 8px);
+    border-radius: 1vh;
 }
 
 .desktop-variable:hover {
@@ -466,6 +466,30 @@ header .settings .side-panel .button:hover {
 
 .desktop-variable .resizer:hover {
     cursor: nwse-resize;
+}
+
+.desktop-variable .closeButton {
+    position: absolute;
+    right: 0px;
+    top: 0px;
+
+    width: min(1.8vh, 1.8vw);
+    height: min(1.8vh, 1.8vw);
+
+    border: 0px;
+    border-radius: min(0.5vh, 0.5vw);
+
+    font-size: min(1.8vh, 1.8vw);
+}
+
+.desktop-variable .closeButton:not(:hover) {
+    color: rgba(180, 180, 180, 0.9);
+}
+
+.desktop-variable .closeButton:hover {
+    cursor: default;
+    color: rgba(255, 255, 255, 0.9);
+    transition-duration: 0.5s;
 }
 
 
@@ -2212,7 +2236,7 @@ const statisticsHandler = {
         updateDesktopVariableSize: function(desktopVariable) {
             const heightWithPadding = Math.max(desktopVariable.height, 5);
             const widthWithPadding = Math.max(desktopVariable.width, 5);
-            const padding = Math.min(widthWithPadding / 40, heightWithPadding / 10) * 1.5;
+            const padding = 1;
             const height = heightWithPadding - padding;
             const width = widthWithPadding - padding;
             desktopVariable.style.padding = 'min(' + padding + 'vh, ' + padding + 'vw)';
@@ -2233,6 +2257,7 @@ const statisticsHandler = {
             const initialMouseOffsetX = e.offsetX;
             const initialMouseOffsetY = e.offsetY;
             let desktopVariable = variable.cloneNode(true);
+            delete desktopVariable.id;  
             desktopVariable.classList.remove('variable');
             desktopVariable.classList.add('desktop-variable');
             statisticsHandler.draggingHadler.removeEventListeners(desktopVariable);
@@ -2260,6 +2285,13 @@ const statisticsHandler = {
                 statisticsHandler.draggingHadler.objectThatIsResizedNow = undefined;
             })
             desktopVariable.appendChild(resizer);
+            const closeButton = document.createElement('div');
+            closeButton.classList.add('closeButton');
+            closeButton.innerHTML = 'x';
+            closeButton.onclick = function(e) {
+                this.parentNode.remove();
+            }
+            desktopVariable.appendChild(closeButton);
             desktopVariable.style.zIndex = 3;
             const variableRect = variable.getBoundingClientRect();
             desktopVariable.style.top = variableRect.top * 100 / window.innerHeight + 'vh';

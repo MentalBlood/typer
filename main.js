@@ -232,9 +232,26 @@ function sync(id, dict, key) {
 
 
 
+const uniqueKeyGenerator = {
+    generate: function(dictObject) {
+        const keys = Object.keys(dictObject);
+        if (keys.length === 0)
+            return 0;
+        return Number.parseInt(keys[keys.length - 1]) + 1;
+    },
+
+    addWithUniqueId: function(dict, element) {
+        const key = uniqueKeyGenerator.generate(dict);
+        dict[key] = element;
+        return key;
+    }
+}
+
+
+
 const statisticsHandler = {
     variables: {},
-    desktopVariables: [],
+    desktopVariables: {},
     draggingHadler: {
         objectThatIsDraggedNow: undefined,
         objectThatIsResizedNow: undefined,
@@ -279,7 +296,7 @@ const statisticsHandler = {
             const initialMouseOffsetX = e.offsetX;
             const initialMouseOffsetY = e.offsetY;
             let desktopVariable = variable.cloneNode(true);
-            delete desktopVariable.id;  
+            desktopVariable.id = uniqueKeyGenerator.generate(statisticsHandler.desktopVariables);
             desktopVariable.classList.remove('variable');
             desktopVariable.classList.add('desktop-variable');
             statisticsHandler.draggingHadler.removeEventListeners(desktopVariable);
@@ -312,6 +329,7 @@ const statisticsHandler = {
             closeButton.innerHTML = 'x';
             closeButton.onclick = function(e) {
                 this.parentNode.remove();
+                delete statisticsHandler.desktopVariables[this.parentNode.id];
             }
             desktopVariable.appendChild(closeButton);
             desktopVariable.style.zIndex = 3;
@@ -345,9 +363,9 @@ const statisticsHandler = {
             desktopVariable.width = '40';
             statisticsHandler.draggingHadler.updateDesktopVariableSize(desktopVariable);
             statisticsHandler.variables[variable.id].clones.push({'value': desktopVariable.childNodes[3]});
-            statisticsHandler.desktopVariables.push(desktopVariable);
+            statisticsHandler.desktopVariables[desktopVariable.id] = desktopVariable;
             document.addEventListener('mousemove', e => {
-                for (const desktopVariable of statisticsHandler.desktopVariables) {
+                for (const desktopVariable of Object.values(statisticsHandler.desktopVariables)) {
                     const rect = desktopVariable.getBoundingClientRect();
                     if ((e.pageX < rect.x) || (e.pageX > rect.x + rect.width) || (e.pageY < rect.y) || (e.pageY > rect.y + rect.height)) {
                         desktopVariable.style.zIndex = 3;
@@ -610,22 +628,6 @@ function setTextToTypeShift(number) {
 
 let textXShifts = {};
 let normalTextX;
-
-const uniqueKeyGenerator = {
-    generate: function(dictObject) {
-        const newKey = Math.max(...Object.keys(dictObject));
-        if (typeof newKey === 'number' && isFinite(newKey))
-            return newKey + 1;
-        else
-            return 1;
-    },
-
-    addWithUniqueId: function(dict, element) {
-        const key = uniqueKeyGenerator.generate(dict);
-        dict[key] = element;
-        return key;
-    }
-}
 
 let observer = new MutationObserver(function(mutations) {
     mutations.forEach(function(mutationRecord) {
