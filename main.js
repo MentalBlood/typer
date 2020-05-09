@@ -148,12 +148,22 @@ function bind(id, dictionary, key, preprocessor, onFinishChange) {
     settingController.onchange();
 }
 
+const gradientOverlay = document.getElementById('gradientOverlay');
+const horizontalFadingSettings = {'start': undefined, 'end': undefined};
+function updateFading() {
+    const backgroundColor = document.body.style.backgroundColor;
+    const textToTypeX = Number.parseFloat(textToType.style.left);
+    const absoluteStart = textToTypeX + horizontalFadingSettings.start;
+    const absoluteEnd = textToTypeX + horizontalFadingSettings.end;
+    gradientOverlay.style.background = 'linear-gradient(90deg, rgba(0, 0, 0, 0) ' + absoluteStart+ '%, ' + backgroundColor + ' ' + absoluteEnd + '%)';
+}
+bind('horizontalFadingStart', horizontalFadingSettings, 'start', value => Number.parseFloat(value), updateFading);
+bind('horizontalFadingEnd', horizontalFadingSettings, 'end', value => Number.parseFloat(value), updateFading);
+bind('backgroundColor', document.body.style, 'backgroundColor', undefined, updateFading);
 bind('fontSize', textToType.style, 'fontSize', value => value + 'vh');
-bind('horizontal', textToType.style, 'left', value => value + 'vw');
+bind('horizontal', textToType.style, 'left', value => value + 'vw', updateFading);
 bind('vertical', textToType.style, 'top', value => value + 'vh');
 bind('fontColor', textToType.style, 'color');
-const gradientOverlay = document.getElementById('gradientOverlay');
-bind('backgroundColor', document.body.style, 'backgroundColor', value => { gradientOverlay.style.background = 'linear-gradient(90deg, rgba(0, 0, 0, 0) 60%, ' + value + ' 95%)'; return value; });
 bind('italic', textToType.style, 'font-style', value => value ? 'italic' : 'normal');
 bind('bold', textToType.style, 'font-weight', value => value ? 'bold' : 'normal');
 
@@ -291,11 +301,11 @@ const statisticsHandler = {
                     return;
                 _this.resizing = false;
                 document.removeEventListener('mousemove', statisticsHandler.draggingHadler.handleResize);
-                _this.style.zIndex = 0;
+                _this.style.zIndex = 3;
                 statisticsHandler.draggingHadler.objectThatIsResizedNow = undefined;
             })
             desktopVariable.appendChild(resizer);
-            desktopVariable.style.zIndex = 0;
+            desktopVariable.style.zIndex = 3;
             const variableRect = variable.getBoundingClientRect();
             desktopVariable.style.top = variableRect.top * 100 / window.innerHeight + 'vh';
             desktopVariable.style.left = variableRect.left * 100 / window.innerWidth + 'vw';
@@ -316,7 +326,7 @@ const statisticsHandler = {
                 if (_this === undefined)
                     return;
                 document.removeEventListener('mousemove', statisticsHandler.draggingHadler.handleMouseMove);
-                _this.style.zIndex = 0;
+                _this.style.zIndex = 3;
                 statisticsHandler.draggingHadler.objectThatIsDraggedNow = undefined;
             });
             desktopVariable.ondragstart = function() {
@@ -331,7 +341,7 @@ const statisticsHandler = {
                 for (const desktopVariable of statisticsHandler.desktopVariables) {
                     const rect = desktopVariable.getBoundingClientRect();
                     if ((e.pageX < rect.x) || (e.pageX > rect.x + rect.width) || (e.pageY < rect.y) || (e.pageY > rect.y + rect.height)) {
-                        desktopVariable.style.zIndex = 0;
+                        desktopVariable.style.zIndex = 3;
                         continue;
                     }
                     desktopVariable.style.zIndex = 1000;
