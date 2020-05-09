@@ -223,6 +223,7 @@ function sync(id, dict, key) {
 
 const statisticsHandler = {
     variables: {},
+    desktopVariables: [],
     draggingHadler: {
         objectThatIsDraggedNow: undefined,
         objectThatIsResizedNow: undefined,
@@ -252,7 +253,7 @@ const statisticsHandler = {
 
             desktopVariable.style.height = 'calc(' + height + 'vh - 2*' + 'min(' + padding + 'vh, ' + padding + 'vw))';
             const desktopVariableTitle = desktopVariable.childNodes[1];
-            const multiplier = Math.min(height / 10, width / 20);
+            const multiplier = Math.min(height / 14, width / 20);
             const titleFontSize = multiplier * 3;
             desktopVariableTitle.style.fontSize = 'min(' + titleFontSize + 'vh, ' + titleFontSize + 'vw)';
             const desktopVariableValue = desktopVariable.childNodes[3];
@@ -321,9 +322,20 @@ const statisticsHandler = {
                 return false;
             };
             desktopVariable.height = '7';
-            desktopVariable.width = '45';
+            desktopVariable.width = '40';
             statisticsHandler.draggingHadler.updateDesktopVariableSize(desktopVariable);
             statisticsHandler.variables[variable.id].clones.push({'value': desktopVariable.childNodes[3]});
+            statisticsHandler.desktopVariables.push(desktopVariable);
+            document.addEventListener('mousemove', e => {
+                for (const desktopVariable of statisticsHandler.desktopVariables) {
+                    const rect = desktopVariable.getBoundingClientRect();
+                    if ((e.pageX < rect.x) || (e.pageX > rect.x + rect.width) || (e.pageY < rect.y) || (e.pageY > rect.y + rect.height)) {
+                        desktopVariable.style.zIndex = 0;
+                        continue;
+                    }
+                    desktopVariable.style.zIndex = 1000;
+                }
+            });
             closePanels();
             document.getElementById('header').appendChild(desktopVariable);
             desktopVariable.onmousedown(e);
@@ -614,11 +626,16 @@ function getCurrentSymbolWidth() {
 }
 
 function keyEventHandler(event) {
-    if (typing === false) {
+
+    if ((textToType.innerHTML.length === 1) && (typing === false)) {
         typing = true;
         statisticsHandler.onTypingStart();
     }
     if (event.key === textToType.innerHTML[0]) {
+        if (typing === false) {
+            typing = true;
+            statisticsHandler.onTypingStart();
+        }
         if (textToType.innerHTML.length === 1) {
             statisticsHandler.onTypingEnd();
             typing = false;
