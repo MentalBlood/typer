@@ -50,15 +50,17 @@ for (let folderTitle of folderTitles) {
 let textToType = document.getElementById('text');
 
 function setValue(object, newValue) {
-    if (object.value)
-        object.value = newValue;
-    else
+    if (object.type === 'select')
         for (let i = 0; ; i += 1) {
             if (object.options[i].value === newValue) {
                 object.selectedIndex = i;
                 break;
             }
         }
+    else if (object.type === 'checkbox')
+        object.checked = newValue;
+    else
+        object.value = newValue;
     if (object.onchange)
         object.onchange();
 }
@@ -66,7 +68,11 @@ function setValue(object, newValue) {
 const configHandler = {
     config: {},
     applyNewConfig: function(newConfigText) {
-        const newConfig = JSON.parse(newConfigText);
+        let newConfig = undefined;
+        if (typeof(newConfigText) === 'string')
+            newConfig = JSON.parse(newConfigText);
+        else
+            newConfig = newConfigText;
         for (const [id, value] of Object.entries(newConfig)) {
             const settingController = document.querySelector('#' + id + '>.setting-controller');
             setValue(settingController, newConfig[id]);
@@ -125,8 +131,9 @@ function bind(id, dictionary, key, preprocessor, onFinishChange) {
     const settingController = document.querySelector('#' + id + '>.setting-controller');
     settingController.onchange = function() {
         let newValue = getValue(this);
-        if (preprocessor !== undefined)
+        if (preprocessor !== undefined) {
             dictionary[key] = preprocessor(newValue);
+        }
         else
             dictionary[key] = newValue;
         configHandler.config[id] = newValue;
@@ -164,8 +171,8 @@ bind('fontSize', textToType.style, 'fontSize', value => value + 'vh');
 bind('horizontal', textToType.style, 'left', value => value + 'vw', updateFading);
 bind('vertical', textToType.style, 'top', value => value + 'vh');
 bind('fontColor', textToType.style, 'color');
-bind('italic', textToType.style, 'font-style', value => value ? 'italic' : 'normal');
-bind('bold', textToType.style, 'font-weight', value => value ? 'bold' : 'normal');
+bind('italic', textToType.style, 'fontStyle', value => value ? 'italic' : 'normal');
+bind('bold', textToType.style, 'fontWeight', value => value ? 'bold' : 'normal');
 
 
 
@@ -704,6 +711,15 @@ animationsHandler.onUpdate = function() {
 }
 
 window.addEventListener('keydown', keyEventHandler, false);
+
+
+
+function setDefaults() {
+    configHandler.applyNewConfig(defaults);
+}
+
+const resetToDefaultsButton = document.getElementById('resetToDefaultsButton');
+resetToDefaultsButton.onclick = setDefaults;
 
 
 
