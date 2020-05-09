@@ -371,16 +371,6 @@ const statisticsHandler = {
             statisticsHandler.draggingHadler.updateDesktopVariableSize(desktopVariable);
             statisticsHandler.variables[variable.id].clones.push({'value': desktopVariable.childNodes[3]});
             statisticsHandler.desktopVariables[desktopVariable.id] = desktopVariable;
-            document.addEventListener('mousemove', e => {
-                for (const desktopVariable of Object.values(statisticsHandler.desktopVariables)) {
-                    const rect = desktopVariable.getBoundingClientRect();
-                    if ((e.pageX < rect.x) || (e.pageX > rect.x + rect.width) || (e.pageY < rect.y) || (e.pageY > rect.y + rect.height)) {
-                        desktopVariable.style.zIndex = 3;
-                        continue;
-                    }
-                    desktopVariable.style.zIndex = 1000;
-                }
-            });
             closePanels();
             document.getElementById('header').appendChild(desktopVariable);
             desktopVariable.onmousedown(e);

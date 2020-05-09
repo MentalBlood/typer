@@ -521,7 +521,7 @@ body main #gradientOverlay {
 
                             <div class="setting conditional" whenId = 'methodController' whenValue = 'Random characters' id = 'symbols'>
                                 <div class="setting-title unselectable">Symbols</div>
-                                <input type="text" value = 'qwertyuiopasdfghjklzxcvbnm'class="setting-controller text">
+                                <input type="text" value = 'qwertyuiopasdfghjklzxcvbnm' class="setting-controller text">
                             </div>
                             <div class="setting conditional" whenId = 'methodController' whenValue = 'Random characters' id = 'numberOfSymbols'>
                                 <div class="setting-title unselectable">Number of symbols</div>
@@ -653,6 +653,7 @@ body main #gradientOverlay {
                         </div>
                     </div>
                     <input type="file" id="fileElem" multiple accept=".json" style="display:none">
+                    <button class = 'button unselectable' id = 'resetToDefaultsButton'>Reset to defaults</button>
                     <button class = 'button unselectable' id = 'importConfigButton'>Import configuration</button>
                     <button class = 'button unselectable' id = 'exportConfigButton'>Export configuration</button>
                 </div>
@@ -1976,6 +1977,30 @@ var markov = function(input, type, reg) {
 
 })));
 </script>
+        <script type="text/javascript">const defaults = {
+    "horizontalFadingStart": "20",
+    "horizontalFadingEnd": "65",
+    "backgroundColor": "#d0d2c0",
+    "fontSize": "10",
+    "horizontal": "20",
+    "vertical": "43",
+    "fontColor": "#29363a",
+    "italic": false,
+    "bold": false,
+    "dropShadow": true,
+    "shadowDistance": "0.5",
+    "shadowAngle": "1",
+    "shadowBlur": "1",
+    "shadowColor": "#000000",
+    "font": "Rubik",
+    "method": "Random fake words",
+    "symbols": "qwertyuiopasdfghjklzxcvbnm",
+    "numberOfSymbols": "10",
+    "numberOfWords": "10",
+    "numberOfWordsInChain": "10",
+    "numberOfSentences": "1",
+    "currentSentenceNumber": "1"
+}</script>
         <script type="text/javascript">const settingsButton = document.querySelector('.settings .side-button');
 const settingsContent = document.querySelector('.settings .side-panel');
 
@@ -2028,15 +2053,17 @@ for (let folderTitle of folderTitles) {
 let textToType = document.getElementById('text');
 
 function setValue(object, newValue) {
-    if (object.value)
-        object.value = newValue;
-    else
+    if (object.type === 'select')
         for (let i = 0; ; i += 1) {
             if (object.options[i].value === newValue) {
                 object.selectedIndex = i;
                 break;
             }
         }
+    else if (object.type === 'checkbox')
+        object.checked = newValue;
+    else
+        object.value = newValue;
     if (object.onchange)
         object.onchange();
 }
@@ -2044,7 +2071,11 @@ function setValue(object, newValue) {
 const configHandler = {
     config: {},
     applyNewConfig: function(newConfigText) {
-        const newConfig = JSON.parse(newConfigText);
+        let newConfig = undefined;
+        if (typeof(newConfigText) === 'string')
+            newConfig = JSON.parse(newConfigText);
+        else
+            newConfig = newConfigText;
         for (const [id, value] of Object.entries(newConfig)) {
             const settingController = document.querySelector('#' + id + '>.setting-controller');
             setValue(settingController, newConfig[id]);
@@ -2103,8 +2134,9 @@ function bind(id, dictionary, key, preprocessor, onFinishChange) {
     const settingController = document.querySelector('#' + id + '>.setting-controller');
     settingController.onchange = function() {
         let newValue = getValue(this);
-        if (preprocessor !== undefined)
+        if (preprocessor !== undefined) {
             dictionary[key] = preprocessor(newValue);
+        }
         else
             dictionary[key] = newValue;
         configHandler.config[id] = newValue;
@@ -2142,8 +2174,8 @@ bind('fontSize', textToType.style, 'fontSize', value => value + 'vh');
 bind('horizontal', textToType.style, 'left', value => value + 'vw', updateFading);
 bind('vertical', textToType.style, 'top', value => value + 'vh');
 bind('fontColor', textToType.style, 'color');
-bind('italic', textToType.style, 'font-style', value => value ? 'italic' : 'normal');
-bind('bold', textToType.style, 'font-weight', value => value ? 'bold' : 'normal');
+bind('italic', textToType.style, 'fontStyle', value => value ? 'italic' : 'normal');
+bind('bold', textToType.style, 'fontWeight', value => value ? 'bold' : 'normal');
 
 
 
@@ -2682,6 +2714,15 @@ animationsHandler.onUpdate = function() {
 }
 
 window.addEventListener('keydown', keyEventHandler, false);
+
+
+
+function setDefaults() {
+    configHandler.applyNewConfig(defaults);
+}
+
+const resetToDefaultsButton = document.getElementById('resetToDefaultsButton');
+resetToDefaultsButton.onclick = setDefaults;
 
 
 
