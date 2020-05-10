@@ -250,6 +250,7 @@ const uniqueKeyGenerator = {
 
 const statisticsHandler = {
     variables: {},
+    canvasesClones: {},
     desktopVariables: {},
     draggingHadler: {
         objectThatIsDraggedNow: undefined,
@@ -284,6 +285,8 @@ const statisticsHandler = {
             const multiplier = Math.min(height / 10, width / 15);
             const titleFontSize = multiplier * 3;
             desktopVariableTitle.style.fontSize = titleFontSize + 'vh';
+            if (desktopVariable.classList.contains('chart'))
+                return;
             const desktopVariableValue = desktopVariable.childNodes[3];
             const valueFontSize = multiplier * 2.5;
             desktopVariableValue.style.fontSize = valueFontSize + 'vh';
@@ -298,6 +301,10 @@ const statisticsHandler = {
             desktopVariable.id = uniqueKeyGenerator.generate(statisticsHandler.desktopVariables);
             desktopVariable.classList.remove('variable');
             desktopVariable.classList.add('desktop-variable');
+            if (variable.classList.contains('chart')) {
+            } else {
+                statisticsHandler.variables[variable.id].clones.push({'value': desktopVariable.childNodes[3]});
+            }
             statisticsHandler.draggingHadler.removeEventListeners(desktopVariable);
             const resizer = document.createElement('div');
             resizer.classList.add('resizer');
@@ -361,11 +368,11 @@ const statisticsHandler = {
             desktopVariable.height = '7';
             desktopVariable.width = '40';
             statisticsHandler.draggingHadler.updateDesktopVariableSize(desktopVariable);
-            statisticsHandler.variables[variable.id].clones.push({'value': desktopVariable.childNodes[3]});
             statisticsHandler.desktopVariables[desktopVariable.id] = desktopVariable;
             closePanels();
             document.getElementById('header').appendChild(desktopVariable);
             desktopVariable.onmousedown(e);
+            //statisticsHandler.updateCanvasesClones();
         },
         isMousedown: false,
         eventListeners: {
@@ -399,6 +406,8 @@ const statisticsHandler = {
     bindVariables: function() {
         const variables = document.querySelectorAll('.variable');
         for (const variable of variables) {
+            if (variable.classList.contains('chart'))
+                return;
             statisticsHandler.draggingHadler.addEventListeners(variable);
             const variableValue = document.querySelector('#' + variable.id + '>.value');
             statisticsHandler.variables[variable.id] = {'value': variableValue, 'clones': []};
@@ -409,6 +418,13 @@ const statisticsHandler = {
         variable.value.innerHTML = newValue;
         for (const clone of variable.clones)
             clone.value.innerHTML = newValue;
+    },
+    updateCanvasesClones: function(variableId) {
+        const sourceCanvas = document.getElementById(variableId).childNodes[3].childNodes[0];
+        for (const clone of statisticsHandler.canvasesClones[variableId]) {
+            console.log('update clone', clone, 'with id', clone.id);
+            clone.getContext('2d').canvas.drawImage(sourceCanvas, 0, 0);
+        }
     },
     sequencies: {},
     stopwatches: {},
@@ -435,6 +451,7 @@ const statisticsHandler = {
         const symbolsPerMinute = Number((statisticsHandler.stringLength / (timePassed / 1000 / 60)).toFixed(0));
         statisticsHandler.setVariableValue('lastTypingSpeed', symbolsPerMinute);
         chartsHandler.addDot('Typing speed', statisticsHandler.currentString, symbolsPerMinute);
+        //statisticsHandler.updateCanvasesClones('typingSpeed');
         statisticsHandler.stringLength = undefined;
         statisticsHandler.currentString = undefined;
     },
@@ -710,6 +727,7 @@ resetToDefaultsButton.onclick = setDefaults;
 
 const chartsHandler = {
     charts: {},
+    clones: {},
 
     addChart(canvasId, name) {
         const canvas = document.getElementById(canvasId);
@@ -765,6 +783,14 @@ const chartsHandler = {
                         gridLines: {
                         }
                     }]
+                },
+                layout: {
+                    padding: {
+                        left: 10,
+                        right: 10,
+                        top: 5,
+                        bottom: 5
+                    }
                 }
             }
         });
@@ -779,6 +805,10 @@ const chartsHandler = {
         chart.update(200);
     },
 
+    addClone(sourceId, targetId) {
+
+    },
+
     removeAllCharts() {
         for (key in chartsHandler.charts) {
             chartsHandler.charts[key].destroy();
@@ -787,7 +817,7 @@ const chartsHandler = {
     }
 }
 
-chartsHandler.addChart('typingSpeedChartCanvas', 'Typing speed');
+chartsHandler.addChart('typingSpeedChart', 'Typing speed');
 
 
 
