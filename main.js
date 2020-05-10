@@ -410,6 +410,7 @@ const statisticsHandler = {
         for (const clone of variable.clones)
             clone.value.innerHTML = newValue;
     },
+    sequencies: {},
     stopwatches: {},
     startStopwatch: function(name) {
         statisticsHandler.stopwatches[name] = performance.now();
@@ -420,8 +421,10 @@ const statisticsHandler = {
         return timePassed;
     },
     stringLength: undefined,
+    currentString: undefined,
     onTypingStart: function() {
         statisticsHandler.stringLength = textToType.innerHTML.length;
+        statisticsHandler.currentString = textToType.innerHTML;
         statisticsHandler.startStopwatch('string');
     },
     onTypingAborted: function() {
@@ -429,15 +432,15 @@ const statisticsHandler = {
     },
     onTypingEnd: function() {
         const timePassed = statisticsHandler.stopStopwatch('string');
-        const symbolsPerMinute = Number((
-                statisticsHandler.stringLength / (timePassed / 1000 / 60)
-            ).toFixed(0)
-        );
+        const symbolsPerMinute = Number((statisticsHandler.stringLength / (timePassed / 1000 / 60)).toFixed(0));
         statisticsHandler.setVariableValue('lastTypingSpeed', symbolsPerMinute);
+        chartsHandler.addDot('Typing speed', statisticsHandler.currentString, symbolsPerMinute);
         statisticsHandler.stringLength = undefined;
+        statisticsHandler.currentString = undefined;
     },
     init: function() {
         statisticsHandler.bindVariables();
+        statisticsHandler.sequencies['Typing speed'] = [];
     }
 }
 statisticsHandler.init();
@@ -698,9 +701,93 @@ window.addEventListener('keydown', keyEventHandler, false);
 function setDefaults() {
     configHandler.applyNewConfig(defaults);
 }
+setDefaults();
 
 const resetToDefaultsButton = document.getElementById('resetToDefaultsButton');
 resetToDefaultsButton.onclick = setDefaults;
+
+
+
+const chartsHandler = {
+    charts: {},
+
+    addChart(canvasId, name) {
+        const canvas = document.getElementById(canvasId);
+        chartsHandler.charts[name] = new Chart(canvas, {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: [{
+                    label: name,
+                    data: statisticsHandler.sequencies[name],
+                    fill: false,
+                    borderColor: 'white',
+                    backgroundColor: 'white',
+                    pointBorderColor: 'rgba(255,255,255,0.5)',
+                    pointBackgroundColor: 'rgba(255,255,255,1)',
+                    pointRadius: 5,
+                    pointHoverRadius: 10,
+                    pointHitRadius: 30,
+                    pointBorderWidth: 2
+                }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                },
+                legend: {
+                    display: false
+                },
+                tooltips: {
+                    callbacks: {
+                        label: function(tooltipItem) {
+                            return tooltipItem.yLabel;
+                        }
+                    }
+                },
+                scales: {
+                    xAxes: [{
+                        ticks: {
+                            display: false
+                        },
+                        gridLines: {
+                        }
+                    }],
+                    yAxes: [{
+                        ticks: {
+                            display: false
+                        },
+                        gridLines: {
+                        }
+                    }]
+                }
+            }
+        });
+    },
+
+    addDot(chartName, label, value, color) {
+        const chart = chartsHandler.charts[chartName];
+        chart.data.labels.push(label);
+        statisticsHandler.sequencies[chartName].push(value);
+        const dataset = chart.data.datasets[0]
+        dataset.pointRadius = 9 / Math.sqrt(dataset.data.length);
+        chart.update(200);
+    },
+
+    removeAllCharts() {
+        for (key in chartsHandler.charts) {
+            chartsHandler.charts[key].destroy();
+        }
+        chartsHandler.charts = {};
+    }
+}
+
+chartsHandler.addChart('typingSpeedChartCanvas', 'Typing speed');
 
 
 

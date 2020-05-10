@@ -164,11 +164,17 @@
                 <div class = 'side-button settings-button unselectable'>settings</div>
             </div>
             <div class="statistics">
-                <div class="side-panel">
+                <div class="side-panel opened">
                     <div class="variable unselectable" id = 'lastTypingSpeed'>
                         <div class="title">Last string typing speed</div>
                         <div class="value">?</div>
                         <div class="units">symbols per minute</div>
+                    </div>
+                    <div class="variable chart unselectable" id="typingSpeedChart">
+                        <div class="title">Typing speed chart</div>
+                        <div class = 'chart-canvas'>
+                            <canvas id = 'typingSpeedChartCanvas' height = '100%' width = '100%'></canvas>
+                        </div>
                     </div>
                 </div>
                 <div class = 'side-button statistics-button unselectable'>statistics</div>
@@ -202,6 +208,7 @@
         </main>
         <footer></footer>
 
+        <script type="text/javascript" src="chart.js"></script>
         <script type="text/javascript" src="uploadDownload.js"></script>
         <script type="text/javascript" src="fake-words.js"></script>
         <script type="text/javascript" src="markov-generator.js"></script>
