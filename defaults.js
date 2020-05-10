@@ -17,7 +17,7 @@ const defaults = {
     "method": "Random fake words",
     "symbols": "qwertyuiopasdfghjklzxcvbnm",
     "numberOfSymbols": "10",
-    "numberOfWords": "1",
+    "numberOfWords": "10",
     "numberOfWordsInChain": "10",
     "numberOfSentences": "1",
     "currentSentenceNumber": "1"

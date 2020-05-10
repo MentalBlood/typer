@@ -148,6 +148,10 @@ function bind(id, dictionary, key, preprocessor, onFinishChange) {
 }
 
 const gradientOverlay = document.getElementById('gradientOverlay');
+gradientOverlay.onclick = function() {
+    closeStatistics();
+    closeSettings();
+}
 const horizontalFadingSettings = {'start': undefined, 'end': undefined};
 function updateFading() {
     const backgroundColor = document.body.style.backgroundColor;
