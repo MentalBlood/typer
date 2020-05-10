@@ -9,10 +9,6 @@ function closeSettings() {
     settingsContent.classList.remove('opened');
 };
 
-function openSettings() {
-    settingsContent.classList.add('opened');
-};
-
 const statisticsButton = document.querySelector('.statistics .side-button');
 const statisticsContent = document.querySelector('.statistics .side-panel');
 
@@ -22,10 +18,6 @@ statisticsButton.onclick = function() {
 
 function closeStatistics() {
     statisticsContent.classList.remove('opened');
-};
-
-function openStatistics() {
-    statisticsContent.classList.add('opened');
 };
 
 function closePanels() {
@@ -73,7 +65,7 @@ const configHandler = {
             newConfig = JSON.parse(newConfigText);
         else
             newConfig = newConfigText;
-        for (const [id, value] of Object.entries(newConfig)) {
+        for (const id of Object.keys(newConfig)) {
             const settingController = document.querySelector('#' + id + '>.setting-controller');
             setValue(settingController, newConfig[id]);
         }
@@ -321,7 +313,7 @@ const statisticsHandler = {
                 _this.initialWidth = rect.width;
                 _this.initialHeight = rect.height;
             };
-            document.addEventListener('mouseup', e => {
+            document.addEventListener('mouseup', () => {
                 _this = statisticsHandler.draggingHadler.objectThatIsResizedNow;
                 if (_this === undefined)
                     return;
@@ -334,7 +326,7 @@ const statisticsHandler = {
             const closeButton = document.createElement('div');
             closeButton.classList.add('closeButton');
             closeButton.innerHTML = 'x';
-            closeButton.onclick = function(e) {
+            closeButton.onclick = function() {
                 this.parentNode.remove();
                 delete statisticsHandler.desktopVariables[this.parentNode.id];
             }
@@ -355,7 +347,7 @@ const statisticsHandler = {
                 this.initialX = Number.parseFloat(this.style.left);
                 this.initialY = Number.parseFloat(this.style.top);
             };
-            document.addEventListener('mouseup', e => {
+            document.addEventListener('mouseup', () => {
                 _this = statisticsHandler.draggingHadler.objectThatIsDraggedNow;
                 if (_this === undefined)
                     return;
@@ -377,11 +369,11 @@ const statisticsHandler = {
         },
         isMousedown: false,
         eventListeners: {
-            'onmousedown': function(e) {
+            'onmousedown': function() {
                 const _this = statisticsHandler.draggingHadler;
                 _this.isMousedown = true;
             },
-            'onmouseup': function(e) {
+            'onmouseup': function() {
                 const _this = statisticsHandler.draggingHadler;
                 _this.isMousedown = false;
             },
@@ -624,10 +616,9 @@ function setTextToTypeShift(number) {
 }
 
 let textXShifts = {};
-let normalTextX;
 
 let observer = new MutationObserver(function(mutations) {
-    mutations.forEach(function(mutationRecord) {
+    mutations.forEach(function() {
         hiddenText.style.cssText = textToType.style.cssText;
         hiddenText.style.opacity = '0';
     })
