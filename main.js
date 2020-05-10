@@ -7,7 +7,7 @@ settingsButton.onclick = function() {
 
 function closeSettings() {
     settingsContent.classList.remove('opened');
-};
+}
 
 const statisticsButton = document.querySelector('.statistics .side-button');
 const statisticsContent = document.querySelector('.statistics .side-panel');
@@ -18,7 +18,7 @@ statisticsButton.onclick = function() {
 
 function closeStatistics() {
     statisticsContent.classList.remove('opened');
-};
+}
 
 function closePanels() {
     closeSettings();
@@ -567,7 +567,7 @@ const textGenerator = {
                 const numberOfSentences = Number.parseInt(this.options.numberOfSentences, 10);
                 const lastSentenceIndex = Math.min(firstSentenceIndex + numberOfSentences, this.variables.text.length);
                 
-                return this.functions.replaceLineBreaksWithSpaces(this.variables.text.slice(firstSentenceIndex, lastSentenceIndex).join('')).replace(/^\s+|\s+$/g, '');;
+                return this.functions.replaceLineBreaksWithSpaces(this.variables.text.slice(firstSentenceIndex, lastSentenceIndex).join('')).replace(/^\s+|\s+$/g, '');
             }
         }
     },
@@ -656,7 +656,7 @@ function keyEventHandler(event) {
             new TWEEN.Tween({key: newShiftKey, shift: textXShifts[newShiftKey]}).to({shift: 0}, 1000).onUpdate(
                 object => textXShifts[object.key] = object.shift
             ).onStart(
-                object => textToType.innerHTML = textToType.innerHTML.substring(1)
+                () => textToType.innerHTML = textToType.innerHTML.substring(1)
             ).onComplete(
                 object => delete textXShifts[object.key]
             ).start();

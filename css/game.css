@@ -203,7 +203,7 @@ header .settings .side-panel .setting:first-of-type {
 }
 
 .setting-controller.select {
-    border: 0px solid rgb(255, 255, 255, 0.7);
+    border: 0 solid rgb(255, 255, 255, 0.7);
     font-size: min(max(2vh, 16px), 2vw);
 }
 
@@ -227,6 +227,7 @@ header .settings .side-panel .setting:first-of-type {
 
 .setting-controller.color {
     width: calc(50% + calc(2 * max(0.4vw, 3px)));
+    background: transparent;
 }
 
 input[type="color"]::-webkit-color-swatch-wrapper {
@@ -238,9 +239,6 @@ input[type="color"]::-webkit-color-swatch-wrapper {
     width: 85%;
 }
 
-.setting-controller.color {
-    background: transparent;
-}
 
 
 header .settings .side-panel .button {
@@ -330,7 +328,7 @@ header .settings .side-panel .button:hover {
     width: max(2.3vh, 18px);
     min-height: max(2.3vh, 18px);
     border: 2px solid rgba(255, 255, 255, 0.7);
-    border-radius: 50%; 
+    border-radius: 50%;
     background: transparent;
     cursor: pointer;
 }
@@ -444,8 +442,8 @@ header .settings .side-panel .button:hover {
 
 .desktop-variable .resizer {
     position: absolute;
-    right: 0px;
-    bottom: 0px;
+    right: 0;
+    bottom: 0;
 
     width: min(1.5vh, 1.5vw);
     height: min(1.5vh, 1.5vw);
@@ -459,13 +457,13 @@ header .settings .side-panel .button:hover {
 
 .desktop-variable .closeButton {
     position: absolute;
-    right: 0px;
-    top: 0px;
+    right: 0;
+    top: 0;
 
     width: min(1.8vh, 1.8vw);
     height: min(1.8vh, 1.8vw);
 
-    border: 0px;
+    border: 0;
     border-radius: min(0.5vh, 0.5vw);
 
     font-size: min(1.8vh, 1.8vw);
