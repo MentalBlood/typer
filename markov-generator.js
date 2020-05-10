@@ -27,7 +27,17 @@ var markov = function(input, type, reg) {
       data = eval("(" + input + ")");
     }
     this.data = data;
-    
+
+    var expand = function(obj) {
+      oArray = new Array();
+      for (var prop in obj) {
+        for (var i = 0; i < obj[prop]; i++) {
+          oArray.push(prop);
+        }
+      }
+      return oArray;
+    }
+
     var gen = function(l) {
       var sanitycheck = false;
       var out = new Array();
@@ -57,23 +67,13 @@ var markov = function(input, type, reg) {
         l1++;
       }
       var r1 = Math.round(Math.random() * l1);
-      l2 = 0;
+      let l2 = 0;
       for (i in o) {
         l2++;
         if (l2 == r1) {
           return o[i];
         }
       }
-    }
-    
-    var expand = function(obj) {
-      oArray = new Array();
-      for (var prop in obj) {
-        for (var i = 0; i < obj[prop]; i++) {
-          oArray.push(prop);
-        }
-      }
-      return oArray;
     }
     
     var getJson = function() {

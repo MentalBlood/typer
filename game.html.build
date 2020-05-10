@@ -214,7 +214,7 @@ header .settings .side-panel .setting:first-of-type {
 }
 
 .setting-controller.select {
-    border: 0px solid rgb(255, 255, 255, 0.7);
+    border: 0 solid rgb(255, 255, 255, 0.7);
     font-size: min(max(2vh, 16px), 2vw);
 }
 
@@ -238,6 +238,7 @@ header .settings .side-panel .setting:first-of-type {
 
 .setting-controller.color {
     width: calc(50% + calc(2 * max(0.4vw, 3px)));
+    background: transparent;
 }
 
 input[type="color"]::-webkit-color-swatch-wrapper {
@@ -249,9 +250,6 @@ input[type="color"]::-webkit-color-swatch-wrapper {
     width: 85%;
 }
 
-.setting-controller.color {
-    background: transparent;
-}
 
 
 header .settings .side-panel .button {
@@ -341,7 +339,7 @@ header .settings .side-panel .button:hover {
     width: max(2.3vh, 18px);
     min-height: max(2.3vh, 18px);
     border: 2px solid rgba(255, 255, 255, 0.7);
-    border-radius: 50%; 
+    border-radius: 50%;
     background: transparent;
     cursor: pointer;
 }
@@ -455,8 +453,8 @@ header .settings .side-panel .button:hover {
 
 .desktop-variable .resizer {
     position: absolute;
-    right: 0px;
-    bottom: 0px;
+    right: 0;
+    bottom: 0;
 
     width: min(1.5vh, 1.5vw);
     height: min(1.5vh, 1.5vw);
@@ -470,13 +468,13 @@ header .settings .side-panel .button:hover {
 
 .desktop-variable .closeButton {
     position: absolute;
-    right: 0px;
-    top: 0px;
+    right: 0;
+    top: 0;
 
     width: min(1.8vh, 1.8vw);
     height: min(1.8vh, 1.8vw);
 
-    border: 0px;
+    border: 0;
     border-radius: min(0.5vh, 0.5vw);
 
     font-size: min(1.8vh, 1.8vw);
@@ -2010,7 +2008,7 @@ settingsButton.onclick = function() {
 
 function closeSettings() {
     settingsContent.classList.remove('opened');
-};
+}
 
 const statisticsButton = document.querySelector('.statistics .side-button');
 const statisticsContent = document.querySelector('.statistics .side-panel');
@@ -2021,7 +2019,7 @@ statisticsButton.onclick = function() {
 
 function closeStatistics() {
     statisticsContent.classList.remove('opened');
-};
+}
 
 function closePanels() {
     closeSettings();
@@ -2570,7 +2568,7 @@ const textGenerator = {
                 const numberOfSentences = Number.parseInt(this.options.numberOfSentences, 10);
                 const lastSentenceIndex = Math.min(firstSentenceIndex + numberOfSentences, this.variables.text.length);
                 
-                return this.functions.replaceLineBreaksWithSpaces(this.variables.text.slice(firstSentenceIndex, lastSentenceIndex).join('')).replace(/^\s+|\s+$/g, '');;
+                return this.functions.replaceLineBreaksWithSpaces(this.variables.text.slice(firstSentenceIndex, lastSentenceIndex).join('')).replace(/^\s+|\s+$/g, '');
             }
         }
     },
@@ -2659,7 +2657,7 @@ function keyEventHandler(event) {
             new TWEEN.Tween({key: newShiftKey, shift: textXShifts[newShiftKey]}).to({shift: 0}, 1000).onUpdate(
                 object => textXShifts[object.key] = object.shift
             ).onStart(
-                object => textToType.innerHTML = textToType.innerHTML.substring(1)
+                () => textToType.innerHTML = textToType.innerHTML.substring(1)
             ).onComplete(
                 object => delete textXShifts[object.key]
             ).start();

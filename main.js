@@ -89,7 +89,7 @@ const conditionalsHandler = {
     },
     onChange: function(selectController) {
         if (selectController.id in conditionalsHandler.conditionals) {
-            for (value in conditionalsHandler.conditionals[selectController.id]) {
+            for (const value in conditionalsHandler.conditionals[selectController.id]) {
                 if (value === selectController.options[selectController.selectedIndex].value)
                     conditionalsHandler.conditionals[selectController.id][value].map((element) => element.classList.remove('conditional-hidden'));
                 else
