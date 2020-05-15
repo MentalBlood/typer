@@ -29,7 +29,7 @@ function closePanels() {
 
 const folderTitles = document.querySelectorAll('.settings .side-panel .folder-title');
 
-for (let folderTitle of folderTitles) {
+for (const folderTitle of folderTitles) {
     const currentTitleId = folderTitle.id;
     const currentFolder = document.querySelector('#_' + currentTitleId);
     folderTitle.onclick = function() {
@@ -59,7 +59,7 @@ function setValue(object, newValue) {
 
 const configHandler = {
     config: {},
-    applyNewConfig: function(newConfigText) {
+    applyNewConfig(newConfigText) {
         let newConfig = undefined;
         if (typeof(newConfigText) === 'string')
             newConfig = JSON.parse(newConfigText);
@@ -70,24 +70,24 @@ const configHandler = {
             setValue(settingController, newConfig[id]);
         }
     },
-    download: function() {
+    download() {
         download('config.json', JSON.stringify(configHandler.config));
     },
-    upload: function() {
+    upload() {
         upload(configHandler.applyNewConfig, 'json');
     }
 }
 
 const conditionalsHandler = {
     conditionals: {},
-    addConditional: function(conditionalDiv) {
+    addConditional(conditionalDiv) {
         if (!(conditionalDiv.getAttribute('whenId') in conditionalsHandler.conditionals))
             conditionalsHandler.conditionals[conditionalDiv.getAttribute('whenId')] = {};
         if (!(conditionalDiv.getAttribute('whenValue') in conditionalsHandler.conditionals[conditionalDiv.getAttribute('whenId')]))
             conditionalsHandler.conditionals[conditionalDiv.getAttribute('whenId')][conditionalDiv.getAttribute('whenValue')] = [];
         conditionalsHandler.conditionals[conditionalDiv.getAttribute('whenId')][conditionalDiv.getAttribute('whenValue')].push(conditionalDiv)
     },
-    onChange: function(selectController) {
+    onChange(selectController) {
         if (selectController.id in conditionalsHandler.conditionals) {
             for (const value in conditionalsHandler.conditionals[selectController.id]) {
                 if (value === selectController.options[selectController.selectedIndex].value)
@@ -100,7 +100,7 @@ const conditionalsHandler = {
 };
 
 const conditionalDivs = document.querySelectorAll('.conditional');
-for (conditionalDiv of conditionalDivs)
+for (const conditionalDiv of conditionalDivs)
     conditionalsHandler.addConditional(conditionalDiv);
 
 
@@ -215,7 +215,7 @@ function addOptions(selectControllerId, optionsNames, defaultOptionName) {
 
 let loadedFontsNames = {}
 function loadFont(fontName) {
-    if (loadedFontsNames[fontName] != true) {
+    if (loadedFontsNames[fontName] !== true) {
         WebFont.load({google: {families: [fontName]}});
         loadedFontsNames[fontName] = true;
     }
@@ -236,14 +236,14 @@ function sync(id, dict, key) {
 
 
 const uniqueKeyGenerator = {
-    generate: function(dictObject) {
+    generate(dictObject) {
         const keys = Object.keys(dictObject);
         if (keys.length === 0)
             return 0;
         return Number.parseInt(keys[keys.length - 1]) + 1;
     },
 
-    addWithUniqueId: function(dict, element) {
+    addWithUniqueId(dict, element) {
         const key = uniqueKeyGenerator.generate(dict);
         dict[key] = element;
         return key;
@@ -259,24 +259,24 @@ const statisticsHandler = {
     draggingHadler: {
         objectThatIsDraggedNow: undefined,
         objectThatIsResizedNow: undefined,
-        handleMouseMove: function(e) {
+        handleMouseMove(e) {
             if ((e.pageX < 0) || (e.pageX > window.innerWidth) || (e.pageY < 0) || (e.pageY > window.innerHeight) || (statisticsHandler.draggingHadler.objectThatIsResizedNow !== undefined))
                 return;
-            _this = statisticsHandler.draggingHadler.objectThatIsDraggedNow;
-            _this.style.zIndex = 1000;
+            const _this = statisticsHandler.draggingHadler.objectThatIsDraggedNow;
+            _this.style.zIndex = '1000';
             _this.style.top = (e.pageY - _this.getAttribute('initialMouseOffsetY')) / window.innerHeight * 100 + _this.initialY + 'vh';
             _this.style.left = (e.pageX - _this.getAttribute('initialMouseOffsetX')) / window.innerWidth * 100 + _this.initialX + 'vw';
         },
-        handleResize: function(e) {
+        handleResize(e) {
             if ((e.pageX < 0) || (e.pageX > window.innerWidth) || (e.pageY < 0) || (e.pageY > window.innerHeight))
                 return;
-            _this = statisticsHandler.draggingHadler.objectThatIsResizedNow;
-            _this.style.zIndex = 1000;
+            const _this = statisticsHandler.draggingHadler.objectThatIsResizedNow;
+            _this.style.zIndex = '1000';
             _this.height = (e.pageY - _this.getAttribute('initialMouseOffsetY') + _this.initialHeight) * 100 / window.innerHeight;
             _this.width = (e.pageX - _this.getAttribute('initialMouseOffsetX') + _this.initialWidth) * 100 / window.innerWidth;
             statisticsHandler.draggingHadler.updateDesktopVariableSize(_this);
         },
-        updateDesktopVariableSize: function(desktopVariable) {
+        updateDesktopVariableSize(desktopVariable) {
             const heightWithPadding = Math.max(desktopVariable.height, 5);
             const widthWithPadding = Math.max(desktopVariable.width, 5);
             const padding = 1;
@@ -298,7 +298,7 @@ const statisticsHandler = {
             const unitsFontSize = multiplier * 2;
             desktopVariableUnits.style.fontSize = unitsFontSize + 'vh';
         },
-        createDesktopVariable: function(variable, e) {
+        createDesktopVariable(variable, e) {
             const initialMouseOffsetX = e.offsetX;
             const initialMouseOffsetY = e.offsetY;
             let desktopVariable = variable.cloneNode(true);
@@ -315,7 +315,7 @@ const statisticsHandler = {
             desktopVariable.resizing = false;
             resizer.onmousedown = function(e) {
                 statisticsHandler.draggingHadler.objectThatIsResizedNow = this.parentNode;
-                _this = this.parentNode;
+                const _this = this.parentNode;
                 _this.resizing = true;
                 document.addEventListener('mousemove', statisticsHandler.draggingHadler.handleResize);
                 _this.setAttribute('initialMouseOffsetX', e.pageX);
@@ -325,12 +325,12 @@ const statisticsHandler = {
                 _this.initialHeight = rect.height;
             };
             document.addEventListener('mouseup', () => {
-                _this = statisticsHandler.draggingHadler.objectThatIsResizedNow;
+                const _this = statisticsHandler.draggingHadler.objectThatIsResizedNow;
                 if (_this === undefined)
                     return;
                 _this.resizing = false;
                 document.removeEventListener('mousemove', statisticsHandler.draggingHadler.handleResize);
-                _this.style.zIndex = 3;
+                _this.style.zIndex = '3';
                 statisticsHandler.draggingHadler.objectThatIsResizedNow = undefined;
             })
             desktopVariable.appendChild(resizer);
@@ -342,7 +342,7 @@ const statisticsHandler = {
                 delete statisticsHandler.desktopVariables[this.parentNode.id];
             }
             desktopVariable.appendChild(closeButton);
-            desktopVariable.style.zIndex = 3;
+            desktopVariable.style.zIndex = '3';
             const variableRect = variable.getBoundingClientRect();
             desktopVariable.style.top = variableRect.top * 100 / window.innerHeight + 'vh';
             desktopVariable.style.left = variableRect.left * 100 / window.innerWidth + 'vw';
@@ -359,11 +359,11 @@ const statisticsHandler = {
                 this.initialY = Number.parseFloat(this.style.top);
             };
             document.addEventListener('mouseup', () => {
-                _this = statisticsHandler.draggingHadler.objectThatIsDraggedNow;
+                const _this = statisticsHandler.draggingHadler.objectThatIsDraggedNow;
                 if (_this === undefined)
                     return;
                 document.removeEventListener('mousemove', statisticsHandler.draggingHadler.handleMouseMove);
-                _this.style.zIndex = 3;
+                _this.style.zIndex = '3';
                 statisticsHandler.draggingHadler.objectThatIsDraggedNow = undefined;
             });
             desktopVariable.ondragstart = function() {
@@ -376,19 +376,18 @@ const statisticsHandler = {
             closePanels();
             document.getElementById('header').appendChild(desktopVariable);
             desktopVariable.onmousedown(e);
-            //statisticsHandler.updateCanvasesClones();
         },
         isMousedown: false,
         eventListeners: {
-            'onmousedown': function() {
+            'onmousedown'() {
                 const _this = statisticsHandler.draggingHadler;
                 _this.isMousedown = true;
             },
-            'onmouseup': function() {
+            'onmouseup'() {
                 const _this = statisticsHandler.draggingHadler;
                 _this.isMousedown = false;
             },
-            'onmousemove': function(e) {
+            'onmousemove'(e) {
                 const _this = statisticsHandler.draggingHadler;
                 if (_this.isMousedown === true) {
                     _this.createDesktopVariable(this, e);
@@ -396,18 +395,18 @@ const statisticsHandler = {
                 }
             }
         },
-        addEventListeners: function(variable) {
+        addEventListeners(variable) {
             const _this = statisticsHandler.draggingHadler;
-            for (eventListenerName of Object.keys(_this.eventListeners))
+            for (const eventListenerName of Object.keys(_this.eventListeners))
                 variable[eventListenerName] = _this.eventListeners[eventListenerName];
         },
-        removeEventListeners: function(variable) {
+        removeEventListeners(variable) {
             const _this = statisticsHandler.draggingHadler;
-            for (eventListenerName of Object.keys(_this.eventListeners))
+            for (const eventListenerName of Object.keys(_this.eventListeners))
                 variable[eventListenerName] = undefined;
         }
     },
-    bindVariables: function() {
+    bindVariables() {
         const variables = document.querySelectorAll('.variable');
         for (const variable of variables) {
             if (variable.classList.contains('chart'))
@@ -417,13 +416,13 @@ const statisticsHandler = {
             statisticsHandler.variables[variable.id] = {'value': variableValue, 'clones': []};
         }
     },
-    setVariableValue: function(variableId, newValue) {
+    setVariableValue(variableId, newValue) {
         const variable = statisticsHandler.variables[variableId];
         variable.value.innerHTML = newValue;
         for (const clone of variable.clones)
             clone.value.innerHTML = newValue;
     },
-    updateCanvasesClones: function(variableId) {
+    updateCanvasesClones(variableId) {
         const sourceCanvas = document.getElementById(variableId).childNodes[3].childNodes[0];
         for (const clone of statisticsHandler.canvasesClones[variableId]) {
             console.log('update clone', clone, 'with id', clone.id);
@@ -432,34 +431,33 @@ const statisticsHandler = {
     },
     sequencies: {},
     stopwatches: {},
-    startStopwatch: function(name) {
+    startStopwatch(name) {
         statisticsHandler.stopwatches[name] = performance.now();
     },
-    stopStopwatch: function(name) {
+    stopStopwatch(name) {
         const timePassed = performance.now() - statisticsHandler.stopwatches[name];
         delete statisticsHandler.stopwatches[name];
         return timePassed;
     },
     stringLength: undefined,
     currentString: undefined,
-    onTypingStart: function() {
+    onTypingStart() {
         statisticsHandler.stringLength = textToType.innerHTML.length;
         statisticsHandler.currentString = textToType.innerHTML;
         statisticsHandler.startStopwatch('string');
     },
-    onTypingAborted: function() {
+    onTypingAborted() {
         statisticsHandler.stopStopwatch('string');
     },
-    onTypingEnd: function() {
+    onTypingEnd() {
         const timePassed = statisticsHandler.stopStopwatch('string');
         const symbolsPerMinute = Number((statisticsHandler.stringLength / (timePassed / 1000 / 60)).toFixed(0));
         statisticsHandler.setVariableValue('lastTypingSpeed', symbolsPerMinute);
         chartsHandler.addDot('Typing speed', statisticsHandler.currentString, symbolsPerMinute);
-        //statisticsHandler.updateCanvasesClones('typingSpeed');
         statisticsHandler.stringLength = undefined;
         statisticsHandler.currentString = undefined;
     },
-    init: function() {
+    init() {
         statisticsHandler.bindVariables();
         statisticsHandler.sequencies['Typing speed'] = [];
     }
@@ -470,7 +468,7 @@ statisticsHandler.init();
 let typing = false;
 
 function randomSymbol(symbols) {
-    return symbols.charAt(Math.floor(Math.random() * symbols.length))
+    return symbols.charAt(Math.floor(Math.random() * symbols.length));
 }
 
 const textGenerator = {
@@ -481,15 +479,15 @@ const textGenerator = {
                 numberOfSymbols: undefined
             },
             functions: {
-                randomSymbol: function(symbols) {
-                    return symbols.charAt(Math.floor(Math.random() * symbols.length))
+                randomSymbol(symbols) {
+                    return symbols.charAt(Math.floor(Math.random() * symbols.length));
                 }
             },
-            generate: function() {
+            generate() {
                 let newString = '';
                 let allowedSymbolsWithoutSpaces = this.options.symbols.replace(/ /g, '');
                 newString += randomSymbol(allowedSymbolsWithoutSpaces);
-                if (this.options.numberOfSymbols == 1)
+                if (this.options.numberOfSymbols === 1)
                     return newString;
                 for (let i = 1; i < (this.options.numberOfSymbols - 1); i++)
                     newString += this.functions.randomSymbol(this.options.symbols);
@@ -501,8 +499,8 @@ const textGenerator = {
             options: {
                 numberOfWords: undefined
             },
-            generate: function() {
-                newString = fake.word();
+            generate() {
+                let newString = fake.word();
                 for (let i = 1; i < this.options.numberOfWords; i++)
                     newString += ' ' + fake.word();
                 return newString.toLowerCase();
@@ -517,9 +515,9 @@ const textGenerator = {
                 corpus: undefined
             },
             buttons: {
-                uploadCorpus: function() {
+                uploadCorpus() {
                     upload((text) => {
-                        _this = textGenerator.methods['Markov chain'];
+                        const _this = textGenerator.methods['Markov chain'];
                         _this.variables.corpus = text;
                         _this.functions.makeNewGenerator();
                         textGenerator.generate();
@@ -527,15 +525,15 @@ const textGenerator = {
                 }
             },
             functions: {
-                replaceLineBreaksWithSpaces: function(string) {
+                replaceLineBreaksWithSpaces(string) {
                     return string.replace(/[\r\n]+/g, ' ');
                 },
-                makeNewGenerator: function() {
-                    _this = textGenerator.methods['Markov chain'];
+                makeNewGenerator() {
+                    const _this = textGenerator.methods['Markov chain'];
                     _this.variables.generator = new markov(_this.functions.replaceLineBreaksWithSpaces(_this.variables.corpus), 'string', /[.,?"();\-!':—^\w]+ /g);
                 }
             },
-            generate: function() {
+            generate() {
                 if (this.variables.generator === undefined)
                     return 'Upload corpus (larger is better) to generate more text';
                 return this.variables.generator.gen(this.options.numberOfWordsInChain.replace(/^\s+|\s+$/g, ''));
@@ -550,9 +548,9 @@ const textGenerator = {
                 text: undefined
             },
             buttons: {
-                uploadTextFile: function() {
+                uploadTextFile() {
                     upload((text) => {
-                        _this = textGenerator.methods['Given text file'];
+                        const _this = textGenerator.methods['Given text file'];
                         _this.variables.text = text.match( /[^\.!\?\n\r]+[\.!\?\n\r]+/g ) || [text];
                         _this.options.currentSentenceNumber = 1;
                         sync('currentSentenceNumber', _this.options, 'currentSentenceNumber');
@@ -563,11 +561,11 @@ const textGenerator = {
                 }
             },
             functions: {
-                replaceLineBreaksWithSpaces: function(string) {
+                replaceLineBreaksWithSpaces(string) {
                     return string.replace(/[\r\n]+/g, ' ');
                 },
-                incCurrentSentenceNumber: function() {
-                    _this = textGenerator.methods['Given text file'];
+                incCurrentSentenceNumber() {
+                    const _this = textGenerator.methods['Given text file'];
                     let newSentenceNumber = Number.parseInt(_this.options.currentSentenceNumber) + 1;
                     if (newSentenceNumber > _this.variables.text.length)
                         newSentenceNumber = 1;
@@ -575,7 +573,7 @@ const textGenerator = {
                     sync('currentSentenceNumber', _this.options, 'currentSentenceNumber');
                 }
             },
-            generate: function(mode) {
+            generate(mode) {
                 if (this.variables.text === undefined)
                     return 'Upload file to type sentences from';
 
@@ -596,12 +594,12 @@ const textGenerator = {
         }
     },
     currentMethod: undefined,
-    bindOptions: function() {
+    bindOptions() {
         for (const method of Object.values(textGenerator.methods))
             for (const optionName of Object.keys(method.options))
                 bind(optionName, method.options, optionName, undefined, textGenerator.generate);
     },
-    bindButtons: function() {
+    bindButtons() {
         for (const method of Object.values(textGenerator.methods))
             if ('buttons' in method)
                 for (const buttonName of Object.keys(method.buttons)) {
@@ -609,7 +607,7 @@ const textGenerator = {
                     button.onclick = method.buttons[buttonName];
                 }
     },
-    generate: function(mode) {
+    generate(mode) {
         statisticsHandler.onTypingAborted();
         typing = false;
         if (textGenerator.initialized === false)
@@ -617,7 +615,7 @@ const textGenerator = {
         textToType.innerHTML = textGenerator.methods[textGenerator.currentMethod].generate(mode);
     },
     initialized: false,
-    init: function() {
+    init() {
         addOptions('method', Object.keys(textGenerator.methods), 'Random fake words');
         bind('method', textGenerator, 'currentMethod', undefined, textGenerator.generate);
         textGenerator.bindOptions();
@@ -640,6 +638,8 @@ function setTextToTypeShift(number) {
 }
 
 let textXShifts = {};
+
+const hiddenText = document.getElementById('hiddenText');
 
 let observer = new MutationObserver(function(mutations) {
     mutations.forEach(function() {
@@ -696,15 +696,15 @@ const animationsHandler = {
     timerId: false,
     onUpdate: false,
 
-    startUpdating: function() {
+    startUpdating() {
         if (animationsHandler.onUpdate)
             animationsHandler.onUpdate();
         TWEEN.update();
         animationsHandler.timerId = setTimeout(animationsHandler.startUpdating, 15);
     },
 
-    stopUpdating: function() {
-        clearInterval(timerId);
+    stopUpdating() {
+        clearInterval(animationsHandler.timerId);
     }
 }
 
@@ -755,22 +755,8 @@ const chartsHandler = {
             },
             options: {
                 maintainAspectRatio: false,
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true
-                        }
-                    }]
-                },
                 legend: {
                     display: false
-                },
-                tooltips: {
-                    callbacks: {
-                        label: function(tooltipItem) {
-                            return tooltipItem.yLabel;
-                        }
-                    }
                 },
                 scales: {
                     xAxes: [{
@@ -804,7 +790,7 @@ const chartsHandler = {
         const chart = chartsHandler.charts[chartName];
         chart.data.labels.push(label);
         statisticsHandler.sequencies[chartName].push(value);
-        const dataset = chart.data.datasets[0]
+        const dataset = chart.data.datasets[0];
         dataset.pointRadius = 9 / Math.sqrt(dataset.data.length);
         chart.update(200);
     },
@@ -814,7 +800,7 @@ const chartsHandler = {
     },
 
     removeAllCharts() {
-        for (key in chartsHandler.charts) {
+        for (const key in chartsHandler.charts) {
             chartsHandler.charts[key].destroy();
         }
         chartsHandler.charts = {};

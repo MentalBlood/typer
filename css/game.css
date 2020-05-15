@@ -498,6 +498,7 @@ body main #gradientOverlay {
 
 .variable.chart {
     height: min(max(30vh, 230px), 30vw);
+    cursor: default !important;
 }
 
 .variable.chart .chart-canvas {
