@@ -2245,7 +2245,7 @@ function addOptions(selectControllerId, optionsNames, defaultOptionName) {
 
 let loadedFontsNames = {}
 function loadFont(fontName) {
-    if (loadedFontsNames[fontName] != true) {
+    if (loadedFontsNames[fontName] !== true) {
         WebFont.load({google: {families: [fontName]}});
         loadedFontsNames[fontName] = true;
     }
@@ -2292,16 +2292,16 @@ const statisticsHandler = {
         handleMouseMove(e) {
             if ((e.pageX < 0) || (e.pageX > window.innerWidth) || (e.pageY < 0) || (e.pageY > window.innerHeight) || (statisticsHandler.draggingHadler.objectThatIsResizedNow !== undefined))
                 return;
-            _this = statisticsHandler.draggingHadler.objectThatIsDraggedNow;
-            _this.style.zIndex = 1000;
+            const _this = statisticsHandler.draggingHadler.objectThatIsDraggedNow;
+            _this.style.zIndex = '1000';
             _this.style.top = (e.pageY - _this.getAttribute('initialMouseOffsetY')) / window.innerHeight * 100 + _this.initialY + 'vh';
             _this.style.left = (e.pageX - _this.getAttribute('initialMouseOffsetX')) / window.innerWidth * 100 + _this.initialX + 'vw';
         },
         handleResize(e) {
             if ((e.pageX < 0) || (e.pageX > window.innerWidth) || (e.pageY < 0) || (e.pageY > window.innerHeight))
                 return;
-            _this = statisticsHandler.draggingHadler.objectThatIsResizedNow;
-            _this.style.zIndex = 1000;
+            const _this = statisticsHandler.draggingHadler.objectThatIsResizedNow;
+            _this.style.zIndex = '1000';
             _this.height = (e.pageY - _this.getAttribute('initialMouseOffsetY') + _this.initialHeight) * 100 / window.innerHeight;
             _this.width = (e.pageX - _this.getAttribute('initialMouseOffsetX') + _this.initialWidth) * 100 / window.innerWidth;
             statisticsHandler.draggingHadler.updateDesktopVariableSize(_this);
@@ -2345,7 +2345,7 @@ const statisticsHandler = {
             desktopVariable.resizing = false;
             resizer.onmousedown = function(e) {
                 statisticsHandler.draggingHadler.objectThatIsResizedNow = this.parentNode;
-                _this = this.parentNode;
+                const _this = this.parentNode;
                 _this.resizing = true;
                 document.addEventListener('mousemove', statisticsHandler.draggingHadler.handleResize);
                 _this.setAttribute('initialMouseOffsetX', e.pageX);
@@ -2355,12 +2355,12 @@ const statisticsHandler = {
                 _this.initialHeight = rect.height;
             };
             document.addEventListener('mouseup', () => {
-                _this = statisticsHandler.draggingHadler.objectThatIsResizedNow;
+                const _this = statisticsHandler.draggingHadler.objectThatIsResizedNow;
                 if (_this === undefined)
                     return;
                 _this.resizing = false;
                 document.removeEventListener('mousemove', statisticsHandler.draggingHadler.handleResize);
-                _this.style.zIndex = 3;
+                _this.style.zIndex = '3';
                 statisticsHandler.draggingHadler.objectThatIsResizedNow = undefined;
             })
             desktopVariable.appendChild(resizer);
@@ -2372,7 +2372,7 @@ const statisticsHandler = {
                 delete statisticsHandler.desktopVariables[this.parentNode.id];
             }
             desktopVariable.appendChild(closeButton);
-            desktopVariable.style.zIndex = 3;
+            desktopVariable.style.zIndex = '3';
             const variableRect = variable.getBoundingClientRect();
             desktopVariable.style.top = variableRect.top * 100 / window.innerHeight + 'vh';
             desktopVariable.style.left = variableRect.left * 100 / window.innerWidth + 'vw';
@@ -2389,11 +2389,11 @@ const statisticsHandler = {
                 this.initialY = Number.parseFloat(this.style.top);
             };
             document.addEventListener('mouseup', () => {
-                _this = statisticsHandler.draggingHadler.objectThatIsDraggedNow;
+                const _this = statisticsHandler.draggingHadler.objectThatIsDraggedNow;
                 if (_this === undefined)
                     return;
                 document.removeEventListener('mousemove', statisticsHandler.draggingHadler.handleMouseMove);
-                _this.style.zIndex = 3;
+                _this.style.zIndex = '3';
                 statisticsHandler.draggingHadler.objectThatIsDraggedNow = undefined;
             });
             desktopVariable.ondragstart = function() {
@@ -2406,7 +2406,6 @@ const statisticsHandler = {
             closePanels();
             document.getElementById('header').appendChild(desktopVariable);
             desktopVariable.onmousedown(e);
-            //statisticsHandler.updateCanvasesClones();
         },
         isMousedown: false,
         eventListeners: {
@@ -2485,7 +2484,6 @@ const statisticsHandler = {
         const symbolsPerMinute = Number((statisticsHandler.stringLength / (timePassed / 1000 / 60)).toFixed(0));
         statisticsHandler.setVariableValue('lastTypingSpeed', symbolsPerMinute);
         chartsHandler.addDot('Typing speed', statisticsHandler.currentString, symbolsPerMinute);
-        //statisticsHandler.updateCanvasesClones('typingSpeed');
         statisticsHandler.stringLength = undefined;
         statisticsHandler.currentString = undefined;
     },
@@ -2500,7 +2498,7 @@ statisticsHandler.init();
 let typing = false;
 
 function randomSymbol(symbols) {
-    return symbols.charAt(Math.floor(Math.random() * symbols.length))
+    return symbols.charAt(Math.floor(Math.random() * symbols.length));
 }
 
 const textGenerator = {
@@ -2512,14 +2510,14 @@ const textGenerator = {
             },
             functions: {
                 randomSymbol(symbols) {
-                    return symbols.charAt(Math.floor(Math.random() * symbols.length))
+                    return symbols.charAt(Math.floor(Math.random() * symbols.length));
                 }
             },
             generate() {
                 let newString = '';
                 let allowedSymbolsWithoutSpaces = this.options.symbols.replace(/ /g, '');
                 newString += randomSymbol(allowedSymbolsWithoutSpaces);
-                if (this.options.numberOfSymbols == 1)
+                if (this.options.numberOfSymbols === 1)
                     return newString;
                 for (let i = 1; i < (this.options.numberOfSymbols - 1); i++)
                     newString += this.functions.randomSymbol(this.options.symbols);
@@ -2532,7 +2530,7 @@ const textGenerator = {
                 numberOfWords: undefined
             },
             generate() {
-                newString = fake.word();
+                let newString = fake.word();
                 for (let i = 1; i < this.options.numberOfWords; i++)
                     newString += ' ' + fake.word();
                 return newString.toLowerCase();
@@ -2549,7 +2547,7 @@ const textGenerator = {
             buttons: {
                 uploadCorpus() {
                     upload((text) => {
-                        _this = textGenerator.methods['Markov chain'];
+                        const _this = textGenerator.methods['Markov chain'];
                         _this.variables.corpus = text;
                         _this.functions.makeNewGenerator();
                         textGenerator.generate();
@@ -2561,7 +2559,7 @@ const textGenerator = {
                     return string.replace(/[\r\n]+/g, ' ');
                 },
                 makeNewGenerator() {
-                    _this = textGenerator.methods['Markov chain'];
+                    const _this = textGenerator.methods['Markov chain'];
                     _this.variables.generator = new markov(_this.functions.replaceLineBreaksWithSpaces(_this.variables.corpus), 'string', /[.,?"();\-!':—^\w]+ /g);
                 }
             },
@@ -2582,7 +2580,7 @@ const textGenerator = {
             buttons: {
                 uploadTextFile() {
                     upload((text) => {
-                        _this = textGenerator.methods['Given text file'];
+                        const _this = textGenerator.methods['Given text file'];
                         _this.variables.text = text.match( /[^\.!\?\n\r]+[\.!\?\n\r]+/g ) || [text];
                         _this.options.currentSentenceNumber = 1;
                         sync('currentSentenceNumber', _this.options, 'currentSentenceNumber');
@@ -2597,7 +2595,7 @@ const textGenerator = {
                     return string.replace(/[\r\n]+/g, ' ');
                 },
                 incCurrentSentenceNumber() {
-                    _this = textGenerator.methods['Given text file'];
+                    const _this = textGenerator.methods['Given text file'];
                     let newSentenceNumber = Number.parseInt(_this.options.currentSentenceNumber) + 1;
                     if (newSentenceNumber > _this.variables.text.length)
                         newSentenceNumber = 1;
@@ -2671,6 +2669,8 @@ function setTextToTypeShift(number) {
 
 let textXShifts = {};
 
+const hiddenText = document.getElementById('hiddenText');
+
 let observer = new MutationObserver(function(mutations) {
     mutations.forEach(function() {
         hiddenText.style.cssText = textToType.style.cssText;
@@ -2734,7 +2734,7 @@ const animationsHandler = {
     },
 
     stopUpdating() {
-        clearInterval(timerId);
+        clearInterval(animationsHandler.timerId);
     }
 }
 
@@ -2785,22 +2785,8 @@ const chartsHandler = {
             },
             options: {
                 maintainAspectRatio: false,
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true
-                        }
-                    }]
-                },
                 legend: {
                     display: false
-                },
-                tooltips: {
-                    callbacks: {
-                        label(tooltipItem) {
-                            return tooltipItem.yLabel;
-                        }
-                    }
                 },
                 scales: {
                     xAxes: [{
@@ -2834,7 +2820,7 @@ const chartsHandler = {
         const chart = chartsHandler.charts[chartName];
         chart.data.labels.push(label);
         statisticsHandler.sequencies[chartName].push(value);
-        const dataset = chart.data.datasets[0]
+        const dataset = chart.data.datasets[0];
         dataset.pointRadius = 9 / Math.sqrt(dataset.data.length);
         chart.update(200);
     },

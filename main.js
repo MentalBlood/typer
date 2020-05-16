@@ -795,10 +795,6 @@ const chartsHandler = {
         chart.update(200);
     },
 
-    addClone(sourceId, targetId) {
-
-    },
-
     removeAllCharts() {
         for (const key in chartsHandler.charts) {
             chartsHandler.charts[key].destroy();
