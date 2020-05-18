@@ -1,3 +1,7 @@
+let pageLoaded = false;
+
+
+
 const settingsButton = document.querySelector('.settings .side-button');
 const settingsContent = document.querySelector('.settings .side-panel');
 
@@ -40,6 +44,7 @@ for (const folderTitle of folderTitles) {
 
 
 let textToType = document.getElementById('text');
+let textToTypeContainer = document.getElementById('textContainer');
 
 function setValue(object, newValue) {
     if (object.type === 'select')
@@ -155,7 +160,7 @@ gradientOverlay.onclick = function() {
 const horizontalFadingSettings = {'start': undefined, 'end': undefined};
 function updateFading() {
     const backgroundColor = document.body.style.backgroundColor;
-    const textToTypeX = Number.parseFloat(textToType.style.left);
+    const textToTypeX = Number.parseFloat(textToTypeContainer.style.left);
     const absoluteStart = textToTypeX + horizontalFadingSettings.start;
     const absoluteEnd = textToTypeX + horizontalFadingSettings.end;
     gradientOverlay.style.background = 'linear-gradient(90deg, rgba(0, 0, 0, 0) ' + absoluteStart+ '%, ' + backgroundColor + ' ' + absoluteEnd + '%)';
@@ -164,8 +169,8 @@ bind('horizontalFadingStart', horizontalFadingSettings, 'start', value => Number
 bind('horizontalFadingEnd', horizontalFadingSettings, 'end', value => Number.parseFloat(value), updateFading);
 bind('backgroundColor', document.body.style, 'backgroundColor', undefined, updateFading);
 bind('fontSize', textToType.style, 'fontSize', value => value + 'vh');
-bind('horizontal', textToType.style, 'left', value => value + 'vw', updateFading);
-bind('vertical', textToType.style, 'top', value => value + 'vh');
+bind('horizontal', textToTypeContainer.style, 'left', value => value + 'vw', updateFading);
+bind('vertical', textToTypeContainer.style, 'top', value => value + 'vh');
 bind('fontColor', textToType.style, 'color');
 bind('italic', textToType.style, 'fontStyle', value => value ? 'italic' : 'normal');
 bind('bold', textToType.style, 'fontWeight', value => value ? 'bold' : 'normal');
@@ -465,6 +470,19 @@ const statisticsHandler = {
 statisticsHandler.init();
 
 
+
+function setTextToType(newText) {
+    textToType.innerHTML = '';
+    const firstLetter = newText[0];
+    const textExceptFirstLetter = newText.substring(1);
+    const firstLetterElement = document.createElement('span');
+    firstLetterElement.innerHTML = firstLetter;
+    textToType.appendChild(firstLetterElement);
+    textToType.innerHTML += textExceptFirstLetter;
+}
+
+
+
 let typing = false;
 
 function randomSymbol(symbols) {
@@ -608,11 +626,14 @@ const textGenerator = {
                 }
     },
     generate(mode) {
-        statisticsHandler.onTypingAborted();
-        typing = false;
+        if (pageLoaded === false)
+            return;
         if (textGenerator.initialized === false)
             return;
-        textToType.innerHTML = textGenerator.methods[textGenerator.currentMethod].generate(mode);
+        statisticsHandler.onTypingAborted();
+        typing = false;
+        const generatedText = textGenerator.methods[textGenerator.currentMethod].generate(mode);
+        setTextToType(generatedText);
     },
     initialized: false,
     init() {
@@ -645,6 +666,7 @@ let observer = new MutationObserver(function(mutations) {
     mutations.forEach(function() {
         hiddenText.style.cssText = textToType.style.cssText;
         hiddenText.style.opacity = '0';
+        hiddenText.style.position = 'absolute';
     })
 })
 observer.observe(textToType, { attributes : true, attributeFilter : ['style'] });
@@ -653,24 +675,34 @@ function getCurrentSymbolWidth() {
     hiddenText.innerHTML = textToType.innerHTML;
     const oldWidth = getTextWidth(hiddenText);
 
-    hiddenText.innerHTML = hiddenText.innerHTML.substring(1);
+    hiddenText.removeChild(hiddenText.firstChild);
+    hiddenText.innerHTML = hiddenText.innerHTML;
     const newWidth = getTextWidth(hiddenText);
 
     return oldWidth - newWidth;
 }
 
-function keyEventHandler(event) {
+function getFirstTextToTypeLetter() {
+    const firstLetterElement = textToType.firstChild;
+    return firstLetterElement.innerHTML;
+}
 
+function removeFirstTextToTypeLetter() {
+    textToType.removeChild(textToType.firstChild);
+    setTextToType(textToType.innerHTML);
+}
+
+function keyEventHandler(event) {
     if ((textToType.innerHTML.length === 1) && (typing === false)) {
         typing = true;
         statisticsHandler.onTypingStart();
     }
-    if (event.key === textToType.innerHTML[0]) {
+    if (event.key === getFirstTextToTypeLetter()) {
         if (typing === false) {
             typing = true;
             statisticsHandler.onTypingStart();
         }
-        if (textToType.innerHTML.length === 1) {
+        if (textToType.innerHTML.length === (1 + '<span></span>'.length)) {
             statisticsHandler.onTypingEnd();
             typing = false;
             textGenerator.generate('next');
@@ -680,7 +712,7 @@ function keyEventHandler(event) {
             new TWEEN.Tween({key: newShiftKey, shift: textXShifts[newShiftKey]}).to({shift: 0}, 1000).onUpdate(
                 object => textXShifts[object.key] = object.shift
             ).onStart(
-                () => textToType.innerHTML = textToType.innerHTML.substring(1)
+                () => removeFirstTextToTypeLetter()
             ).onComplete(
                 object => delete textXShifts[object.key]
             ).start();
@@ -808,5 +840,7 @@ chartsHandler.addChart('typingSpeedChart', 'Typing speed');
 
 
 document.fonts.ready.then(function () {
+    pageLoaded = true;
+    textGenerator.generate();
     document.getElementById('html').classList.remove('hidden-on-startup');
 });
