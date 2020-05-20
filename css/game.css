@@ -61,7 +61,7 @@ header .side-panel {
     width: 40vw;
     height: calc(100vh - max(1vw, 10px));
 
-    background-color: rgba(0,0,0,0.5);
+    background-color: rgba(0,0,0,0.75);
 
     border: 0.5vw solid black;
     border-radius: 1vw;

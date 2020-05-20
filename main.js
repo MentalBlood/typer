@@ -454,11 +454,16 @@ const statisticsHandler = {
         statisticsHandler.startStopwatch('string');
     },
     numbers: {
-        symbolsTyped: undefined
+        symbolsTyped: undefined,
+        mistakesMade: undefined
     },
     onSymbolTyped() {
         statisticsHandler.numbers.symbolsTyped += 1;
         statisticsHandler.setVariableValue('symbolsTyped');
+    },
+    onMistakeMade() {
+        statisticsHandler.numbers.mistakesMade += 1;
+        statisticsHandler.setVariableValue('mistakesMade');
     },
     onTypingAborted() {
         statisticsHandler.stopStopwatch('string');
@@ -476,6 +481,7 @@ const statisticsHandler = {
         statisticsHandler.sequencies['Typing speed'] = [];
         const numbers = statisticsHandler.numbers;
         numbers.symbolsTyped = 0;
+        numbers.mistakesMade = 0;
     }
 }
 statisticsHandler.init();
@@ -729,6 +735,9 @@ function keyEventHandler(event) {
                 object => delete textXShifts[object.key]
             ).start();
         }
+    }
+    else {
+        statisticsHandler.onMistakeMade();
     }
 }
 
