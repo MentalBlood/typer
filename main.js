@@ -838,6 +838,15 @@ const chartsHandler = {
 chartsHandler.addChart('typingSpeedChart', 'Typing speed');
 
 
+const bodyElement = document.getElementById('body');
+document.addEventListener('mousemove', function() {
+    bodyElement.classList.remove('cursor-hidden');
+    setTimeout(function () {
+        bodyElement.classList.add('cursor-hidden');
+    }, 4000)
+});
+
+
 
 document.fonts.ready.then(function () {
     pageLoaded = true;
