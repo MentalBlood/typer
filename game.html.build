@@ -509,7 +509,7 @@ body main #gradientOverlay {
 
 .variable.chart {
     height: min(max(30vh, 230px), 30vw);
-    cursor: default !important;
+    cursor: default;
 }
 
 .variable.chart .chart-canvas {
@@ -525,12 +525,20 @@ body main #gradientOverlay {
     position: absolute;
     border-left: 0 solid white;
     border-radius: 2vh;
-    padding-left: 1vw;
-    width: 10vw;
     /*background: linear-gradient(90deg, rgba(255,255,255,0.5) 0%, rgba(0,0,0,0) 10vw);*/
+}
+
+
+
+body.cursor-hidden {
+    cursor: none;
+}
+
+body:not(.cursor-hidden) {
+    cursor: default;
 }</style>
     </head>
-    <body leftmargin = "0" topmargin = "0" style = "background-color:#ffffff; overflow-x: hidden; overflow-y: hidden">
+    <body id = 'body' leftmargin = "0" topmargin = "0" style = "background-color:#ffffff; overflow-x: hidden; overflow-y: hidden">
         <header id = 'header'>
             <div class="settings">
                 <div class="side-panel">
@@ -2880,6 +2888,15 @@ const chartsHandler = {
 }
 
 chartsHandler.addChart('typingSpeedChart', 'Typing speed');
+
+
+const bodyElement = document.getElementById('body');
+document.addEventListener('mousemove', function() {
+    bodyElement.classList.remove('cursor-hidden');
+    setTimeout(function () {
+        bodyElement.classList.add('cursor-hidden');
+    }, 4000)
+});
 
 
 
