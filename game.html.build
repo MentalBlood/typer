@@ -2891,16 +2891,24 @@ chartsHandler.addChart('typingSpeedChart', 'Typing speed');
 
 
 const bodyElement = document.getElementById('body');
-document.addEventListener('mousemove', function() {
+let timerForHidingCursor;
+function onMouseAction() {
+    clearTimeout(timerForHidingCursor);
     bodyElement.classList.remove('cursor-hidden');
-    setTimeout(function () {
+    timerForHidingCursor = setTimeout(function () {
         bodyElement.classList.add('cursor-hidden');
-    }, 4000)
-});
+    }, 4000);
+}
+document.addEventListener('mousemove', onMouseAction);
+document.addEventListener('mousedown', onMouseAction);
+document.addEventListener('mouseup', onMouseAction);
+document.addEventListener('focus', onMouseAction);
 
 
 
 document.fonts.ready.then(function () {
+    if (pageLoaded === true)
+        return;
     pageLoaded = true;
     textGenerator.generate();
     document.getElementById('html').classList.remove('hidden-on-startup');

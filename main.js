@@ -423,6 +423,8 @@ const statisticsHandler = {
     },
     setVariableValue(variableId, newValue) {
         const variable = statisticsHandler.variables[variableId];
+        if (newValue === undefined)
+            newValue = statisticsHandler.numbers[variableId];
         variable.value.innerHTML = newValue;
         for (const clone of variable.clones)
             clone.value.innerHTML = newValue;
@@ -451,6 +453,13 @@ const statisticsHandler = {
         statisticsHandler.currentString = textToType.innerHTML;
         statisticsHandler.startStopwatch('string');
     },
+    numbers: {
+        symbolsTyped: undefined
+    },
+    onSymbolTyped() {
+        statisticsHandler.numbers.symbolsTyped += 1;
+        statisticsHandler.setVariableValue('symbolsTyped');
+    },
     onTypingAborted() {
         statisticsHandler.stopStopwatch('string');
     },
@@ -465,6 +474,8 @@ const statisticsHandler = {
     init() {
         statisticsHandler.bindVariables();
         statisticsHandler.sequencies['Typing speed'] = [];
+        const numbers = statisticsHandler.numbers;
+        numbers.symbolsTyped = 0;
     }
 }
 statisticsHandler.init();
@@ -698,6 +709,7 @@ function keyEventHandler(event) {
         statisticsHandler.onTypingStart();
     }
     if (event.key === getFirstTextToTypeLetter()) {
+        statisticsHandler.onSymbolTyped();
         if (typing === false) {
             typing = true;
             statisticsHandler.onTypingStart();
