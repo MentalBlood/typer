@@ -449,8 +449,8 @@ const statisticsHandler = {
     stringLength: undefined,
     currentString: undefined,
     onTypingStart() {
-        statisticsHandler.stringLength = textToType.innerHTML.length;
-        statisticsHandler.currentString = textToType.innerHTML;
+        statisticsHandler.stringLength = textToType.innerText.length;
+        statisticsHandler.currentString = textToType.innerText;
         statisticsHandler.startStopwatch('string');
     },
     numbers: {

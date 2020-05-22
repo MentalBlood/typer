@@ -72,7 +72,7 @@ header .side-panel {
     width: 40vw;
     height: calc(100vh - max(1vw, 10px));
 
-    background-color: rgba(0,0,0,0.5);
+    background-color: rgba(0,0,0,0.75);
 
     border: 0.5vw solid black;
     border-radius: 1vw;
@@ -701,6 +701,11 @@ body:not(.cursor-hidden) {
                         <div class="title">Characters typed</div>
                         <div class="value">0</div>
                         <div class="units">characters</div>
+                    </div>
+                    <div class="variable unselectable" id = 'mistakesMade'>
+                        <div class="title">Mistakes made</div>
+                        <div class="value">0</div>
+                        <div class="units"></div>
                     </div>
                     <div class="variable chart unselectable" id="typingSpeed">
                         <div class="title">Typing speed chart</div>
@@ -2506,16 +2511,21 @@ const statisticsHandler = {
     stringLength: undefined,
     currentString: undefined,
     onTypingStart() {
-        statisticsHandler.stringLength = textToType.innerHTML.length;
-        statisticsHandler.currentString = textToType.innerHTML;
+        statisticsHandler.stringLength = textToType.innerText.length;
+        statisticsHandler.currentString = textToType.innerText;
         statisticsHandler.startStopwatch('string');
     },
     numbers: {
-        symbolsTyped: undefined
+        symbolsTyped: undefined,
+        mistakesMade: undefined
     },
     onSymbolTyped() {
         statisticsHandler.numbers.symbolsTyped += 1;
         statisticsHandler.setVariableValue('symbolsTyped');
+    },
+    onMistakeMade() {
+        statisticsHandler.numbers.mistakesMade += 1;
+        statisticsHandler.setVariableValue('mistakesMade');
     },
     onTypingAborted() {
         statisticsHandler.stopStopwatch('string');
@@ -2533,6 +2543,7 @@ const statisticsHandler = {
         statisticsHandler.sequencies['Typing speed'] = [];
         const numbers = statisticsHandler.numbers;
         numbers.symbolsTyped = 0;
+        numbers.mistakesMade = 0;
     }
 }
 statisticsHandler.init();
@@ -2786,6 +2797,9 @@ function keyEventHandler(event) {
                 object => delete textXShifts[object.key]
             ).start();
         }
+    }
+    else {
+        statisticsHandler.onMistakeMade();
     }
 }
 
