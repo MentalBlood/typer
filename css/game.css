@@ -241,7 +241,7 @@ input[type="color"]::-webkit-color-swatch-wrapper {
 
 
 
-header .settings .side-panel .button {
+header .side-panel .button {
     background-color: transparent;
     color: rgba(255, 255, 255, 0.9);
 
@@ -260,13 +260,13 @@ header .settings .side-panel .button {
     outline: none;
 }
 
-header .settings .side-panel .button:not(:hover) {
+header .side-panel .button:not(:hover) {
     font-size: min(max(1.7vh, 14px), 2.5vw);
 
     transition-duration: 0.5s;
 }
 
-header .settings .side-panel .button:hover {
+header .side-panel .button:hover {
     font-size: min(max(2vh, 16px), 3vw);
 
     transition-duration: 0.5s;

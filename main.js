@@ -29,6 +29,14 @@ function closePanels() {
     closeStatistics();
 }
 
+function focusOnTextToType() {
+    if (settingsContent.classList.contains('opened'))
+        return false;
+    if (statisticsContent.classList.contains('opened'))
+        return false;
+    return true;
+}
+
 
 
 const folderTitles = document.querySelectorAll('.settings .side-panel .folder-title');
@@ -421,13 +429,28 @@ const statisticsHandler = {
             statisticsHandler.variables[variable.id] = {'value': variableValue, 'clones': []};
         }
     },
+    defaultState: {
+        sequencies: {
+            'Typing speed': []
+        },
+        numbers: {
+            symbolsTyped: 0,
+            mistakesMade: 0,
+            lastTypingSpeed: '?'
+        }
+    },
+    state: undefined,
     setVariableValue(variableId, newValue) {
         const variable = statisticsHandler.variables[variableId];
         if (newValue === undefined)
-            newValue = statisticsHandler.numbers[variableId];
+            newValue = statisticsHandler.state.numbers[variableId];
         variable.value.innerHTML = newValue;
         for (const clone of variable.clones)
             clone.value.innerHTML = newValue;
+    },
+    updateVariablesValues() {
+        for (variableId in statisticsHandler.state.numbers)
+            statisticsHandler.setVariableValue(variableId);
     },
     updateCanvasesClones(variableId) {
         const sourceCanvas = document.getElementById(variableId).childNodes[3].childNodes[0];
@@ -436,7 +459,6 @@ const statisticsHandler = {
             clone.getContext('2d').canvas.drawImage(sourceCanvas, 0, 0);
         }
     },
-    sequencies: {},
     stopwatches: {},
     startStopwatch(name) {
         statisticsHandler.stopwatches[name] = performance.now();
@@ -453,16 +475,12 @@ const statisticsHandler = {
         statisticsHandler.currentString = textToType.innerText;
         statisticsHandler.startStopwatch('string');
     },
-    numbers: {
-        symbolsTyped: undefined,
-        mistakesMade: undefined
-    },
     onSymbolTyped() {
-        statisticsHandler.numbers.symbolsTyped += 1;
+        statisticsHandler.state.numbers.symbolsTyped += 1;
         statisticsHandler.setVariableValue('symbolsTyped');
     },
     onMistakeMade() {
-        statisticsHandler.numbers.mistakesMade += 1;
+        statisticsHandler.state.numbers.mistakesMade += 1;
         statisticsHandler.setVariableValue('mistakesMade');
     },
     onTypingAborted() {
@@ -471,19 +489,45 @@ const statisticsHandler = {
     onTypingEnd() {
         const timePassed = statisticsHandler.stopStopwatch('string');
         const symbolsPerMinute = Number((statisticsHandler.stringLength / (timePassed / 1000 / 60)).toFixed(0));
-        statisticsHandler.setVariableValue('lastTypingSpeed', symbolsPerMinute);
+        statisticsHandler.state.numbers.lastTypingSpeed = symbolsPerMinute;
+        statisticsHandler.setVariableValue('lastTypingSpeed');
         chartsHandler.addDot('Typing speed', statisticsHandler.currentString, symbolsPerMinute);
         statisticsHandler.stringLength = undefined;
         statisticsHandler.currentString = undefined;
     },
+
+    applyNewState(newStateText) {
+        newState = JSON.parse(newStateText);
+        statisticsHandler.state = newState.state;
+        statisticsHandler.updateVariablesValues();
+        chartsHandler.setState(newState.charts);
+    },
+    downloadState() {
+        download('statistics.json', JSON.stringify({'state': statisticsHandler.state, 'charts': chartsHandler.getState()}));
+    },
+    uploadState() {
+        upload(statisticsHandler.applyNewState, 'json');
+    },
+    resetState() {
+        statisticsHandler.state = JSON.parse(JSON.stringify(statisticsHandler.defaultState));
+        statisticsHandler.updateVariablesValues();
+        chartsHandler.resetCharts();
+    },
+
     init() {
         statisticsHandler.bindVariables();
-        statisticsHandler.sequencies['Typing speed'] = [];
-        const numbers = statisticsHandler.numbers;
-        numbers.symbolsTyped = 0;
-        numbers.mistakesMade = 0;
-    }
+        statisticsHandler.state = JSON.parse(JSON.stringify(statisticsHandler.defaultState));
+    },
 }
+
+const importStatisticsButton = document.getElementById('importStatisticsButton');
+const exportStatisticsButton = document.getElementById('exportStatisticsButton');
+const resetStatisticsButton = document.getElementById('resetStatisticsButton');
+
+importStatisticsButton.onclick = statisticsHandler.downloadState;
+exportStatisticsButton.onclick = statisticsHandler.uploadState;
+resetStatisticsButton.onclick = statisticsHandler.resetState;
+
 statisticsHandler.init();
 
 
@@ -710,6 +754,8 @@ function removeFirstTextToTypeLetter() {
 }
 
 function keyEventHandler(event) {
+    if (focusOnTextToType() === false)
+        return;
     if ((textToType.innerHTML.length === 1) && (typing === false)) {
         typing = true;
         statisticsHandler.onTypingStart();
@@ -794,7 +840,7 @@ const chartsHandler = {
                 labels: [],
                 datasets: [{
                     label: name,
-                    data: statisticsHandler.sequencies[name],
+                    data: [],
                     fill: false,
                     borderColor: 'white',
                     backgroundColor: 'white',
@@ -842,7 +888,7 @@ const chartsHandler = {
     addDot(chartName, label, value, color) {
         const chart = chartsHandler.charts[chartName];
         chart.data.labels.push(label);
-        statisticsHandler.sequencies[chartName].push(value);
+        chart.data.datasets[0].data.push(value);
         const dataset = chart.data.datasets[0];
         dataset.pointRadius = 9 / Math.sqrt(dataset.data.length);
         chart.update(200);
@@ -853,6 +899,34 @@ const chartsHandler = {
             chartsHandler.charts[key].destroy();
         }
         chartsHandler.charts = {};
+    },
+
+    getState() {
+        const currentState = {'charts': undefined};
+        for (chartName in chartsHandler.charts) {
+            const chart = chartsHandler.charts[chartName];
+            currentState[chartName] = {'labels': chart.data.labels, 'values': chart.data.datasets[0].data};
+        }
+        return JSON.stringify(currentState);
+    },
+
+    setState(newStateText) {
+        const newState = JSON.parse(newStateText);
+        for (const chartName in newState) {
+            const newChartData = newState[chartName];
+            const currentChart = chartsHandler.charts[chartName];
+            currentChart.data.labels = newChartData.labels;
+            currentChart.data.datasets[0].data = newChartData.values;
+            currentChart.update(400);
+        }
+    },
+
+    resetCharts() {
+        for (const chart of Object.values(chartsHandler.charts)) {
+            chart.data.labels = [];
+            chart.data.datasets[0].data = [];
+            chart.update(400);
+        }
     }
 }
 
