@@ -524,8 +524,8 @@ const importStatisticsButton = document.getElementById('importStatisticsButton')
 const exportStatisticsButton = document.getElementById('exportStatisticsButton');
 const resetStatisticsButton = document.getElementById('resetStatisticsButton');
 
-importStatisticsButton.onclick = statisticsHandler.downloadState;
-exportStatisticsButton.onclick = statisticsHandler.uploadState;
+importStatisticsButton.onclick = statisticsHandler.uploadState;
+exportStatisticsButton.onclick = statisticsHandler.downloadState;
 resetStatisticsButton.onclick = statisticsHandler.resetState;
 
 statisticsHandler.init();
