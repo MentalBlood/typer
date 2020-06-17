@@ -385,6 +385,14 @@ header .side-panel .button:hover {
     padding: min(max(1.5vh, 12px), 1.5vw);
 }
 
+.variable.target-reached {
+    background-color: rgba(50, 150, 50, 0.5);
+}
+
+.variable.target-not-reached {
+    background-color: rgba(150, 50, 50, 0.5);
+}
+
 .variable:hover {
     cursor: move;
 }
@@ -395,11 +403,41 @@ header .side-panel .button:hover {
 }
 
 .variable .value {
-    display: inline-block;
-
     font-size: min(max(2.5vh, 20px), 2.5vw);
     font-weight: bold;
     color: rgba(255, 255, 255, 0.9);
+}
+
+.variable .separator {
+    font-size: min(max(2.5vh, 20px), 2.5vw);
+    font-weight: bold;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.variable .target {
+    font-size: min(max(2.5vh, 20px), 2.5vw);
+    border-radius: min(max(2.5vh, 20px), 2.5vw);
+    font-weight: bold;
+}
+
+.variable .target:hover {
+    cursor: pointer;
+}
+
+.variable .target:not(:hover),
+.desktop-variable .target:not(:hover) {
+    padding: 0;
+    background-color: rgba(0, 0, 0, 0);
+    color: rgba(255, 255, 255, 0.9);
+    transition-duration: 0.5s;
+}
+
+.variable .target:hover,
+.desktop-variable .target:hover {
+    padding: 0.5vh;
+    background-color: rgba(255, 255, 255, 0.9);
+    color: rgba(0, 0, 0, 0.9);
+    transition-duration: 0.5s;
 }
 
 .variable .units {
@@ -407,6 +445,164 @@ header .side-panel .button:hover {
 
     font-size: min(max(2vh, 16px), 2vw);
     color: rgba(255, 255, 255, 0.9);
+}
+
+
+
+#modalWindowBackground {
+    position: absolute;
+    z-index: 6;
+
+    background-color: rgba(0, 0, 0, 0.6);
+
+    height: 100%;
+    width: 100%;
+}
+
+#modalWindowBackground:not(.hidden) {
+    z-index: 6;
+    opacity: 1;
+}
+
+#modalWindowBackground.hidden {
+    z-index: -100;
+    opacity: 0;
+}
+
+#setTargetWindow {
+    position: absolute;
+
+    background-color: rgba(200, 200, 200, 1);
+    border: min(1vh, 1vw) solid rgba(50, 50, 50, 1);
+    border-radius: min(1vh, 1vw);
+
+    height: max(calc(30vh - 2 * min(1vh, 1vw)), 250px);
+    width: max(calc(30vw - 2 * min(1vh, 1vw)), 400px);
+
+    top: calc((100vh - max(calc(30vh - 2 * min(1vh, 1vw)), 250px) - 2 * 3vh) / 2);
+    left: calc((100vw - max(calc(30vw - 2 * min(1vh, 1vw)), 400px) - 2 * 3vw) / 2);
+
+    padding: 3vh 3vw;
+}
+
+#setTargetWindow:not(.hidden) {
+    z-index: 7;
+    opacity: 1;
+}
+
+#setTargetWindow.hidden {
+    z-index: -100;
+    opacity: 0;
+}
+
+#setTargetWindow .title {
+    text-align: center;
+
+    position: relative;
+
+    font-size: max(4vh, 33px);
+    font-weight: bold;
+    color: rgba(50, 50, 50, 1);
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+#setTargetWindow .settings {
+    text-align: center;
+    margin-top: max(5vh, 45px);
+}
+
+#setTargetWindow .value {
+    text-align: center;
+    position: relative;
+
+    background-color: rgba(170, 170, 170, 1);
+    border: 0.6vh solid rgba(80, 80, 80, 1);
+    border-radius: 0.6vh;
+
+    width: max(calc(10vw - 2 * 0.6vh), 120px);
+    height: max(calc(5vh - 2 * 0.6vh), 45px);
+
+    font-size: max(3.2vh, 30px);
+
+    outline: none;
+}
+
+#setTargetWindow .checkboxContainer {
+    margin-left: max(3vw, 40px);
+}
+
+#setTargetWindow .checkbox {
+    width: max(2.5vh, 15px);
+    height: max(2.5vh, 15px);
+}
+
+#setTargetWindow .checkboxText {
+    font-size: max(min(3.5vh, 3.5vw), 28px);
+}
+
+#setTargetWindow .buttons {
+    text-align: center;
+    margin-top: max(6vh, 40px);
+}
+
+#setTargetWindow .buttons .button {
+    border: max(0.3vh, 2px) solid rgba(50, 50, 50, 1);
+    border-radius: max(1.5vh, 10px);
+
+    height: max(5vh - 2 * max(0.3vh, 2px), 50px);
+    width: max(10vw - 2 * max(0.3vh, 2px), 150px);
+
+    font-size: max(min(2.5vh, 2.5vw), 18px);
+    font-weight: bold;
+
+    outline: none;
+}
+
+#setTargetWindow .buttons .button:not(:first-child) {
+    margin-left: max(3vw, 5px);
+}
+
+#setTargetWindow .buttons .submit {
+    border-color: rgba(50, 150, 50, 1);
+}
+
+#setTargetWindow .buttons .submit:not(:hover) {
+    background-color: rgba(200, 200, 200, 1);
+    color: rgba(50, 150, 50, 1);
+    transition-duration: 0.5s;
+}
+
+#setTargetWindow .buttons .submit:hover {
+    background-color: rgba(50, 150, 50, 1);
+    color: rgba(200, 200, 200, 1);
+    transition-duration: 0.5s;
+}
+
+#setTargetWindow .buttons .cancel {
+    border-color: rgba(150, 50, 50, 1);
+}
+
+#setTargetWindow .buttons .cancel:not(:hover) {
+    background-color: rgba(200, 200, 200, 1);
+    color: rgba(150, 50, 50, 1);
+    transition-duration: 0.5s;
+}
+
+#setTargetWindow .buttons .cancel:hover {
+    background-color: rgba(150, 50, 50, 1);
+    color: rgba(200, 200, 200, 1);
+    transition-duration: 0.5s;
 }
 
 
@@ -423,15 +619,30 @@ header .side-panel .button:hover {
     cursor: move;
 }
 
+.desktop-variable.target-reached {
+    background-color: rgba(50, 150, 50, 0.9);
+}
+
+.desktop-variable.target-not-reached {
+    background-color: rgba(150, 50, 50, 0.9);
+}
+
 .desktop-variable .title {
     color: rgba(255, 255, 255, 0.9);
 }
 
-.desktop-variable .value {
+.desktop-variable .value,
+.desktop-variable .separator,
+.desktop-variable .target {
     display: inline-block;
 
     font-weight: bold;
+    border-radius: min(max(2.5vh, 20px), 2.5vw);
     color: rgba(255, 255, 255, 0.9);
+}
+
+.desktop-variable .target:hover {
+    cursor: pointer;
 }
 
 .desktop-variable .units {

@@ -163,22 +163,40 @@
                 </div>
                 <div class = 'side-button settings-button unselectable'>settings</div>
             </div>
+            <div class="hidden" id = "modalWindowBackground"></div>
             <div class="statistics">
+                <div class="hidden" id = "setTargetWindow">
+                    <div class="title">Set target value</div>
+                    <div class="settings">
+                        <input type="number" value = '1' class="value">
+                        <span class="checkboxContainer"><input type = 'checkbox' class = 'checkbox' checked> <span class="checkboxText">Positive</span></span>
+                    </div>
+                    <div class="buttons">
+                        <button class="unselectable button submit">Set</button>
+                        <button class="unselectable button cancel">Cancel</button>
+                    </div>
+                </div>
                 <div class="side-panel">
                     <div class="variable unselectable" id = 'lastTypingSpeed'>
                         <div class="title">Last string typing speed</div>
-                        <div class="value">?</div>
-                        <div class="units">symbols per minute</div>
+                        <span class="value">?</span>
+                        <span class="separator">/</span>
+                        <span class="target">?</span>
+                        <span class="units">symbols per minute</span>
                     </div>
                     <div class="variable unselectable" id = 'symbolsTyped'>
                         <div class="title">Characters typed</div>
-                        <div class="value">0</div>
-                        <div class="units">characters</div>
+                        <span class="value">0</span>
+                        <span class="separator">/</span>
+                        <span class="target">?</span>
+                        <span class="units">characters</span>
                     </div>
                     <div class="variable unselectable" id = 'mistakesMade'>
                         <div class="title">Mistakes made</div>
-                        <div class="value">0</div>
-                        <div class="units"></div>
+                        <span class="value">0</span>
+                        <span class="separator">/</span>
+                        <span class="target">?</span>
+                        <span class="units"></span>
                     </div>
                     <div class="variable chart unselectable" id="typingSpeed">
                         <div class="title">Typing speed chart</div>

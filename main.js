@@ -265,6 +265,44 @@ const uniqueKeyGenerator = {
 
 
 
+const modalWindowBackground = document.getElementById('modalWindowBackground');
+const setTargetWindow = document.getElementById('setTargetWindow');
+const setTargetWindowValue = document.querySelector('#setTargetWindow .value');
+const setTargetWindowCheckbox = document.querySelector('#setTargetWindow .checkbox');
+
+const setTargetWindowSubmitButton = document.querySelector('#setTargetWindow .submit');
+let currentlySetingId = undefined;
+function processSetTargetWindowSubmitButtonClick() {
+    const newTarget = setTargetWindowValue.value;
+    const isPositive = setTargetWindowCheckbox.checked;
+    statisticsHandler.setVariableTarget(currentlySetingId, newTarget, isPositive);
+    modalWindowBackground.classList.add('hidden');
+    setTargetWindow.classList.add('hidden');
+}
+setTargetWindowSubmitButton.addEventListener('click', processSetTargetWindowSubmitButtonClick);
+
+const setTargetWindowCancelButton = document.querySelector('#setTargetWindow .cancel');
+function processSetTargetWindowCancelButtonClick() {
+    modalWindowBackground.classList.add('hidden');
+    setTargetWindow.classList.add('hidden');
+}
+setTargetWindowCancelButton.addEventListener('click', processSetTargetWindowCancelButtonClick);
+
+const variables = document.querySelectorAll('.variable:not(.chart)');
+function processVariableTargetClick() {
+    currentlySetingId = this.parentNode.originalId;
+    modalWindowBackground.classList.toggle('hidden');
+    setTargetWindow.classList.toggle('hidden');
+}
+for (variable of variables) {
+    variable.originalId = variable.id;
+
+    const variableTarget = document.querySelector('#' + variable.id + '>.target');;
+    variableTarget.addEventListener('click', processVariableTargetClick);
+}
+
+
+
 const statisticsHandler = {
     variables: {},
     canvasesClones: {},
@@ -307,7 +345,11 @@ const statisticsHandler = {
             const desktopVariableValue = desktopVariable.childNodes[3];
             const valueFontSize = multiplier * 2.5;
             desktopVariableValue.style.fontSize = valueFontSize + 'vh';
-            const desktopVariableUnits = desktopVariable.childNodes[5];
+            const desktopVariableSeparator = desktopVariable.childNodes[5];
+            desktopVariableSeparator.style.fontSize = valueFontSize + 'vh';
+            const desktopVariableTarget = desktopVariable.childNodes[7];
+            desktopVariableTarget.style.fontSize = valueFontSize + 'vh';
+            const desktopVariableUnits = desktopVariable.childNodes[9];
             const unitsFontSize = multiplier * 2;
             desktopVariableUnits.style.fontSize = unitsFontSize + 'vh';
         },
@@ -315,12 +357,17 @@ const statisticsHandler = {
             const initialMouseOffsetX = e.offsetX;
             const initialMouseOffsetY = e.offsetY;
             let desktopVariable = variable.cloneNode(true);
-            desktopVariable.id = uniqueKeyGenerator.generate(statisticsHandler.desktopVariables);
+            desktopVariable.id = variable.id + '_clone_' + uniqueKeyGenerator.generate(statisticsHandler.desktopVariables);
+            desktopVariable.originalId = variable.id;
             desktopVariable.classList.remove('variable');
             desktopVariable.classList.add('desktop-variable');
+            const desktopVariableTarget = desktopVariable.childNodes[7];
+            desktopVariableTarget.addEventListener('click', processVariableTargetClick);
             if (variable.classList.contains('chart')) {
             } else {
-                statisticsHandler.variables[variable.id].clones.push({'value': desktopVariable.childNodes[3]});
+                const desktopVariableValue = desktopVariable.childNodes[3];
+                const desktopVariableTarget = desktopVariable.childNodes[7];
+                statisticsHandler.variables[variable.id].clones.push({'element': desktopVariable, 'value': desktopVariableValue, 'target': desktopVariableTarget});
             }
             statisticsHandler.draggingHadler.removeEventListeners(desktopVariable);
             const resizer = document.createElement('div');
@@ -426,7 +473,8 @@ const statisticsHandler = {
                 return;
             statisticsHandler.draggingHadler.addEventListeners(variable);
             const variableValue = document.querySelector('#' + variable.id + '>.value');
-            statisticsHandler.variables[variable.id] = {'value': variableValue, 'clones': []};
+            const variableTarget = document.querySelector('#' + variable.id + '>.target');
+            statisticsHandler.variables[variable.id] = {'value': variableValue, 'target': variableTarget, 'clones': []};
         }
     },
     defaultState: {
@@ -447,6 +495,16 @@ const statisticsHandler = {
         variable.value.innerHTML = newValue;
         for (const clone of variable.clones)
             clone.value.innerHTML = newValue;
+        statisticsHandler.updateTargetReachIndicator(variableId);
+    },
+    setVariableTarget(variableId, newTarget, isPositive) {
+        const variable = statisticsHandler.variables[variableId];
+        variable.target.innerHTML = newTarget;
+        variable.target.isPositive = isPositive;
+        for (const clone of variable.clones) {
+            clone.target.innerHTML = newTarget;
+        }
+        statisticsHandler.updateTargetReachIndicator(variableId);
     },
     updateVariablesValues() {
         for (variableId in statisticsHandler.state.numbers)
@@ -455,7 +513,6 @@ const statisticsHandler = {
     updateCanvasesClones(variableId) {
         const sourceCanvas = document.getElementById(variableId).childNodes[3].childNodes[0];
         for (const clone of statisticsHandler.canvasesClones[variableId]) {
-            console.log('update clone', clone, 'with id', clone.id);
             clone.getContext('2d').canvas.drawImage(sourceCanvas, 0, 0);
         }
     },
@@ -467,6 +524,42 @@ const statisticsHandler = {
         const timePassed = performance.now() - statisticsHandler.stopwatches[name];
         delete statisticsHandler.stopwatches[name];
         return timePassed;
+    },
+    isTargetReached(variableId) {
+        const variable = statisticsHandler.variables[variableId];
+        const targetValue = variable.target.innerHTML;
+        if (targetValue === '?')
+            return true;
+        const value = variable.value.innerHTML;
+        const isPositive = variable.target.isPositive;
+        if (isPositive)
+            return value >= targetValue;
+        else
+            return value <= targetValue;
+    },
+    updateTargetReachIndicator(variableId) {
+        const variableElement = document.getElementById(variableId);
+        const clones = statisticsHandler.variables[variableId].clones;
+        if (statisticsHandler.isTargetReached(variableId)) {
+            variableElement.classList.remove('target-not-reached');
+            variableElement.classList.add('target-reached');
+            for (clone of clones) {
+                clone.element.classList.remove('target-not-reached');
+                clone.element.classList.add('target-reached');
+            }
+        }
+        else {
+            variableElement.classList.remove('target-reached');
+            variableElement.classList.add('target-not-reached');
+            for (clone of clones) {
+                clone.element.classList.remove('target-reached');
+                clone.element.classList.add('target-not-reached');
+            }
+        }
+    },
+    updateTargetsReachIndicators() {
+        for (variableId in statisticsHandler.variables)
+            statisticsHandler.updateTargetReachIndicator(variableId)
     },
     stringLength: undefined,
     currentString: undefined,
@@ -517,6 +610,7 @@ const statisticsHandler = {
     init() {
         statisticsHandler.bindVariables();
         statisticsHandler.state = JSON.parse(JSON.stringify(statisticsHandler.defaultState));
+        statisticsHandler.updateTargetsReachIndicators();
     },
 }
 
