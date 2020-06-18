@@ -47,6 +47,8 @@ header .side-button:not(:hover) {
 }
 
 header .side-button:hover {
+    cursor: pointer;
+
     opacity: 1;
     transition-duration: 0.5s;
 }
@@ -139,6 +141,8 @@ header .settings .side-panel .folder:not(.opened) {
 }
 
 header .settings .side-panel .folder-title {
+    cursor: pointer;
+
     font-size: min(max(3vh, 24px), 3vw);
     color: rgba(255, 255, 255, 0.9);
     font-weight: bold;
@@ -203,11 +207,15 @@ header .settings .side-panel .setting:first-of-type {
 }
 
 .setting-controller.select {
+    cursor: pointer;
+
     border: 0 solid rgb(255, 255, 255, 0.7);
     font-size: min(max(2vh, 16px), 2vw);
 }
 
 .setting-controller.checkbox {
+    cursor: pointer;
+
     width: max(2.5vh, 20px);
     margin: 0;
 }
@@ -226,6 +234,8 @@ header .settings .side-panel .setting:first-of-type {
 }
 
 .setting-controller.color {
+    cursor: pointer;
+
     width: calc(50% + calc(2 * max(0.4vw, 3px)));
     background: transparent;
 }
@@ -242,6 +252,8 @@ input[type="color"]::-webkit-color-swatch-wrapper {
 
 
 header .side-panel .button {
+    cursor: pointer;
+
     background-color: transparent;
     color: rgba(255, 255, 255, 0.9);
 
@@ -543,6 +555,8 @@ input[type=number] {
 }
 
 #setTargetWindow .checkbox {
+    cursor: pointer;
+
     width: max(2.5vh, 15px);
     height: max(2.5vh, 15px);
 }
@@ -557,6 +571,8 @@ input[type=number] {
 }
 
 #setTargetWindow .buttons .button {
+    cursor: pointer;
+
     border: max(0.3vh, 2px) solid rgba(50, 50, 50, 1);
     border-radius: max(1.5vh, 10px);
 
@@ -685,7 +701,7 @@ input[type=number] {
 }
 
 .desktop-variable .closeButton:hover {
-    cursor: default;
+    cursor: pointer;
     color: rgba(255, 255, 255, 0.9);
     transition-duration: 0.5s;
 }
