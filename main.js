@@ -304,6 +304,7 @@ function focusOnTextToType() {
         return false;
     if (statisticsContent.classList.contains('opened'))
         return false;
+    console.log(setTargetWindow.classList.contains('hidden'));
     if (setTargetWindow.classList.contains('hidden') === false)
         return false;
     return true;
@@ -542,10 +543,8 @@ const statisticsHandler = {
     },
     isTargetReached(variableId) {
         const variable = statisticsHandler.variables[variableId];
-        const targetValue = variable.target.innerHTML;
-        const value = variable.value.innerHTML;
-        if (value === '?')
-            return false;
+        const targetValue = Number.parseInt(variable.target.innerHTML, 10);
+        const value = Number.parseInt(variable.value.innerHTML, 10);
         const isPositive = variable.target.isPositive;
         if (isPositive)
             return value >= targetValue;
