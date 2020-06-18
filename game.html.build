@@ -396,6 +396,14 @@ header .side-panel .button:hover {
     padding: min(max(1.5vh, 12px), 1.5vw);
 }
 
+.variable.target-reached {
+    background-color: rgba(50, 150, 50, 0.5);
+}
+
+.variable.target-not-reached {
+    background-color: rgba(150, 50, 50, 0.5);
+}
+
 .variable:hover {
     cursor: move;
 }
@@ -406,11 +414,41 @@ header .side-panel .button:hover {
 }
 
 .variable .value {
-    display: inline-block;
-
     font-size: min(max(2.5vh, 20px), 2.5vw);
     font-weight: bold;
     color: rgba(255, 255, 255, 0.9);
+}
+
+.variable .separator {
+    font-size: min(max(2.5vh, 20px), 2.5vw);
+    font-weight: bold;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.variable .target {
+    font-size: min(max(2.5vh, 20px), 2.5vw);
+    border-radius: min(max(2.5vh, 20px), 2.5vw);
+    font-weight: bold;
+}
+
+.variable .target:hover {
+    cursor: pointer;
+}
+
+.variable .target:not(:hover),
+.desktop-variable .target:not(:hover) {
+    padding: 0;
+    background-color: rgba(0, 0, 0, 0);
+    color: rgba(255, 255, 255, 0.9);
+    transition-duration: 0.5s;
+}
+
+.variable .target:hover,
+.desktop-variable .target:hover {
+    padding: 0.5vh;
+    background-color: rgba(255, 255, 255, 0.9);
+    color: rgba(0, 0, 0, 0.9);
+    transition-duration: 0.5s;
 }
 
 .variable .units {
@@ -418,6 +456,164 @@ header .side-panel .button:hover {
 
     font-size: min(max(2vh, 16px), 2vw);
     color: rgba(255, 255, 255, 0.9);
+}
+
+
+
+#modalWindowBackground {
+    position: absolute;
+    z-index: 6;
+
+    background-color: rgba(0, 0, 0, 0.6);
+
+    height: 100%;
+    width: 100%;
+}
+
+#modalWindowBackground:not(.hidden) {
+    z-index: 6;
+    opacity: 1;
+}
+
+#modalWindowBackground.hidden {
+    z-index: -100;
+    opacity: 0;
+}
+
+#setTargetWindow {
+    position: absolute;
+
+    background-color: rgba(200, 200, 200, 1);
+    border: min(1vh, 1vw) solid rgba(50, 50, 50, 1);
+    border-radius: min(1vh, 1vw);
+
+    height: max(calc(30vh - 2 * min(1vh, 1vw)), 250px);
+    width: max(calc(30vw - 2 * min(1vh, 1vw)), 400px);
+
+    top: calc((100vh - max(calc(30vh - 2 * min(1vh, 1vw)), 250px) - 2 * 3vh) / 2);
+    left: calc((100vw - max(calc(30vw - 2 * min(1vh, 1vw)), 400px) - 2 * 3vw) / 2);
+
+    padding: 3vh 3vw;
+}
+
+#setTargetWindow:not(.hidden) {
+    z-index: 7;
+    opacity: 1;
+}
+
+#setTargetWindow.hidden {
+    z-index: -100;
+    opacity: 0;
+}
+
+#setTargetWindow .title {
+    text-align: center;
+
+    position: relative;
+
+    font-size: max(4vh, 33px);
+    font-weight: bold;
+    color: rgba(50, 50, 50, 1);
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+#setTargetWindow .settings {
+    text-align: center;
+    margin-top: max(5vh, 45px);
+}
+
+#setTargetWindow .value {
+    text-align: center;
+    position: relative;
+
+    background-color: rgba(170, 170, 170, 1);
+    border: 0.6vh solid rgba(80, 80, 80, 1);
+    border-radius: 0.6vh;
+
+    width: max(calc(10vw - 2 * 0.6vh), 120px);
+    height: max(calc(5vh - 2 * 0.6vh), 45px);
+
+    font-size: max(3.2vh, 30px);
+
+    outline: none;
+}
+
+#setTargetWindow .checkboxContainer {
+    margin-left: max(3vw, 40px);
+}
+
+#setTargetWindow .checkbox {
+    width: max(2.5vh, 15px);
+    height: max(2.5vh, 15px);
+}
+
+#setTargetWindow .checkboxText {
+    font-size: max(min(3.5vh, 3.5vw), 28px);
+}
+
+#setTargetWindow .buttons {
+    text-align: center;
+    margin-top: max(6vh, 40px);
+}
+
+#setTargetWindow .buttons .button {
+    border: max(0.3vh, 2px) solid rgba(50, 50, 50, 1);
+    border-radius: max(1.5vh, 10px);
+
+    height: max(5vh - 2 * max(0.3vh, 2px), 50px);
+    width: max(10vw - 2 * max(0.3vh, 2px), 150px);
+
+    font-size: max(min(2.5vh, 2.5vw), 18px);
+    font-weight: bold;
+
+    outline: none;
+}
+
+#setTargetWindow .buttons .button:not(:first-child) {
+    margin-left: max(3vw, 5px);
+}
+
+#setTargetWindow .buttons .submit {
+    border-color: rgba(50, 150, 50, 1);
+}
+
+#setTargetWindow .buttons .submit:not(:hover) {
+    background-color: rgba(200, 200, 200, 1);
+    color: rgba(50, 150, 50, 1);
+    transition-duration: 0.5s;
+}
+
+#setTargetWindow .buttons .submit:hover {
+    background-color: rgba(50, 150, 50, 1);
+    color: rgba(200, 200, 200, 1);
+    transition-duration: 0.5s;
+}
+
+#setTargetWindow .buttons .cancel {
+    border-color: rgba(150, 50, 50, 1);
+}
+
+#setTargetWindow .buttons .cancel:not(:hover) {
+    background-color: rgba(200, 200, 200, 1);
+    color: rgba(150, 50, 50, 1);
+    transition-duration: 0.5s;
+}
+
+#setTargetWindow .buttons .cancel:hover {
+    background-color: rgba(150, 50, 50, 1);
+    color: rgba(200, 200, 200, 1);
+    transition-duration: 0.5s;
 }
 
 
@@ -434,15 +630,30 @@ header .side-panel .button:hover {
     cursor: move;
 }
 
+.desktop-variable.target-reached {
+    background-color: rgba(50, 150, 50, 0.9);
+}
+
+.desktop-variable.target-not-reached {
+    background-color: rgba(150, 50, 50, 0.9);
+}
+
 .desktop-variable .title {
     color: rgba(255, 255, 255, 0.9);
 }
 
-.desktop-variable .value {
+.desktop-variable .value,
+.desktop-variable .separator,
+.desktop-variable .target {
     display: inline-block;
 
     font-weight: bold;
+    border-radius: min(max(2.5vh, 20px), 2.5vw);
     color: rgba(255, 255, 255, 0.9);
+}
+
+.desktop-variable .target:hover {
+    cursor: pointer;
 }
 
 .desktop-variable .units {
@@ -690,22 +901,40 @@ body:not(.cursor-hidden) {
                 </div>
                 <div class = 'side-button settings-button unselectable'>settings</div>
             </div>
+            <div class="hidden" id = "modalWindowBackground"></div>
             <div class="statistics">
+                <div class="hidden" id = "setTargetWindow">
+                    <div class="title">Set target value</div>
+                    <div class="settings">
+                        <input type="number" value = '1' class="value">
+                        <span class="checkboxContainer"><input type = 'checkbox' class = 'checkbox' checked> <span class="checkboxText">Positive</span></span>
+                    </div>
+                    <div class="buttons">
+                        <button class="unselectable button submit">Set</button>
+                        <button class="unselectable button cancel">Cancel</button>
+                    </div>
+                </div>
                 <div class="side-panel">
                     <div class="variable unselectable" id = 'lastTypingSpeed'>
                         <div class="title">Last string typing speed</div>
-                        <div class="value">?</div>
-                        <div class="units">symbols per minute</div>
+                        <span class="value">?</span>
+                        <span class="separator">/</span>
+                        <span class="target">?</span>
+                        <span class="units">symbols per minute</span>
                     </div>
                     <div class="variable unselectable" id = 'symbolsTyped'>
                         <div class="title">Characters typed</div>
-                        <div class="value">0</div>
-                        <div class="units">characters</div>
+                        <span class="value">0</span>
+                        <span class="separator">/</span>
+                        <span class="target">?</span>
+                        <span class="units">characters</span>
                     </div>
                     <div class="variable unselectable" id = 'mistakesMade'>
                         <div class="title">Mistakes made</div>
-                        <div class="value">0</div>
-                        <div class="units"></div>
+                        <span class="value">0</span>
+                        <span class="separator">/</span>
+                        <span class="target">?</span>
+                        <span class="units"></span>
                     </div>
                     <div class="variable chart unselectable" id="typingSpeed">
                         <div class="title">Typing speed chart</div>
@@ -2330,6 +2559,46 @@ const uniqueKeyGenerator = {
 
 
 
+const modalWindowBackground = document.getElementById('modalWindowBackground');
+const setTargetWindow = document.getElementById('setTargetWindow');
+const setTargetWindowValue = document.querySelector('#setTargetWindow .value');
+const setTargetWindowCheckbox = document.querySelector('#setTargetWindow .checkbox');
+
+const setTargetWindowSubmitButton = document.querySelector('#setTargetWindow .submit');
+let currentlySetingId = undefined;
+function processSetTargetWindowSubmitButtonClick() {
+    const newTarget = setTargetWindowValue.value;
+    const isPositive = setTargetWindowCheckbox.checked;
+    statisticsHandler.setVariableTarget(currentlySetingId, newTarget, isPositive);
+    modalWindowBackground.classList.add('hidden');
+    setTargetWindow.classList.add('hidden');
+}
+setTargetWindowSubmitButton.addEventListener('click', processSetTargetWindowSubmitButtonClick);
+
+const setTargetWindowCancelButton = document.querySelector('#setTargetWindow .cancel');
+function processSetTargetWindowCancelButtonClick() {
+    modalWindowBackground.classList.add('hidden');
+    setTargetWindow.classList.add('hidden');
+}
+setTargetWindowCancelButton.addEventListener('click', processSetTargetWindowCancelButtonClick);
+
+const variables = document.querySelectorAll('.variable:not(.chart)');
+function processVariableTargetClick() {
+    currentlySetingId = this.parentNode.originalId;
+    modalWindowBackground.classList.toggle('hidden');
+    setTargetWindow.classList.toggle('hidden');
+}
+const defaultTargetText = '(click here to add target)';
+for (variable of variables) {
+    variable.originalId = variable.id;
+
+    const variableTarget = document.querySelector('#' + variable.id + '>.target');
+    variableTarget.innerHTML = defaultTargetText;
+    variableTarget.addEventListener('click', processVariableTargetClick);
+}
+
+
+
 const statisticsHandler = {
     variables: {},
     canvasesClones: {},
@@ -2372,7 +2641,11 @@ const statisticsHandler = {
             const desktopVariableValue = desktopVariable.childNodes[3];
             const valueFontSize = multiplier * 2.5;
             desktopVariableValue.style.fontSize = valueFontSize + 'vh';
-            const desktopVariableUnits = desktopVariable.childNodes[5];
+            const desktopVariableSeparator = desktopVariable.childNodes[5];
+            desktopVariableSeparator.style.fontSize = valueFontSize + 'vh';
+            const desktopVariableTarget = desktopVariable.childNodes[7];
+            desktopVariableTarget.style.fontSize = valueFontSize + 'vh';
+            const desktopVariableUnits = desktopVariable.childNodes[9];
             const unitsFontSize = multiplier * 2;
             desktopVariableUnits.style.fontSize = unitsFontSize + 'vh';
         },
@@ -2380,12 +2653,17 @@ const statisticsHandler = {
             const initialMouseOffsetX = e.offsetX;
             const initialMouseOffsetY = e.offsetY;
             let desktopVariable = variable.cloneNode(true);
-            desktopVariable.id = uniqueKeyGenerator.generate(statisticsHandler.desktopVariables);
+            desktopVariable.id = variable.id + '_clone_' + uniqueKeyGenerator.generate(statisticsHandler.desktopVariables);
+            desktopVariable.originalId = variable.id;
             desktopVariable.classList.remove('variable');
             desktopVariable.classList.add('desktop-variable');
+            const desktopVariableTarget = desktopVariable.childNodes[7];
+            desktopVariableTarget.addEventListener('click', processVariableTargetClick);
             if (variable.classList.contains('chart')) {
             } else {
-                statisticsHandler.variables[variable.id].clones.push({'value': desktopVariable.childNodes[3]});
+                const desktopVariableValue = desktopVariable.childNodes[3];
+                const desktopVariableTarget = desktopVariable.childNodes[7];
+                statisticsHandler.variables[variable.id].clones.push({'element': desktopVariable, 'value': desktopVariableValue, 'target': desktopVariableTarget});
             }
             statisticsHandler.draggingHadler.removeEventListeners(desktopVariable);
             const resizer = document.createElement('div');
@@ -2491,7 +2769,8 @@ const statisticsHandler = {
                 return;
             statisticsHandler.draggingHadler.addEventListeners(variable);
             const variableValue = document.querySelector('#' + variable.id + '>.value');
-            statisticsHandler.variables[variable.id] = {'value': variableValue, 'clones': []};
+            const variableTarget = document.querySelector('#' + variable.id + '>.target');
+            statisticsHandler.variables[variable.id] = {'value': variableValue, 'target': variableTarget, 'clones': []};
         }
     },
     defaultState: {
@@ -2502,7 +2781,8 @@ const statisticsHandler = {
             symbolsTyped: 0,
             mistakesMade: 0,
             lastTypingSpeed: '?'
-        }
+        },
+        targets: {}
     },
     state: undefined,
     setVariableValue(variableId, newValue) {
@@ -2512,6 +2792,17 @@ const statisticsHandler = {
         variable.value.innerHTML = newValue;
         for (const clone of variable.clones)
             clone.value.innerHTML = newValue;
+        statisticsHandler.updateTargetReachIndicator(variableId);
+    },
+    setVariableTarget(variableId, newTarget, isPositive) {
+        const variable = statisticsHandler.variables[variableId];
+        variable.target.innerHTML = newTarget;
+        variable.target.isPositive = isPositive;
+        statisticsHandler.state.targets[variableId] = {'value': newTarget, 'isPositive': isPositive};
+        for (const clone of variable.clones) {
+            clone.target.innerHTML = newTarget;
+        }
+        statisticsHandler.updateTargetReachIndicator(variableId);
     },
     updateVariablesValues() {
         for (variableId in statisticsHandler.state.numbers)
@@ -2520,7 +2811,6 @@ const statisticsHandler = {
     updateCanvasesClones(variableId) {
         const sourceCanvas = document.getElementById(variableId).childNodes[3].childNodes[0];
         for (const clone of statisticsHandler.canvasesClones[variableId]) {
-            console.log('update clone', clone, 'with id', clone.id);
             clone.getContext('2d').canvas.drawImage(sourceCanvas, 0, 0);
         }
     },
@@ -2532,6 +2822,49 @@ const statisticsHandler = {
         const timePassed = performance.now() - statisticsHandler.stopwatches[name];
         delete statisticsHandler.stopwatches[name];
         return timePassed;
+    },
+    isTargetSet(variableId) {
+        const variable = statisticsHandler.variables[variableId];
+        const targetValue = variable.target.innerHTML;
+        return targetValue !== defaultTargetText;
+    },
+    isTargetReached(variableId) {
+        const variable = statisticsHandler.variables[variableId];
+        const targetValue = variable.target.innerHTML;
+        const value = variable.value.innerHTML;
+        if (value === '?')
+            return false;
+        const isPositive = variable.target.isPositive;
+        if (isPositive)
+            return value >= targetValue;
+        else
+            return value <= targetValue;
+    },
+    updateTargetReachIndicator(variableId) {
+        if (statisticsHandler.isTargetSet(variableId) === false)
+            return;
+        const variableElement = document.getElementById(variableId);
+        const clones = statisticsHandler.variables[variableId].clones;
+        if (statisticsHandler.isTargetReached(variableId)) {
+            variableElement.classList.remove('target-not-reached');
+            variableElement.classList.add('target-reached');
+            for (clone of clones) {
+                clone.element.classList.remove('target-not-reached');
+                clone.element.classList.add('target-reached');
+            }
+        }
+        else {
+            variableElement.classList.remove('target-reached');
+            variableElement.classList.add('target-not-reached');
+            for (clone of clones) {
+                clone.element.classList.remove('target-reached');
+                clone.element.classList.add('target-not-reached');
+            }
+        }
+    },
+    updateTargetsReachIndicators() {
+        for (variableId in statisticsHandler.variables)
+            statisticsHandler.updateTargetReachIndicator(variableId)
     },
     stringLength: undefined,
     currentString: undefined,
@@ -2565,6 +2898,10 @@ const statisticsHandler = {
         newState = JSON.parse(newStateText);
         statisticsHandler.state = newState.state;
         statisticsHandler.updateVariablesValues();
+        for (variableId in statisticsHandler.state.targets) {
+            const target = statisticsHandler.state.targets[variableId];
+            statisticsHandler.setVariableTarget(variableId, target.value, target.isPositive);
+        }
         chartsHandler.setState(newState.charts);
     },
     downloadState() {
@@ -2582,6 +2919,7 @@ const statisticsHandler = {
     init() {
         statisticsHandler.bindVariables();
         statisticsHandler.state = JSON.parse(JSON.stringify(statisticsHandler.defaultState));
+        statisticsHandler.updateTargetsReachIndicators();
     },
 }
 
@@ -2589,8 +2927,8 @@ const importStatisticsButton = document.getElementById('importStatisticsButton')
 const exportStatisticsButton = document.getElementById('exportStatisticsButton');
 const resetStatisticsButton = document.getElementById('resetStatisticsButton');
 
-importStatisticsButton.onclick = statisticsHandler.downloadState;
-exportStatisticsButton.onclick = statisticsHandler.uploadState;
+importStatisticsButton.onclick = statisticsHandler.uploadState;
+exportStatisticsButton.onclick = statisticsHandler.downloadState;
 resetStatisticsButton.onclick = statisticsHandler.resetState;
 
 statisticsHandler.init();

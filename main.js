@@ -294,10 +294,12 @@ function processVariableTargetClick() {
     modalWindowBackground.classList.toggle('hidden');
     setTargetWindow.classList.toggle('hidden');
 }
+const defaultTargetText = '(click here to add target)';
 for (variable of variables) {
     variable.originalId = variable.id;
 
-    const variableTarget = document.querySelector('#' + variable.id + '>.target');;
+    const variableTarget = document.querySelector('#' + variable.id + '>.target');
+    variableTarget.innerHTML = defaultTargetText;
     variableTarget.addEventListener('click', processVariableTargetClick);
 }
 
@@ -485,7 +487,8 @@ const statisticsHandler = {
             symbolsTyped: 0,
             mistakesMade: 0,
             lastTypingSpeed: '?'
-        }
+        },
+        targets: {}
     },
     state: undefined,
     setVariableValue(variableId, newValue) {
@@ -501,6 +504,7 @@ const statisticsHandler = {
         const variable = statisticsHandler.variables[variableId];
         variable.target.innerHTML = newTarget;
         variable.target.isPositive = isPositive;
+        statisticsHandler.state.targets[variableId] = {'value': newTarget, 'isPositive': isPositive};
         for (const clone of variable.clones) {
             clone.target.innerHTML = newTarget;
         }
@@ -525,12 +529,17 @@ const statisticsHandler = {
         delete statisticsHandler.stopwatches[name];
         return timePassed;
     },
+    isTargetSet(variableId) {
+        const variable = statisticsHandler.variables[variableId];
+        const targetValue = variable.target.innerHTML;
+        return targetValue !== defaultTargetText;
+    },
     isTargetReached(variableId) {
         const variable = statisticsHandler.variables[variableId];
         const targetValue = variable.target.innerHTML;
-        if (targetValue === '?')
-            return true;
         const value = variable.value.innerHTML;
+        if (value === '?')
+            return false;
         const isPositive = variable.target.isPositive;
         if (isPositive)
             return value >= targetValue;
@@ -538,6 +547,8 @@ const statisticsHandler = {
             return value <= targetValue;
     },
     updateTargetReachIndicator(variableId) {
+        if (statisticsHandler.isTargetSet(variableId) === false)
+            return;
         const variableElement = document.getElementById(variableId);
         const clones = statisticsHandler.variables[variableId].clones;
         if (statisticsHandler.isTargetReached(variableId)) {
@@ -593,6 +604,10 @@ const statisticsHandler = {
         newState = JSON.parse(newStateText);
         statisticsHandler.state = newState.state;
         statisticsHandler.updateVariablesValues();
+        for (variableId in statisticsHandler.state.targets) {
+            const target = statisticsHandler.state.targets[variableId];
+            statisticsHandler.setVariableTarget(variableId, target.value, target.isPositive);
+        }
         chartsHandler.setState(newState.charts);
     },
     downloadState() {
