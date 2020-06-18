@@ -29,14 +29,6 @@ function closePanels() {
     closeStatistics();
 }
 
-function focusOnTextToType() {
-    if (settingsContent.classList.contains('opened'))
-        return false;
-    if (statisticsContent.classList.contains('opened'))
-        return false;
-    return true;
-}
-
 
 
 const folderTitles = document.querySelectorAll('.settings .side-panel .folder-title');
@@ -278,6 +270,7 @@ function processSetTargetWindowSubmitButtonClick() {
     statisticsHandler.setVariableTarget(currentlySetingId, newTarget, isPositive);
     modalWindowBackground.classList.add('hidden');
     setTargetWindow.classList.add('hidden');
+    currentlySetingId = undefined;
 }
 setTargetWindowSubmitButton.addEventListener('click', processSetTargetWindowSubmitButtonClick);
 
@@ -285,6 +278,7 @@ const setTargetWindowCancelButton = document.querySelector('#setTargetWindow .ca
 function processSetTargetWindowCancelButtonClick() {
     modalWindowBackground.classList.add('hidden');
     setTargetWindow.classList.add('hidden');
+    currentlySetingId = undefined;
 }
 setTargetWindowCancelButton.addEventListener('click', processSetTargetWindowCancelButtonClick);
 
@@ -301,6 +295,18 @@ for (variable of variables) {
     const variableTarget = document.querySelector('#' + variable.id + '>.target');
     variableTarget.innerHTML = defaultTargetText;
     variableTarget.addEventListener('click', processVariableTargetClick);
+}
+
+
+
+function focusOnTextToType() {
+    if (settingsContent.classList.contains('opened'))
+        return false;
+    if (statisticsContent.classList.contains('opened'))
+        return false;
+    if (setTargetWindow.classList.contains('hidden') === false)
+        return false;
+    return true;
 }
 
 
