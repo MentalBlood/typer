@@ -389,7 +389,6 @@ header .side-panel .button:hover {
     position: relative;
 
     width: calc(100% - 4px - calc(2 * min(max(1.5vh, 12px), 1.5vw)));
-    height: min(max(7vh, 61px), 7vw);
 
     border: 2px solid rgba(255, 255, 255, 0.7);
     border-radius: max(1vh, 8px);
