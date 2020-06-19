@@ -134,7 +134,6 @@ header .statistics .side-panel.opened {
 
 
 header .settings .side-panel .folder {
-    padding-bottom: max(1vh, 6px);
     padding-left: max(1.1vw, 8px);
 
     display: flex;
@@ -147,8 +146,8 @@ header .settings .side-panel .folder {
     border-radius: max(0.8vw, 6px);
 }
 
-header .settings .side-panel .folder:not(.opened) {
-    height: min(max(3vh, 24px), 3vw);
+header .settings .side-panel .folder.opened {
+    padding-bottom: max(1vh, 6px);
 }
 
 header .settings .side-panel .folder-title {
@@ -769,13 +768,13 @@ body:not(.cursor-hidden) {
     z-index: 3;
 
     position: absolute;
-    text-align: center;
-
-    width: 100vw;
 
     top: 20vh;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, 0);
 
-    font-size: 10vh;
+    font-size: min(10vh, 10vw);
     font-family: "Marmelad", sans-serif;
     color: rgba(50, 50, 50, 0.7);
 }
@@ -785,9 +784,11 @@ body:not(.cursor-hidden) {
 }
 
 #greeting.hidden {
+    z-index: -100;
+
     opacity: 0;
 
-    transition-duration: 1s; 
+    transition-duration: 1s;
 }</style>
     </head>
     <body id = 'body' leftmargin = "0" topmargin = "0" style = "background-color:#ffffff; overflow-x: hidden; overflow-y: hidden">
@@ -1003,8 +1004,8 @@ body:not(.cursor-hidden) {
                 <div class = 'side-button statistics-button unselectable'>statistics</div>
             </div>
         </header>
+        <div class="unselectable" id="greeting">start typing</div>
         <main>
-            <div class="unselectable" id="greeting">start typing</div>
             <div id="textContainer" style = '
                 position: absolute;
                 top: 43vh;
