@@ -13,6 +13,8 @@ const defaults = {
     "shadowAngle": "1",
     "shadowBlur": "1",
     "shadowColor": "#000000",
+    "highlightingEnabled": true,
+    "highlightingColor": "#99bbcc",
     "font": "Rubik",
     "method": "Random fake words",
     "symbols": "qwertyuiopasdfghjklzxcvbnm",

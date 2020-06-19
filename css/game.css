@@ -162,7 +162,6 @@ header .settings .side-panel .setting {
     justify-content: space-between;
     align-items: center;
 
-    height: max(3vh, 24px);
 
     padding-left: max(1.5vw, 12px);
     padding-right: max(1.5vw, 12px);

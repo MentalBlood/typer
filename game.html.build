@@ -173,7 +173,6 @@ header .settings .side-panel .setting {
     justify-content: space-between;
     align-items: center;
 
-    height: max(3vh, 24px);
 
     padding-left: max(1.5vw, 12px);
     padding-right: max(1.5vw, 12px);
@@ -883,6 +882,19 @@ body:not(.cursor-hidden) {
                                     </div>
                                 </div>
                             </div>
+                            <div class="folder" id="_currentSymbolHighlighting">
+                                <div class="folder-title unselectable" id="currentSymbolHighlighting">Current symbol highlighting</div>
+                                <div class="folder-content">
+                                    <div class="setting" id="highlightingEnabled">
+                                        <div class="setting-title unselectable">Highlight current symbol</div>
+                                        <input type = 'checkbox' class = 'setting-controller checkbox' checked>
+                                    </div>
+                                    <div class="setting color" id = 'highlightingColor'>
+                                        <div class="setting-title unselectable">Highlighting color</div>
+                                        <input type="color" class="setting-controller color">
+                                    </div>
+                                </div>
+                            </div>
                             <div class="folder" id="_horizontalFading">
                                 <div class="folder-title unselectable" id="horizontalFading">Horizontal fading</div>
                                 <div class="folder-content">
@@ -919,7 +931,7 @@ body:not(.cursor-hidden) {
             <div class="hidden" id = "modalWindowBackground"></div>
             <div class="statistics">
                 <div class="hidden" id = "setTargetWindow">
-                    <div class="title">Set target value</div>
+                    <div class="title unselectable">Set target value</div>
                     <div class="settings">
                         <input type="number" value = '1' class="value">
                         <span class="checkboxContainer"><input type = 'checkbox' class = 'checkbox' checked> <span class="checkboxText">Positive</span></span>
@@ -2298,6 +2310,8 @@ var markov = function(input, type, reg) {
     "shadowAngle": "1",
     "shadowBlur": "1",
     "shadowColor": "#000000",
+    "highlightingEnabled": true,
+    "highlightingColor": "#99bbcc",
     "font": "Rubik",
     "method": "Random fake words",
     "symbols": "qwertyuiopasdfghjklzxcvbnm",
@@ -2477,7 +2491,7 @@ function updateFading() {
 bind('horizontalFadingStart', horizontalFadingSettings, 'start', value => Number.parseFloat(value), updateFading);
 bind('horizontalFadingEnd', horizontalFadingSettings, 'end', value => Number.parseFloat(value), updateFading);
 bind('backgroundColor', document.body.style, 'backgroundColor', undefined, updateFading);
-bind('fontSize', textToType.style, 'fontSize', value => value + 'vh');
+bind('fontSize', textToType.style, 'fontSize', value => value + 'vh', updateCurrentSymbolHighlightingStyle);
 bind('horizontal', textToTypeContainer.style, 'left', value => value + 'vw', updateFading);
 bind('vertical', textToTypeContainer.style, 'top', value => value + 'vh');
 bind('fontColor', textToType.style, 'color');
@@ -2510,6 +2524,28 @@ bind('shadowDistance', shadowStyle, 'distance', undefined, updateShadowStyle);
 bind('shadowAngle', shadowStyle, 'angle', undefined, updateShadowStyle);
 bind('shadowBlur', shadowStyle, 'blur', undefined, updateShadowStyle);
 bind('shadowColor', shadowStyle, 'color', undefined, updateShadowStyle);
+
+
+
+let currentSymbolHighlightingStyle = {
+    enabled: undefined,
+    color: undefined
+}
+
+function updateCurrentSymbolHighlightingStyle() {
+    const currentSymbol = document.querySelector('#text span:first-of-type');
+    if (currentSymbol === null)
+        return;
+    if (currentSymbolHighlightingStyle.enabled === false) {
+        currentSymbol.style.backgroundColor = 'transparent';
+        return;
+    }
+    currentSymbol.style.backgroundColor = currentSymbolHighlightingStyle.color;
+    currentSymbol.style.borderRadius = Number.parseFloat(textToType.style.fontSize) / 5 + 'vh';
+}
+
+bind('highlightingEnabled', currentSymbolHighlightingStyle, 'enabled', undefined, updateCurrentSymbolHighlightingStyle);
+bind('highlightingColor', currentSymbolHighlightingStyle, 'color', undefined, updateCurrentSymbolHighlightingStyle);
 
 
 
@@ -2613,7 +2649,6 @@ function focusOnTextToType() {
         return false;
     if (statisticsContent.classList.contains('opened'))
         return false;
-    console.log(setTargetWindow.classList.contains('hidden'));
     if (setTargetWindow.classList.contains('hidden') === false)
         return false;
     return true;
@@ -2958,11 +2993,14 @@ statisticsHandler.init();
 function setTextToType(newText) {
     textToType.innerHTML = '';
     const firstLetter = newText[0];
+    if (firstLetter === undefined)
+        return;
     const textExceptFirstLetter = newText.substring(1);
     const firstLetterElement = document.createElement('span');
     firstLetterElement.innerHTML = firstLetter;
     textToType.appendChild(firstLetterElement);
     textToType.innerHTML += textExceptFirstLetter;
+    updateCurrentSymbolHighlightingStyle();
 }
 
 
@@ -3189,7 +3227,7 @@ function keyEventHandler(event) {
             typing = true;
             statisticsHandler.onTypingStart();
         }
-        if (textToType.innerHTML.length === (1 + '<span></span>'.length)) {
+        if (textToType.innerText.length === 1) {
             statisticsHandler.onTypingEnd();
             typing = false;
             textGenerator.generate('next');

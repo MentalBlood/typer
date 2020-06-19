@@ -168,7 +168,7 @@ function updateFading() {
 bind('horizontalFadingStart', horizontalFadingSettings, 'start', value => Number.parseFloat(value), updateFading);
 bind('horizontalFadingEnd', horizontalFadingSettings, 'end', value => Number.parseFloat(value), updateFading);
 bind('backgroundColor', document.body.style, 'backgroundColor', undefined, updateFading);
-bind('fontSize', textToType.style, 'fontSize', value => value + 'vh');
+bind('fontSize', textToType.style, 'fontSize', value => value + 'vh', updateCurrentSymbolHighlightingStyle);
 bind('horizontal', textToTypeContainer.style, 'left', value => value + 'vw', updateFading);
 bind('vertical', textToTypeContainer.style, 'top', value => value + 'vh');
 bind('fontColor', textToType.style, 'color');
@@ -201,6 +201,28 @@ bind('shadowDistance', shadowStyle, 'distance', undefined, updateShadowStyle);
 bind('shadowAngle', shadowStyle, 'angle', undefined, updateShadowStyle);
 bind('shadowBlur', shadowStyle, 'blur', undefined, updateShadowStyle);
 bind('shadowColor', shadowStyle, 'color', undefined, updateShadowStyle);
+
+
+
+let currentSymbolHighlightingStyle = {
+    enabled: undefined,
+    color: undefined
+}
+
+function updateCurrentSymbolHighlightingStyle() {
+    const currentSymbol = document.querySelector('#text span:first-of-type');
+    if (currentSymbol === null)
+        return;
+    if (currentSymbolHighlightingStyle.enabled === false) {
+        currentSymbol.style.backgroundColor = 'transparent';
+        return;
+    }
+    currentSymbol.style.backgroundColor = currentSymbolHighlightingStyle.color;
+    currentSymbol.style.borderRadius = Number.parseFloat(textToType.style.fontSize) / 5 + 'vh';
+}
+
+bind('highlightingEnabled', currentSymbolHighlightingStyle, 'enabled', undefined, updateCurrentSymbolHighlightingStyle);
+bind('highlightingColor', currentSymbolHighlightingStyle, 'color', undefined, updateCurrentSymbolHighlightingStyle);
 
 
 
@@ -304,7 +326,6 @@ function focusOnTextToType() {
         return false;
     if (statisticsContent.classList.contains('opened'))
         return false;
-    console.log(setTargetWindow.classList.contains('hidden'));
     if (setTargetWindow.classList.contains('hidden') === false)
         return false;
     return true;
@@ -649,11 +670,14 @@ statisticsHandler.init();
 function setTextToType(newText) {
     textToType.innerHTML = '';
     const firstLetter = newText[0];
+    if (firstLetter === undefined)
+        return;
     const textExceptFirstLetter = newText.substring(1);
     const firstLetterElement = document.createElement('span');
     firstLetterElement.innerHTML = firstLetter;
     textToType.appendChild(firstLetterElement);
     textToType.innerHTML += textExceptFirstLetter;
+    updateCurrentSymbolHighlightingStyle();
 }
 
 
@@ -880,7 +904,7 @@ function keyEventHandler(event) {
             typing = true;
             statisticsHandler.onTypingStart();
         }
-        if (textToType.innerHTML.length === (1 + '<span></span>'.length)) {
+        if (textToType.innerText.length === 1) {
             statisticsHandler.onTypingEnd();
             typing = false;
             textGenerator.generate('next');

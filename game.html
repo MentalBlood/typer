@@ -130,6 +130,19 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="folder" id="_currentSymbolHighlighting">
+                                <div class="folder-title unselectable" id="currentSymbolHighlighting">Current symbol highlighting</div>
+                                <div class="folder-content">
+                                    <div class="setting" id="highlightingEnabled">
+                                        <div class="setting-title unselectable">Highlight current symbol</div>
+                                        <input type = 'checkbox' class = 'setting-controller checkbox' checked>
+                                    </div>
+                                    <div class="setting color" id = 'highlightingColor'>
+                                        <div class="setting-title unselectable">Highlighting color</div>
+                                        <input type="color" class="setting-controller color">
+                                    </div>
+                                </div>
+                            </div>
                             <div class="folder" id="_horizontalFading">
                                 <div class="folder-title unselectable" id="horizontalFading">Horizontal fading</div>
                                 <div class="folder-content">
@@ -166,7 +179,7 @@
             <div class="hidden" id = "modalWindowBackground"></div>
             <div class="statistics">
                 <div class="hidden" id = "setTargetWindow">
-                    <div class="title">Set target value</div>
+                    <div class="title unselectable">Set target value</div>
                     <div class="settings">
                         <input type="number" value = '1' class="value">
                         <span class="checkboxContainer"><input type = 'checkbox' class = 'checkbox' checked> <span class="checkboxText">Positive</span></span>
