@@ -891,9 +891,12 @@ function removeFirstTextToTypeLetter() {
     setTextToType(textToType.innerHTML);
 }
 
+const greeting = document.getElementById('greeting');
+
 function keyEventHandler(event) {
     if (focusOnTextToType() === false)
         return;
+    greeting.classList.add('hidden');
     if ((textToType.innerHTML.length === 1) && (typing === false)) {
         typing = true;
         statisticsHandler.onTypingStart();

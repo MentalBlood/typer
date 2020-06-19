@@ -761,6 +761,33 @@ body.cursor-hidden {
 
 body:not(.cursor-hidden) {
     cursor: default;
+}
+
+
+
+#greeting {
+    z-index: 3;
+
+    position: absolute;
+    text-align: center;
+
+    width: 100vw;
+
+    top: 20vh;
+
+    font-size: 10vh;
+    font-family: "Marmelad", sans-serif;
+    color: rgba(50, 50, 50, 0.7);
+}
+
+#greeting:not(.hidden) {
+    opacity: 1;
+}
+
+#greeting.hidden {
+    opacity: 0;
+
+    transition-duration: 1s; 
 }</style>
     </head>
     <body id = 'body' leftmargin = "0" topmargin = "0" style = "background-color:#ffffff; overflow-x: hidden; overflow-y: hidden">
@@ -977,6 +1004,7 @@ body:not(.cursor-hidden) {
             </div>
         </header>
         <main>
+            <div class="unselectable" id="greeting">start typing</div>
             <div id="textContainer" style = '
                 position: absolute;
                 top: 43vh;
@@ -3214,9 +3242,12 @@ function removeFirstTextToTypeLetter() {
     setTextToType(textToType.innerHTML);
 }
 
+const greeting = document.getElementById('greeting');
+
 function keyEventHandler(event) {
     if (focusOnTextToType() === false)
         return;
+    greeting.classList.add('hidden');
     if ((textToType.innerHTML.length === 1) && (typing === false)) {
         typing = true;
         statisticsHandler.onTypingStart();

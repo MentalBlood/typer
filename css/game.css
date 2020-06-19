@@ -751,3 +751,30 @@ body.cursor-hidden {
 body:not(.cursor-hidden) {
     cursor: default;
 }
+
+
+
+#greeting {
+    z-index: 3;
+
+    position: absolute;
+    text-align: center;
+
+    width: 100vw;
+
+    top: 20vh;
+
+    font-size: 10vh;
+    font-family: "Marmelad", sans-serif;
+    color: rgba(50, 50, 50, 0.7);
+}
+
+#greeting:not(.hidden) {
+    opacity: 1;
+}
+
+#greeting.hidden {
+    opacity: 0;
+
+    transition-duration: 1s; 
+}
