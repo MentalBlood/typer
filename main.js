@@ -932,6 +932,16 @@ function sum(list) {
     return list.reduce((sum, current) => sum + current, 0);
 }
 
+let currentFrameDelay = 15;
+let time = new Date(), i = 0;
+function step(timestamp) {
+    const time2 = new Date;
+    currentFrameDelay = time2;
+    time = time2;
+    window.requestAnimationFrame(step);
+}
+window.requestAnimationFrame(step);
+
 const animationsHandler = {
     timerId: false,
     onUpdate: false,
@@ -940,7 +950,7 @@ const animationsHandler = {
         if (animationsHandler.onUpdate)
             animationsHandler.onUpdate();
         TWEEN.update();
-        animationsHandler.timerId = setTimeout(animationsHandler.startUpdating, 15);
+        animationsHandler.timerId = setTimeout(animationsHandler.startUpdating, currentFrameDelay);
     },
 
     stopUpdating() {
