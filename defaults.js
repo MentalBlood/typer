@@ -16,7 +16,7 @@ const defaults = {
     "highlightingEnabled": true,
     "highlightingColor": "#99bbcc",
     "font": "Rubik",
-    "method": "Random fake words",
+    "method": "Random wiki articles summarries",
     "symbols": "qwertyuiopasdfghjklzxcvbnm",
     "numberOfSymbols": "10",
     "numberOfWords": "10",

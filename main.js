@@ -712,6 +712,17 @@ const textGenerator = {
                 return newString;
             }
         },
+        'Random wiki articles summarries': {
+            options: {},
+            generate() {
+                const url = 'https://en.wikipedia.org/api/rest_v1/page/random/summary';
+                const response = fetch(url)
+                    .then(response => response.json())
+                    .then(json => json['extract'])
+                    .then(summary => textGenerator.generate(undefined, summary));
+                return 'loading...';
+            }
+        },
         'Random fake words': {
             options: {
                 numberOfWords: undefined
@@ -824,14 +835,14 @@ const textGenerator = {
                     button.onclick = method.buttons[buttonName];
                 }
     },
-    generate(mode) {
+    generate(mode, forcedText) {
         if (pageLoaded === false)
             return;
         if (textGenerator.initialized === false)
             return;
         statisticsHandler.onTypingAborted();
         typing = false;
-        const generatedText = textGenerator.methods[textGenerator.currentMethod].generate(mode);
+        const generatedText = forcedText ? forcedText : textGenerator.methods[textGenerator.currentMethod].generate(mode);
         setTextToType(generatedText);
     },
     initialized: false,
@@ -894,6 +905,8 @@ function removeFirstTextToTypeLetter() {
 const greeting = document.getElementById('greeting');
 
 function keyEventHandler(event) {
+    if (event.key === 'Shift')
+        return;
     if (focusOnTextToType() === false)
         return;
     greeting.classList.add('hidden');
@@ -936,7 +949,7 @@ let currentFrameDelay = 15;
 let time = new Date(), i = 0;
 function step(timestamp) {
     const time2 = new Date;
-    currentFrameDelay = time2;
+    currentFrameDelay = time - time2;
     time = time2;
     window.requestAnimationFrame(step);
 }
